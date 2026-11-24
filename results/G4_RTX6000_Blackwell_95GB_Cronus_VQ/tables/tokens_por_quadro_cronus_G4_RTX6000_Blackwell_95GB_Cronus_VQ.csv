@@ -1,0 +1,6 @@
+Previsão de 1 quadro (+30 min),Tokens gerados,Posições processadas,Tempo medido por quadro [s],Tokens gerados por segundo
+"F-PluvIA-G (V1), sem cache",64,30752,0.408,157.0
+"F-PluvIA-VQ, sem cache",64,30752,0.408,157.0
+"Zero-Shot top-k 10, sem cache",64,30752,0.414,154.7
+"F-PluvIA-G (V1), com KV cache",64,512,0.363,176.5
+"F-PluvIA-VQ, com KV cache",64,512,0.362,176.9

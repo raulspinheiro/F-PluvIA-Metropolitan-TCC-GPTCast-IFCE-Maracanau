@@ -14,8 +14,8 @@
     "repositorio": "https://github.com/raulspinheiro/F-PluvIA-Metropolitan-TCC-GPTCast-IFCE-Maracanau"
   },
   "emissao": {
-    "utc": "2026-11-24T11:25:46+00:00",
-    "fortaleza": "2026-11-24T08:25:46-03:00",
+    "utc": "2026-11-24T11:57:49+00:00",
+    "fortaleza": "2026-11-24T08:57:49-03:00",
     "ambiente_tag": "G4_RTX6000_Blackwell_95GB_Cronus_VQ",
     "ambiente": "NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus",
     "python": "3.13.16",
@@ -215,8 +215,8 @@
     },
     "Célula 13.3": {
       "posicao": 37,
-      "linhas": 245,
-      "sha256_codigo": "77bba557c0289487391284c055055fa46a91634d08bb1c2dff3b6f91847372fa"
+      "linhas": 249,
+      "sha256_codigo": "ecde5bd5ebea23c059d399614e1b6a2df1ccc65710ee450f32ced99f27cdeb71"
     },
     "Célula 13.4": {
       "posicao": 38,
@@ -243,52 +243,57 @@
       "linhas": 379,
       "sha256_codigo": "6714b15f62fe1ab40a9872239be9b2b91320b2721fdd40e3820559ab3fb120b5"
     },
-    "Célula Extra 1": {
+    "Célula 13.7.2 (Cronus)": {
       "posicao": 43,
+      "linhas": 324,
+      "sha256_codigo": "8424ac410f6f8c2c9c4e7c8ade27273d215575f9ae79bc95d17ac944d7c02a91"
+    },
+    "Célula Extra 1": {
+      "posicao": 44,
       "linhas": 268,
       "sha256_codigo": "680ce0aa797a2f7709004e2c14e5108280ebefca119fce52525c2e39fa2f0d2a"
     },
     "Célula auxiliar (Cronus - Retomada do Fechamento, Somente Leitura)": {
-      "posicao": 44,
+      "posicao": 45,
       "linhas": 63,
       "sha256_codigo": "a74da50440a9a5d00ce4c2242be220bcd23dd8b3bd74775df868defcc8e4338a"
     },
     "Célula Full UMLs": {
-      "posicao": 45,
+      "posicao": 46,
       "linhas": 397,
       "sha256_codigo": "5594e3bc5494d5e858ac8a56227c7cf13e35b0bbfe0e819fbd0d9da1bf63f70b"
     },
     "Célula Extra 2": {
-      "posicao": 46,
+      "posicao": 47,
       "linhas": 284,
       "sha256_codigo": "2377423ce28680a3689b4beb2983efa093920952827c218a9cbc65698598d022"
     },
     "Célula Base (Pseudo-vista)": {
-      "posicao": 47,
+      "posicao": 48,
       "linhas": 364,
       "sha256_codigo": "02e17bd28ebb7e56ef75cc5681a0684074e988b0e5fb9a72469c917f86ffc495"
     },
     "Célula (Deploy Automatizado)": {
-      "posicao": 48,
+      "posicao": 49,
       "linhas": 324,
-      "sha256_codigo": "f0271a12fafaf1250409d33a59b25f624aa863cd1d96579aa5d8ce9320bf41b3"
+      "sha256_codigo": "d8307b2cff0a8e2f1d8591856e6fc33e974a6a0ddf3fde010369f2a9c6b64039"
     },
     "Célula Backup": {
-      "posicao": 49,
+      "posicao": 50,
       "linhas": 190,
       "sha256_codigo": "5e8b9e9349072fc00910bb24e681cacdf1808c7b8560c49d29afd708d7d9b432"
     },
     "Célula (Encerramento do Ambiente Cronus)": {
-      "posicao": 50,
+      "posicao": 51,
       "linhas": 32,
-      "sha256_codigo": "69610451a4f78dec1108bee6d033d40065d91fcb7ed1d6038c6c20b1434b1fdb"
+      "sha256_codigo": "6f60ae115c3f68778fe36bd1d4fa8e0d4bf0bd24617b203aa04a8eef2fe4707e"
     }
   },
   "artefatos": {
     "algoritmo": "SHA-256",
-    "total": 549,
-    "bytes_total": 23954343579,
-    "hash_raiz": "112849f620090097607545946e72c8c109f3f0e52857265791cfb608c0df762b",
+    "total": 554,
+    "bytes_total": 23956181752,
+    "hash_raiz": "8648c0fac27b204ca677796a80882d4921d3a63f3b4fc6453b16f3fa9e7edc90",
     "pastas": [
       "resultados",
       "checkpoints",
@@ -365,13 +370,13 @@
       },
       {
         "arquivo": "diagramas_uml/00_fluxo_entre_celulas.png",
-        "bytes": 2358575,
-        "sha256": "855a31e3132477346e1e1de093794b8d06464abe481886aeca02285d5463fe12"
+        "bytes": 2466787,
+        "sha256": "2eb99322ab761f59d65a1350e7222c6c2ed9fd6dd92ed2969efa6c8411fab0d0"
       },
       {
         "arquivo": "diagramas_uml/00_fluxo_entre_celulas.svg",
-        "bytes": 102694,
-        "sha256": "104a8c5b2ed61fcc112d328fcdb7ae6ae791b85294d0cce47bcbcc883722a25f"
+        "bytes": 102119,
+        "sha256": "6a62d8bf6475c02720f77ce3a3c977b690140719444b16865b75617fa56c124e"
       },
       {
         "arquivo": "diagramas_uml/celulas/01_celula_0.png",
@@ -705,13 +710,13 @@
       },
       {
         "arquivo": "diagramas_uml/celulas/34_celula_13_3.png",
-        "bytes": 126817,
-        "sha256": "41aacc556f0b95339020839aec86c9a100ff29ad397ce3a22a1998a2fc8fc3ef"
+        "bytes": 126920,
+        "sha256": "820686947a4a95d5a73c3efc7a0029600fdb2a16228b2c7a315fc0c5cfab6bfe"
       },
       {
         "arquivo": "diagramas_uml/celulas/34_celula_13_3.svg",
         "bytes": 8288,
-        "sha256": "9b0beeaeb613c45b3df46c989987f9a9aa4fb89ac2e7056002d501b1f2e66530"
+        "sha256": "8e876e3a75cee7af8ddaba4c1d96fb40adae0ad6271de81cf4b0673706ba5d13"
       },
       {
         "arquivo": "diagramas_uml/celulas/35_celula_13_4.png",
@@ -764,89 +769,99 @@
         "sha256": "f9720fba45b2be276b89e6452254bc69809aa105b874b3a6d00c5e4bf1182cee"
       },
       {
-        "arquivo": "diagramas_uml/celulas/40_celula_extra_1.png",
+        "arquivo": "diagramas_uml/celulas/40_celula_13_7_2_cronus.png",
+        "bytes": 123718,
+        "sha256": "29a8b6677afe4f0623abec6dadfef891944e66337b2143535822ea4781c93845"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/40_celula_13_7_2_cronus.svg",
+        "bytes": 8197,
+        "sha256": "c382c266982ea3b61f1b7d1ed2e7edec7b537c306d1891c2e1bb7eb537849471"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/41_celula_extra_1.png",
         "bytes": 111960,
         "sha256": "6c492fef6ae54a1f137595bb7d5a5c0f85648fe7b8032b11c4093acb0a0f5ac3"
       },
       {
-        "arquivo": "diagramas_uml/celulas/40_celula_extra_1.svg",
+        "arquivo": "diagramas_uml/celulas/41_celula_extra_1.svg",
         "bytes": 7827,
         "sha256": "aba9925f5e8c4f32f85652bb941c694fe5d12cdb2028c5940e6c9acfda9f2107"
       },
       {
-        "arquivo": "diagramas_uml/celulas/41_celula_auxiliar_cronus_retomada_do_fechamento_s.png",
+        "arquivo": "diagramas_uml/celulas/42_celula_auxiliar_cronus_retomada_do_fechamento_s.png",
         "bytes": 118984,
         "sha256": "10b123f939809e3c5be0b5284e00163439ae74be361f296c57862444bba8508c"
       },
       {
-        "arquivo": "diagramas_uml/celulas/41_celula_auxiliar_cronus_retomada_do_fechamento_s.svg",
+        "arquivo": "diagramas_uml/celulas/42_celula_auxiliar_cronus_retomada_do_fechamento_s.svg",
         "bytes": 7482,
         "sha256": "59708fff2583cbcded1e46655abd0391a670c171c44841fca75e7dd4178d3147"
       },
       {
-        "arquivo": "diagramas_uml/celulas/42_celula_full_umls.png",
+        "arquivo": "diagramas_uml/celulas/43_celula_full_umls.png",
         "bytes": 141897,
         "sha256": "232ced21313b151d6acd2738cdb6a093315addbe7c632e68d08e7254a502afea"
       },
       {
-        "arquivo": "diagramas_uml/celulas/42_celula_full_umls.svg",
+        "arquivo": "diagramas_uml/celulas/43_celula_full_umls.svg",
         "bytes": 9923,
         "sha256": "22f477f25487c9554961ebb02d8ae80e14339404b45d864be0344c690bc4c595"
       },
       {
-        "arquivo": "diagramas_uml/celulas/43_celula_extra_2.png",
+        "arquivo": "diagramas_uml/celulas/44_celula_extra_2.png",
         "bytes": 142500,
         "sha256": "ab40c50865e6f8b8dc81a951460bfeb2194fc26126330387b321c204fede4b9d"
       },
       {
-        "arquivo": "diagramas_uml/celulas/43_celula_extra_2.svg",
+        "arquivo": "diagramas_uml/celulas/44_celula_extra_2.svg",
         "bytes": 9450,
         "sha256": "94c019a8530391366b491c56dbd5840692ac709bdc40cd5b715162190fae2cb0"
       },
       {
-        "arquivo": "diagramas_uml/celulas/44_celula_base_pseudo_vista.png",
+        "arquivo": "diagramas_uml/celulas/45_celula_base_pseudo_vista.png",
         "bytes": 136223,
         "sha256": "710faca3956bb34c69a1a3e124249eeefa6ea2333621f883e9d325e2a27e764f"
       },
       {
-        "arquivo": "diagramas_uml/celulas/44_celula_base_pseudo_vista.svg",
+        "arquivo": "diagramas_uml/celulas/45_celula_base_pseudo_vista.svg",
         "bytes": 11268,
         "sha256": "249dff484860343bc05de9837ca98eecb3aa6ec3fcce161cb08b8919623cb7d3"
       },
       {
-        "arquivo": "diagramas_uml/celulas/45_celula_deploy_automatizado.png",
+        "arquivo": "diagramas_uml/celulas/46_celula_deploy_automatizado.png",
         "bytes": 141342,
         "sha256": "6f7ad7c8960451c4a1a45d4f89f916d0940b6056342b84a654d2310083168a6e"
       },
       {
-        "arquivo": "diagramas_uml/celulas/45_celula_deploy_automatizado.svg",
+        "arquivo": "diagramas_uml/celulas/46_celula_deploy_automatizado.svg",
         "bytes": 9369,
         "sha256": "d919ac3a770737038f8381c3a679c227a863303a028fb9ef8cc773b4009645a8"
       },
       {
-        "arquivo": "diagramas_uml/celulas/46_celula_backup.png",
+        "arquivo": "diagramas_uml/celulas/47_celula_backup.png",
         "bytes": 119999,
         "sha256": "47efe09abca25e6f895fddb3ce3cdcfd84adfd4a36015ddc1a02a8eaf2e43650"
       },
       {
-        "arquivo": "diagramas_uml/celulas/46_celula_backup.svg",
+        "arquivo": "diagramas_uml/celulas/47_celula_backup.svg",
         "bytes": 8987,
         "sha256": "76cd53a8776a617afa2119b4224de209a21168036d4fb98b1eb9a149ca45f58a"
       },
       {
-        "arquivo": "diagramas_uml/celulas/47_celula_encerramento_do_ambiente_cronus.png",
+        "arquivo": "diagramas_uml/celulas/48_celula_encerramento_do_ambiente_cronus.png",
         "bytes": 59904,
         "sha256": "ebd250304c4e2c427981d028c02c4865b5a212e6e6ad1033588c644985885717"
       },
       {
-        "arquivo": "diagramas_uml/celulas/47_celula_encerramento_do_ambiente_cronus.svg",
+        "arquivo": "diagramas_uml/celulas/48_celula_encerramento_do_ambiente_cronus.svg",
         "bytes": 5055,
         "sha256": "5778698b5106656636892b497fc098f5196b30e84a356180c4f06bb75d72f2ec"
       },
       {
         "arquivo": "notebook/exec_Cronus_F_PluvIA_VQGAN_RMF.ipynb",
-        "bytes": 12864855,
-        "sha256": "6dd330beb3c246ba769e7214fde30b7bde7db3439d23d63f41fe1d25396da511"
+        "bytes": 13343533,
+        "sha256": "2ca0826d7e20965692f0a55549fb90ffc4ae9f3ca2ca8aa2cfd9b2ccfcde46a1"
       },
       {
         "arquivo": "resultados/benchmark_agregado_teste2025_imerg_fr_2km_G4_RTX6000_Blackwell_95GB_Cronus_VQ_N1729_amostragem2024.csv",
@@ -1104,6 +1119,11 @@
         "sha256": "bee6831b3f01e21a8e09fddb726566de10a5448870d8e0560ee38257e7c77228"
       },
       {
+        "arquivo": "resultados/painel_tokens_por_etapa_cronus_G4_RTX6000_Blackwell_95GB_Cronus_VQ.png",
+        "bytes": 1113012,
+        "sha256": "cdfd6f9ff2c3a43cdd98b2926fa353cd9583329c250ed5e941913d05781f3510"
+      },
+      {
         "arquivo": "resultados/rastreabilidade_gptcast_por_celula_G4_RTX6000_Blackwell_95GB_Cronus_VQ.csv",
         "bytes": 1835,
         "sha256": "83bff66a9d9d33b2fedfe61da3fa71c6edca28a9dbcc865633aba3c70e8d06e1"
@@ -1187,6 +1207,16 @@
         "arquivo": "resultados/teste_cego_2026/teste_cego_2026_metricas_por_lead_G4_RTX6000_Blackwell_95GB_Cronus_VQ_amostragem2024.csv",
         "bytes": 17320,
         "sha256": "2680357bf579ed33a2ddf842ba77fa15fb7048c54683f49ec1892fb635968106"
+      },
+      {
+        "arquivo": "resultados/tokens_por_etapa_e_variante_cronus_G4_RTX6000_Blackwell_95GB_Cronus_VQ.csv",
+        "bytes": 6456,
+        "sha256": "4b051556de003159d16a49110284eedc37368f9f1c1dc3bb3c03dfadd1813cc1"
+      },
+      {
+        "arquivo": "resultados/tokens_por_quadro_cronus_G4_RTX6000_Blackwell_95GB_Cronus_VQ.csv",
+        "bytes": 372,
+        "sha256": "851b1885012182a5c833f8535d4c6d9f3fecc90a25a8f3f04f6d52101013198f"
       },
       {
         "arquivo": "resultados/velocidade_inferencia_teste2025_G4_RTX6000_Blackwell_95GB_Cronus_VQ_N1729_amostragem2024.csv",

@@ -4,7 +4,7 @@
 import os
 
 ENCERRAR_AO_FINAL = True        # False = só mostra o resumo e não desliga
-SALDO_UC_FINAL = None           # opcional: o saldo lido agora no painel "Recursos" do Colab (ex.: 512.3)
+SALDO_UC_FINAL = 383.57         # opcional: o saldo lido agora no painel "Recursos" do Colab (ex.: 512.3)
 
 if SALDO_UC_FINAL is not None and callable(globals().get('registrar_saldo_uc')):
   registrar_saldo_uc(SALDO_UC_FINAL, 'fim da execução Cronus')

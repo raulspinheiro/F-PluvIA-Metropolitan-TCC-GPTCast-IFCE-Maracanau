@@ -3,7 +3,7 @@
 // desligamento do ambiente de execução, para não consumir mais unidades de computação (UC) parado.
 IMPORTAR os
 ENCERRAR_AO_FINAL ← VERDADEIRO   // False = só mostra o resumo e não desliga
-SALDO_UC_FINAL ← NULO   // opcional: o saldo lido agora no painel "Recursos" do Colab (ex.: 512.3)
+SALDO_UC_FINAL ← 386.92   // opcional: o saldo lido agora no painel "Recursos" do Colab (ex.: 512.3)
 SE SALDO_UC_FINAL NÃO É NULO E callable(globals().get("registrar_saldo_uc")) ENTÃO
     EXECUTAR registrar_saldo_uc(SALDO_UC_FINAL, "fim da execução Cronus")
 FIM SE

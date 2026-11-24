@@ -1,6 +1,6 @@
 # Manifesto de integridade e proveniência — F-PluvIA Metropolitan
 
-**Emissão:** 24/11/2026 08:25:46 (Fortaleza) · 2026-11-24 11:25:46 UTC  
+**Emissão:** 24/11/2026 08:57:49 (Fortaleza) · 2026-11-24 11:57:49 UTC  
 **Ambiente:** NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus · GPU NVIDIA RTX PRO 6000 Blackwell Server Edition · Python 3.13.16  
 **Autor:** Raul Santiago Pinheiro · **Orientador:** Amauri Holanda de Souza Júnior · Instituto Federal de Educação, Ciência e Tecnologia do Ceará (IFCE) — Campus Maracanaú · 2026.2
 
@@ -8,7 +8,7 @@
 
 Que os arquivos listados não mudaram desde a emissão: basta recalcular o SHA-256 de cada um (ou rodar "sha256sum -c" no arquivo SHA256SUMS). Não comprova autoria nem o hardware usado; esses campos são declarados pelo ambiente no momento da emissão.
 
-**Hash raiz (SHA-256 da lista de arquivos):** `112849f620090097607545946e72c8c109f3f0e52857265791cfb608c0df762b`
+**Hash raiz (SHA-256 da lista de arquivos):** `8648c0fac27b204ca677796a80882d4921d3a63f3b4fc6453b16f3fa9e7edc90`
 
 ## Artefatos por pasta
 
@@ -16,9 +16,9 @@ Que os arquivos listados não mudaram desde a emissão: basta recalcular o SHA-2
 |---|---:|---:|
 | checkpoints | 10 | 20,686.1 MB |
 | comparativo_hardware | 3 | 0.2 MB |
-| diagramas_uml | 96 | 8.4 MB |
-| notebook | 1 | 12.3 MB |
-| resultados | 69 | 333.4 MB |
+| diagramas_uml | 98 | 8.6 MB |
+| notebook | 1 | 12.7 MB |
+| resultados | 72 | 334.4 MB |
 | resultados_G4_RTX6000_Blackwell_95GB_Cronus | 339 | 474.2 MB |
 | series_2km | 31 | 1,330.1 MB |
 
@@ -77,22 +77,23 @@ Que os arquivos listados não mudaram desde a emissão: basta recalcular o SHA-2
 | Célula 13 | 150 | `8722ee31b33407e9…` |
 | Célula 13.1 | 595 | `9aad0edd13b12a10…` |
 | Célula Métricas (Célula 13.2) | 259 | `1f7928abcd4f413c…` |
-| Célula 13.3 | 245 | `77bba557c0289487…` |
+| Célula 13.3 | 249 | `ecde5bd5ebea23c0…` |
 | Célula 13.4 | 291 | `9c0c913d121c9bec…` |
 | Célula 13.5 | 142 | `2a0989088119d29d…` |
 | Célula 13.6 (Cronus) | 64 | `174b5102af7eafb9…` |
 | Célula 13.7 (Cronus) | 299 | `0bdbd11aaf21285a…` |
 | Célula 13.7.1 (Cronus) | 379 | `6714b15f62fe1ab4…` |
+| Célula 13.7.2 (Cronus) | 324 | `8424ac410f6f8c2c…` |
 | Célula Extra 1 | 268 | `680ce0aa797a2f77…` |
 | Célula auxiliar (Cronus - Retomada do Fechamento, Somente Leitura) | 63 | `a74da50440a9a5d0…` |
 | Célula Full UMLs | 397 | `5594e3bc5494d5e8…` |
 | Célula Extra 2 | 284 | `2377423ce28680a3…` |
 | Célula Base (Pseudo-vista) | 364 | `02e17bd28ebb7e56…` |
-| Célula (Deploy Automatizado) | 324 | `f0271a12fafaf125…` |
+| Célula (Deploy Automatizado) | 324 | `d8307b2cff0a8e2f…` |
 | Célula Backup | 190 | `5e8b9e9349072fc0…` |
-| Célula (Encerramento do Ambiente Cronus) | 32 | `69610451a4f78dec…` |
+| Célula (Encerramento do Ambiente Cronus) | 32 | `6f60ae115c3f6877…` |
 
 ## Lista completa
 
-Todos os 549 arquivos e hashes estão em `SHA256SUMS_20261124_082546.txt` e `manifesto_proveniencia_NVIDIA_RTX_PRO_6000_Blackwell_Server_Edition_20261124_082546.json`.
-Para conferir: `sha256sum -c SHA256SUMS_20261124_082546.txt` (rodado na pasta que contém resultados/, checkpoints/ e series_2km/).
+Todos os 554 arquivos e hashes estão em `SHA256SUMS_20261124_085749.txt` e `manifesto_proveniencia_NVIDIA_RTX_PRO_6000_Blackwell_Server_Edition_20261124_085749.json`.
+Para conferir: `sha256sum -c SHA256SUMS_20261124_085749.txt` (rodado na pasta que contém resultados/, checkpoints/ e series_2km/).

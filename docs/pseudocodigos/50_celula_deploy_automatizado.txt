@@ -31,7 +31,7 @@ IGNORAR_RESULTADOS ← ["cell12_previsoes_*", "previsoes", "provenance", "cache_
 EXPORTAR_CELULAS ← VERDADEIRO   // grava o código de cada célula em src/celulas/*.py
 REMOVER_CERTIFICADOS_COM_CAMINHOS ← VERDADEIRO   // git rm dos certificados antigos que listam o Drive
 CRIAR_README_SE_FALTAR ← VERDADEIRO   // cria um README.md só se o repositório não tiver
-SO_PREPARAR ← FALSO   // True = monta o commit e mostra a lista, sem push
+SO_PREPARAR ← VERDADEIRO   // True = monta o commit e mostra a lista, sem push
 // ---------------------------------------------------------------- 2. credencial
 TENTAR
     IMPORTAR userdata DE google.colab

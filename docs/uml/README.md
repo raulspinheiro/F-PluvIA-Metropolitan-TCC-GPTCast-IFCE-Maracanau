@@ -45,20 +45,21 @@ Cada caixa é uma célula (azul: define classes). Uma seta indica que a célula 
 | 31 | Célula 13 | 150 | 0 | 3 | 6 | [PNG](celulas/31_celula_13.png) · [SVG](celulas/31_celula_13.svg) |
 | 32 | Célula 13.1 | 595 | 0 | 17 | 20 | [PNG](celulas/32_celula_13_1.png) · [SVG](celulas/32_celula_13_1.svg) |
 | 33 | Célula Métricas (Célula 13.2) | 259 | 0 | 4 | 4 | [PNG](celulas/33_celula_metricas_celula_13_2.png) · [SVG](celulas/33_celula_metricas_celula_13_2.svg) |
-| 34 | Célula 13.3 | 245 | 0 | 4 | 6 | [PNG](celulas/34_celula_13_3.png) · [SVG](celulas/34_celula_13_3.svg) |
+| 34 | Célula 13.3 | 249 | 0 | 4 | 6 | [PNG](celulas/34_celula_13_3.png) · [SVG](celulas/34_celula_13_3.svg) |
 | 35 | Célula 13.4 | 291 | 0 | 8 | 9 | [PNG](celulas/35_celula_13_4.png) · [SVG](celulas/35_celula_13_4.svg) |
 | 36 | Célula 13.5 | 142 | 0 | 2 | 7 | [PNG](celulas/36_celula_13_5.png) · [SVG](celulas/36_celula_13_5.svg) |
 | 37 | Célula 13.6 (Cronus) | 64 | 0 | 1 | 1 | [PNG](celulas/37_celula_13_6_cronus.png) · [SVG](celulas/37_celula_13_6_cronus.svg) |
 | 38 | Célula 13.7 (Cronus) | 299 | 0 | 9 | 14 | [PNG](celulas/38_celula_13_7_cronus.png) · [SVG](celulas/38_celula_13_7_cronus.svg) |
 | 39 | Célula 13.7.1 (Cronus) | 379 | 0 | 8 | 10 | [PNG](celulas/39_celula_13_7_1_cronus.png) · [SVG](celulas/39_celula_13_7_1_cronus.svg) |
-| 40 | Célula Extra 1 | 268 | 0 | 6 | 14 | [PNG](celulas/40_celula_extra_1.png) · [SVG](celulas/40_celula_extra_1.svg) |
-| 41 | Célula auxiliar (Cronus - Retomada do Fechamento, Somente Leitura) | 63 | 0 | 0 | 2 | [PNG](celulas/41_celula_auxiliar_cronus_retomada_do_fechamento_s.png) · [SVG](celulas/41_celula_auxiliar_cronus_retomada_do_fechamento_s.svg) |
-| 42 | Célula Full UMLs | 397 | 0 | 13 | 14 | [PNG](celulas/42_celula_full_umls.png) · [SVG](celulas/42_celula_full_umls.svg) |
-| 43 | Célula Extra 2 | 284 | 0 | 5 | 13 | [PNG](celulas/43_celula_extra_2.png) · [SVG](celulas/43_celula_extra_2.svg) |
-| 44 | Célula Base (Pseudo-vista) | 364 | 1 | 5 | 14 | [PNG](celulas/44_celula_base_pseudo_vista.png) · [SVG](celulas/44_celula_base_pseudo_vista.svg) |
-| 45 | Célula (Deploy Automatizado) | 324 | 0 | 4 | 12 | [PNG](celulas/45_celula_deploy_automatizado.png) · [SVG](celulas/45_celula_deploy_automatizado.svg) |
-| 46 | Célula Backup | 190 | 0 | 1 | 12 | [PNG](celulas/46_celula_backup.png) · [SVG](celulas/46_celula_backup.svg) |
-| 47 | Célula (Encerramento do Ambiente Cronus) | 32 | 0 | 0 | 2 | [PNG](celulas/47_celula_encerramento_do_ambiente_cronus.png) · [SVG](celulas/47_celula_encerramento_do_ambiente_cronus.svg) |
+| 40 | Célula 13.7.2 (Cronus) | 324 | 0 | 8 | 6 | [PNG](celulas/40_celula_13_7_2_cronus.png) · [SVG](celulas/40_celula_13_7_2_cronus.svg) |
+| 41 | Célula Extra 1 | 268 | 0 | 6 | 14 | [PNG](celulas/41_celula_extra_1.png) · [SVG](celulas/41_celula_extra_1.svg) |
+| 42 | Célula auxiliar (Cronus - Retomada do Fechamento, Somente Leitura) | 63 | 0 | 0 | 2 | [PNG](celulas/42_celula_auxiliar_cronus_retomada_do_fechamento_s.png) · [SVG](celulas/42_celula_auxiliar_cronus_retomada_do_fechamento_s.svg) |
+| 43 | Célula Full UMLs | 397 | 0 | 13 | 14 | [PNG](celulas/43_celula_full_umls.png) · [SVG](celulas/43_celula_full_umls.svg) |
+| 44 | Célula Extra 2 | 284 | 0 | 5 | 13 | [PNG](celulas/44_celula_extra_2.png) · [SVG](celulas/44_celula_extra_2.svg) |
+| 45 | Célula Base (Pseudo-vista) | 364 | 1 | 5 | 14 | [PNG](celulas/45_celula_base_pseudo_vista.png) · [SVG](celulas/45_celula_base_pseudo_vista.svg) |
+| 46 | Célula (Deploy Automatizado) | 324 | 0 | 4 | 12 | [PNG](celulas/46_celula_deploy_automatizado.png) · [SVG](celulas/46_celula_deploy_automatizado.svg) |
+| 47 | Célula Backup | 190 | 0 | 1 | 12 | [PNG](celulas/47_celula_backup.png) · [SVG](celulas/47_celula_backup.svg) |
+| 48 | Célula (Encerramento do Ambiente Cronus) | 32 | 0 | 0 | 2 | [PNG](celulas/48_celula_encerramento_do_ambiente_cronus.png) · [SVG](celulas/48_celula_encerramento_do_ambiente_cronus.svg) |
 
 ## Como ler
 

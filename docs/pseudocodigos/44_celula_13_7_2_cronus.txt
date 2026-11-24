@@ -1,0 +1,284 @@
+// ===== Célula 13.7.2 (Cronus) — pseudo-código =====
+// Célula 13.7.2 (Cronus): Volume de Tokens do Transformer por Etapa e por Modelo no ambiente Cronus — F-PluvIA-G (V1)
+// × F-PluvIA-VQ × Zero-Shot, com e sem KV cache. Versão Cronus da Célula 13.3: conta só o que de fato rodou nesta
+// execução, lendo os registros das duas pastas de resultados (V1 e VQ). Não carrega modelos nem usa a GPU, e não
+// altera nenhum arquivo existente: grava só as duas tabelas e a figura novas na pasta do duelo.
+// "Token" é um índice do codebook da VQGAN (bloco de 16 x 16 pixels, ~32 km): é o volume de trabalho do Transformer.
+// - treino/validação: cada amostra tem 8 quadros x 64 tokens = 512 tokens, lidos de uma vez;
+// - previsão sem cache: cada quadro futuro tem 64 tokens gerados um a um, e cada um relê o contexto inteiro
+// (SOS + 7 quadros = 449 posições no 1º token): 30.752 posições por quadro;
+// - previsão com KV cache (Células 13.7 e 13.7.1): o contexto passa uma vez e cada token novo processa 1 posição:
+// 449 + 63 = 512 posições por quadro.
+IMPORTAR glob
+IMPORTAR json
+IMPORTAR os
+IMPORTAR matplotlib.pyplot (como plt)
+IMPORTAR numpy (como np)
+IMPORTAR pandas (como pd)
+SE "CRONUS" NÃO EM globals() OU "vq" NÃO EM CRONUS ENTÃO
+    LANÇAR ERRO RuntimeError("Rode antes a Célula 13.6 (ou, depois de uma desconexão, a cé…")
+FIM SE
+(TAG_V1, TAG_VQ) ← (CRONUS["v1"]["env_tag"], CRONUS["vq"]["env_tag"])
+(DIR_V1, DIR_VQ) ← (CRONUS["v1"]["results_dir"], CRONUS["vq"]["results_dir"])
+ROTULO ← globals().get("ENV_LABEL", TAG_V1)
+(N_CTX, N_FUT, TOK_QUADRO, BLOCK) ← (7, 4, 64, 512)
+CTX_INI ← 1 + N_CTX × TOK_QUADRO   // 449
+POS_SEM_CACHE ← sum([CTX_INI + k PARA CADA k EM range(TOK_QUADRO)])   // 30.752 posições por quadro
+POS_KV ← CTX_INI + TOK_QUADRO − 1   // 512 posições por quadro
+TOK_JANELA ← N_FUT × TOK_QUADRO   // 256 tokens gerados por janela
+N_MEMBROS ← 8
+(fontes, avisos) ← ({}, [])
+FUNÇÃO achar(pasta, padrao)
+    // Arquivo mais recente que casa com o padrão, em qualquer subpasta (ou None).
+    a ← sorted(glob.glob(os.path.join(pasta, "**", padrao), recursive=VERDADEIRO), key=os.path.getmtime)
+    RETORNAR (a[−1] SE a SENÃO NULO)
+FIM FUNÇÃO
+FUNÇÃO registrar(chave, caminho)
+    fontes[chave] ← os.path.relpath(caminho, os.path.dirname(DIR_V1))
+FIM FUNÇÃO
+// ------------------------------------------------------------- 1. partições (da V1 do Cronus)
+f ← achar(DIR_V1, f'resumo_particoes_{TAG_V1}_*.csv')
+SE NÃO f ENTÃO
+    LANÇAR ERRO RuntimeError(f'resumo_particoes_{TAG_V1}_*.csv não encontrado em {DIR_V1}.')
+FIM SE
+d ← pd.read_csv(f).set_index("Particao")["Sequencias"]
+(N_TREINO, N_VAL, N_TESTE25) ← (int(d["Treino"]), int(d["Validação"]), int(d["Teste"]))
+EXECUTAR registrar("partições", f)
+f ← achar(DIR_V1, f'log_tempos_treino_e_inferencia_{TAG_V1}_*.json')
+reg_v1 ← (json.load(open(f, encoding="utf-8")) SE f SENÃO {})
+SE f ENTÃO
+    EXECUTAR registrar("registro do treino da V1", f)
+FIM SE
+LOTE ← int(reg_v1.get("batch_size_treino", 16))
+PASSOS_EPOCA ← −−N_TREINO DIV LOTE
+linhas ← []
+FUNÇÃO add(etapa, modelo, variante, unidade, n, tok_unidade, pos_por_token, obs)
+    // pos_por_token: posições processadas por token (1 no treino; 480,5 na previsão sem cache; 8 com KV cache).
+    SE n ≤ 0 ENTÃO
+        RETORNAR
+    FIM SE
+    tipo ← ("lidos (treino/validação)" SE pos_por_token = 1.0 SENÃO "gerados (previsão)")
+    EXECUTAR linhas.append({"Etapa": etapa, "Modelo": modelo, "Variante": variante, "Unidade": unidade, "Quantidade": int(n), "Tokens por unidade": i…
+FIM FUNÇÃO
+(SEM_CACHE, COM_KV) ← (POS_SEM_CACHE / TOK_QUADRO, POS_KV / TOK_QUADRO)
+FUNÇÃO curva(metrics_csv)
+    // Amostras de treino vistas, validações completas e passos, do metrics.csv do Lightning.
+    m ← pd.read_csv(metrics_csv)
+    passos ← int(m["step"].max()) + 1
+    (ep, resto) ← divmod(passos, PASSOS_EPOCA)
+    RETORNAR (ep × N_TREINO + min(resto × LOTE, N_TREINO), int(m["val/loss_epoch"].notna().sum()), passos)
+FIM FUNÇÃO
+// ------------------------------------------------------------- 2. treino e validação
+treinos ← [("Ajuste fino da V1 (Célula 4)", "F-PluvIA-G (V1)", f'curva_treino_{TAG_V1}', "validação a cada época"), ("Ajuste fino suave (Célula 4.3)"…
+PARA CADA (etapa, modelo, pasta, rot_val) EM treinos FAÇA
+    achados ← sorted(glob.glob(os.path.join(DIR_V1, "**", pasta, "*", "metrics.csv"), recursive=VERDADEIRO))
+    PARA CADA p EM achados FAÇA
+        (a, v, ps) ← curva(p)
+        rodada ← os.path.basename(os.path.dirname(p))
+        EXECUTAR add(etapa, modelo, "treino", "amostra de 8 quadros", a, BLOCK, obs=f'rodada {rodada[:14]}: {ps} passos, {a / N_TREINO:.2f} épocas d……
+        EXECUTAR add(etapa, modelo, rot_val, "amostra de 8 quadros", v × N_VAL, BLOCK, obs=f'{v} validações de {N_VAL} janelas de 2024')
+        EXECUTAR registrar(f'curva {pasta}/{rodada}', p)
+    FIM PARA
+    SE NÃO achados E "alternativo" NÃO EM pasta ENTÃO
+        EXECUTAR avisos.append(f'curva de treino "{pasta}" não encontrada: a etapa "{etapa}" fi…)
+    FIM SE
+FIM PARA
+f ← achar(DIR_V1, f'validacao_resumo_finetuned_vs_zeroshot_{TAG_V1}.csv')
+SE f ENTÃO
+    PARA CADA modelo EM ("F-PluvIA-G (V1)", "Zero-Shot") FAÇA
+        EXECUTAR add("Validação Fine-Tuned × Zero-Shot (Célula 4.1)", modelo, "perda nos tokens", "amostra de 8 quadros", N_VAL, BLOCK, obs="uma pass…
+    FIM PARA
+    EXECUTAR registrar("Célula 4.1", f)
+FIM SE
+// ------------------------------------------------------------- 3. previsões (tokens gerados)
+f ← achar(DIR_V1, f'sensibilidade_amostragem_validacao2024_{TAG_V1}.csv')
+SE f ENTÃO
+    N_45 ← 240   // amostra fixa da Célula 4.5 (semente fixa)
+    s ← pd.read_csv(f)
+    s ← s[s["Modelo"].isin(["Fine-Tuned", "Zero-Shot"])]
+    PARA CADA (_, r) EM s.iterrows() FAÇA
+        membros ← (N_MEMBROS SE str(r["Amostragem"]).startswith("Média") SENÃO 1)
+        EXECUTAR add("Escolha da decodificação (Célula 4.5, validação 2024)", ("F-PluvIA-G (V1)" SE r["Modelo"] = "Fine-Tuned" SENÃO "Zero-Shot"), r[…
+    FIM PARA
+    EXECUTAR registrar("Célula 4.5", f)
+FIM SE
+f ← achar(DIR_V1, f'cronus_previsao_v1_vs_vq_validacao2024_{TAG_V1}.json')
+SE f ENTÃO
+    n48 ← int(json.load(open(f, encoding="utf-8")).get("n_janelas", 240))
+    PARA CADA modelo EM ("F-PluvIA-G (V1)", "F-PluvIA-VQ") FAÇA
+        EXECUTAR add("Validação V1 × VQ (Célula 4.8, 2024)", modelo, "gulosa", "janela (4 quadros)", n48, TOK_JANELA, SEM_CACHE, obs=f'{n48} janelas …
+    FIM PARA
+    EXECUTAR registrar("Célula 4.8", f)
+FIM SE
+FUNÇÃO velocidade(pasta, tag)
+    f ← achar(pasta, f'velocidade_inferencia_teste2025_{tag}_N*.csv')
+    SE NÃO f ENTÃO
+        RETORNAR (NULO, NULO)
+    FIM SE
+    RETORNAR (pd.read_csv(f).set_index("Modelo"), f)
+FIM FUNÇÃO
+(vel_v1, f1) ← velocidade(DIR_V1, TAG_V1)
+(vel_vq, f2) ← velocidade(DIR_VQ, TAG_VQ)
+(FT, ZS) ← ("GPTCast-8x8 (Fine-Tuned RMF)", "GPTCast-8x8 (Zero-Shot)")
+SE vel_v1 NÃO É NULO ENTÃO
+    EXECUTAR registrar("tempos do teste 2025 (V1)", f1)
+    EXECUTAR add("Teste 2025 (Célula 12)", "F-PluvIA-G (V1)", "gulosa", "janela (4 quadros)", int(vel_v1.loc[(FT, "Amostras_Teste_2025")]), TOK_JANEL…
+    EXECUTAR add("Teste 2025 (Célula 12)", "Zero-Shot", "top-k 10", "janela (4 quadros)", int(vel_v1.loc[(ZS, "Amostras_Teste_2025")]), TOK_JANELA, S…
+SENÃO
+    EXECUTAR avisos.append("tempos do teste 2025 da V1 não encontrados: a Célula 12 da V…")
+FIM SE
+SE vel_vq NÃO É NULO ENTÃO
+    EXECUTAR registrar("tempos do teste 2025 (VQ)", f2)
+    EXECUTAR add("Teste 2025 (Célula 12)", "F-PluvIA-VQ", "gulosa", "janela (4 quadros)", int(vel_vq.loc[(FT, "Amostras_Teste_2025")]), TOK_JANELA, S…
+    // O Zero-Shot é reaproveitado da V1 pela Célula 13.6: só conta se o tempo total mostrar que foi gerado de novo
+    SE vel_v1 NÃO É NULO E ZS EM vel_vq.index E abs(float(vel_vq.loc[(ZS, "Tempo_Total_Lote_s")]) − float(vel_v1.loc[(ZS, "Tempo_Total_Lote_s")])) > …
+        EXECUTAR add("Teste 2025 (Célula 12)", "Zero-Shot", "top-k 10 (execução VQ)", "janela (4 quadros)", int(vel_vq.loc[(ZS, "Amostras_Teste_2025"…
+    FIM SE
+SENÃO
+    EXECUTAR avisos.append("tempos do teste 2025 do VQ não encontrados: a Célula 12 do V…")
+FIM SE
+FUNÇÃO teste_2026(pasta, tag)
+    f ← achar(pasta, f'teste_cego_2026_meses_e_produtos_{tag}*.csv')
+    SE NÃO f ENTÃO
+        RETORNAR NULO
+    FIM SE
+    g ← achar(pasta, f'teste_cego_2026_estudos_de_caso_{tag}*.csv')
+    casos ← (int(pd.read_csv(g)["Caso"].nunique()) SE g SENÃO 0)
+    RETORNAR (int(pd.read_csv(f)["Janelas"].sum()), casos, f)
+FIM FUNÇÃO
+PARA CADA (pasta, tag, modelos) EM ((DIR_V1, TAG_V1, (("F-PluvIA-G (V1)", "gulosa"), ("Zero-Shot", "top-k 10"))), (DIR_VQ, TAG_VQ, (("F-PluvIA-VQ", "…
+    r ← teste_2026(pasta, tag)
+    SE r É NULO ENTÃO
+        EXECUTAR avisos.append(f'teste cego de 2026 não encontrado em {os.path.basename(pasta)}…)
+        PASSAR À PRÓXIMA ITERAÇÃO
+    FIM SE
+    (n26, casos, f) ← r
+    EXECUTAR registrar(f'teste cego 2026 ({os.path.basename(pasta)})', f)
+    PARA CADA (modelo, var) EM modelos FAÇA
+        EXECUTAR add("Teste cego 2026 (Célula 13.1)", modelo, var, "janela (4 quadros)", n26 + casos, TOK_JANELA, SEM_CACHE, obs=f'{n26} janelas da s…
+    FIM PARA
+FIM PARA
+f ← achar(DIR_VQ, f'cronus_kvcache_resumo_{TAG_VQ}.csv')
+SE f ENTÃO
+    PARA CADA (_, r) EM pd.read_csv(f).iterrows() FAÇA
+        EXECUTAR add("Duelo: variante com KV cache (Célula 13.7)", r["Modelo"], f"gulosa com KV cache, {r['Conjunto']}", "janela (4 quadros)", int(r[…
+    FIM PARA
+    EXECUTAR registrar("Célula 13.7 (KV cache)", f)
+    kv ← pd.read_csv(f)
+SENÃO
+    kv ← NULO
+    EXECUTAR avisos.append("resumo do KV cache da Célula 13.7 não encontrado.")
+FIM SE
+f ← achar(DIR_VQ, f'tabela_complexidade_bigO_v1_vs_vq_{TAG_VQ}.csv')
+SE f ENTÃO
+    c ← pd.read_csv(f)
+    PARA CADA (modelo, g) EM c.groupby("Modelo", sort=FALSO) FAÇA
+        n_q ← int(g["Passos (S)"] × g["Instâncias (m)"].sum())   // quadros previstos em cada versão
+        EXECUTAR add("Análise de complexidade (Célula 13.7.1)", modelo, "recálculo (sem cache)", "quadro", n_q, TOK_QUADRO, SEM_CACHE, obs=f"{len(g)}…
+        EXECUTAR add("Análise de complexidade (Célula 13.7.1)", modelo, "KV cache", "quadro", n_q, TOK_QUADRO, COM_KV, obs="as mesmas instâncias")
+    FIM PARA
+    EXECUTAR registrar("Célula 13.7.1", f)
+FIM SE
+df ← pd.DataFrame(linhas)
+SE df.empty ENTÃO
+    LANÇAR ERRO RuntimeError("Nenhum registro encontrado nas pastas da V1 e do VQ.")
+FIM SE
+// ------------------------------------------------------------- 4. custo de um quadro (tempos medidos)
+unid ← []
+FUNÇÃO t_quadro(v)
+    RETORNAR (float(v) / N_FUT SE v NÃO É NULO E v = v SENÃO np.nan)
+FIM FUNÇÃO
+SE vel_v1 NÃO É NULO ENTÃO
+    EXECUTAR unid.append(("F-PluvIA-G (V1), sem cache", TOK_QUADRO, POS_SEM_CACHE, t_quadro(vel_v1.loc[(FT, "Tempo_Medio_4Passos_s")])))
+FIM SE
+SE vel_vq NÃO É NULO ENTÃO
+    EXECUTAR unid.append(("F-PluvIA-VQ, sem cache", TOK_QUADRO, POS_SEM_CACHE, t_quadro(vel_vq.loc[(FT, "Tempo_Medio_4Passos_s")])))
+FIM SE
+SE vel_v1 NÃO É NULO ENTÃO
+    EXECUTAR unid.append(("Zero-Shot top-k 10, sem cache", TOK_QUADRO, POS_SEM_CACHE, t_quadro(vel_v1.loc[(ZS, "Tempo_Medio_4Passos_s")])))
+FIM SE
+SE kv NÃO É NULO ENTÃO
+    PARA CADA (modelo, g) EM kv.groupby("Modelo", sort=FALSO) FAÇA
+        EXECUTAR unid.append((f'{modelo}, com KV cache', TOK_QUADRO, POS_KV, t_quadro(g["Tempo médio com KV cache (s)"].mean())))
+    FIM PARA
+FIM SE
+df_unid ← pd.DataFrame([{"Previsão de 1 quadro (+30 min)": n, "Tokens gerados": t, "Posições processadas": p, "Tempo medido por quadro [s]": round(s,…
+T_AJUSTE_V1 ← float(reg_v1.get("finetuning_tempo_total_s", np.nan))
+tok_ajuste_v1 ← df[df["Etapa"] = "Ajuste fino da V1 (Célula 4)"]["Tokens"].sum()
+vazao ← (tok_ajuste_v1 / T_AJUSTE_V1 SE T_AJUSTE_V1 = T_AJUSTE_V1 E T_AJUSTE_V1 > 0 SENÃO np.nan)
+// ------------------------------------------------------------- 5. saídas
+fmt ← FUNÇÃO(x) ↦ f'{x:,.0f}'.replace(",", ".")
+FUNÇÃO bonito(d, cols)
+    d ← d.copy()
+    PARA CADA c EM cols FAÇA
+        d[c] ← d[c].map(fmt)
+    FIM PARA
+    RETORNAR d
+FIM FUNÇÃO
+EXIBIR f'=== Volume de tokens do Transformer no ambiente Cronus | {ROTU…
+EXIBIR f'{TOK_QUADRO} tokens por quadro | block_size {BLOCK} | contexto…
+EXIBIR f'Sem cache: {fmt(POS_SEM_CACHE)} posições por quadro ({SEM_CACH…
+PARA CADA a EM avisos FAÇA
+    EXIBIR f'[Aviso] {a}'
+FIM PARA
+EXIBIR " --- Previsão de um único quadro (tempos medidos) ---"
+EXIBIR bonito(df_unid, ["Tokens gerados", "Posições processadas"]).set_index("Previsão de 1 quadro (+30 min)")
+SE vazao = vazao ENTÃO
+    EXIBIR f"No ajuste fino da V1, a vazão foi de ~{fmt(vazao)} tokens lido…
+FIM SE
+cols ← ["Quantidade", "Tokens por unidade", "Tokens", "Posições processadas pelo Transformer", "Observação"]
+EXIBIR " --- Por etapa e variante ---"
+USANDO pd.option_context("display.max_rows", NULO, "display.max_colwidth", 80)
+    EXIBIR bonito(df, cols[:4]).set_index(["Etapa", "Modelo", "Variante"])[cols]
+FIM USANDO
+resumo ← df.pivot_table(index="Modelo", columns="Tipo", values="Tokens", aggfunc="sum", fill_value=0, sort=FALSO)
+resumo["Total de tokens"] ← resumo.sum(axis=1)
+resumo["Posições processadas"] ← df.groupby("Modelo", sort=FALSO)["Posições processadas pelo Transformer"].sum()
+EXIBIR " --- Por modelo (todas as etapas) ---"
+EXIBIR bonito(resumo, list(resumo.columns))
+lidos ← df[df["Tipo"].str.startswith("lidos")]
+gerados ← df[df["Tipo"].str.startswith("gerados")]
+EXIBIR f"Total: {fmt(lidos['Tokens'].sum())} tokens lidos no treino e n…
+kvp ← gerados[gerados["Variante"].str.contains("KV cache")]
+SE len(kvp) ENTÃO
+    ref ← kvp["Tokens"].sum() × SEM_CACHE
+    EXIBIR f"As previsões com KV cache geraram {fmt(kvp['Tokens'].sum())} t…
+FIM SE
+EXIBIR "Fora da conta: o ajuste da VQGAN (Célula 4.6, que não passa …"
+EXIBIR f'Fontes: {json.dumps(fontes, ensure_ascii=False, indent=1)}'
+p_det ← os.path.join(DIR_VQ, f'tokens_por_etapa_e_variante_cronus_{TAG_VQ}.csv')
+p_uni ← os.path.join(DIR_VQ, f'tokens_por_quadro_cronus_{TAG_VQ}.csv')
+EXECUTAR df.to_csv(p_det, index=FALSO)
+EXECUTAR df_unid.to_csv(p_uni, index=FALSO)
+// figura: tokens (esquerda) e posições processadas (direita) por etapa, escala log, cores por modelo
+cores ← {"F-PluvIA-G (V1)": "#E69F00", "F-PluvIA-VQ": "#56B4E9", "F-PluvIA suave (lr 1e-5)": "#F0C873", "Zero-Shot": "#999999"}
+g ← df.groupby(["Etapa", "Modelo", "Variante"], sort=FALSO)[["Tokens", "Posições processadas pelo Transformer"]].sum().reset_index()
+g["rótulo"] ← [f"{e.split(' (')[0]} | {m}, {v}" PARA CADA (e, m, v) EM zip(g["Etapa"], g["Modelo"], g["Variante"])]
+(fig, axs) ← plt.subplots(1, 2, figsize=(16, 0.3 × len(g) + 1.8), sharey=VERDADEIRO, constrained_layout=VERDADEIRO)
+y ← np.arange(len(g))[::−1]
+PARA CADA (ax, col, titulo) EM ((axs[0], "Tokens", "Tokens (lidos no treino e validação, gerados na previsão)"), (axs[1], "Posições processadas pelo …
+    barras ← ax.barh(y, g[col], color=[cores.get(m, "#7f7f7f") PARA CADA m EM g["Modelo"]], edgecolor="white", linewidth=0.5)
+    PARA CADA (b, yi, t, v) EM zip(barras, y, g[col], g["Variante"]) FAÇA
+        EXECUTAR ax.text(t × 1.1, yi, fmt(t), va="center", fontsize=7)
+        SE "KV cache" EM v ENTÃO
+            EXECUTAR b.set_hatch("///")
+        FIM SE
+    FIM PARA
+    EXECUTAR ax.set_xscale("log")
+    EXECUTAR ax.set_xlim(left=max(1, g[col].min() / 3), right=g[col].max() × 8)
+    EXECUTAR ax.set_xlabel(f'{titulo} (escala logarítmica)', fontsize=9)
+    EXECUTAR ax.grid(VERDADEIRO, axis="x", ls=":", alpha=0.6)
+FIM PARA
+EXECUTAR axs[0].set_yticks(y)
+EXECUTAR axs[0].set_yticklabels(g["rótulo"], fontsize=7.5)
+alcas ← [plt.Rectangle((0, 0), 1, 1, color=c) PARA CADA (m, c) EM cores.items() SE m EM set(g["Modelo"])]
+nomes ← [m PARA CADA m EM cores SE m EM set(g["Modelo"])]
+EXECUTAR alcas.append(plt.Rectangle((0, 0), 1, 1, facecolor="white", edgecolor="#555555", hatch="///"))
+EXECUTAR nomes.append("com KV cache")
+EXECUTAR axs[1].legend(alcas, nomes, loc="upper right", fontsize=8)
+EXECUTAR fig.suptitle(f'Volume de tokens do Transformer do GPTCast-8x8 no ambiente Cro…, fontweight="bold")
+p_fig ← os.path.join(DIR_VQ, f'painel_tokens_por_etapa_cronus_{TAG_VQ}.png')
+EXECUTAR fig.savefig(p_fig, dpi=300, bbox_inches="tight")
+EXIBIR
+CELL13_7_2_TOKENS ← {"por_etapa": df, "por_quadro": df_unid, "por_modelo": resumo}
+EXIBIR f'[Célula 13.7.2] Tabelas -> {p_det} | {p_uni}\n[Célula 13.7.2] …

@@ -36,12 +36,13 @@ digraph pipeline {
   "13" [shape=component, style=filled, fillcolor="#FFF8E1", label=<<B>Célula 13</B><BR/><FONT POINT-SIZE="8">150 linhas · 0 classes · 3 funções</FONT>>];
   "13_1" [shape=component, style=filled, fillcolor="#FFF8E1", label=<<B>Célula 13.1</B><BR/><FONT POINT-SIZE="8">595 linhas · 0 classes · 17 funções</FONT>>];
   "metricas_celula_13_2" [shape=component, style=filled, fillcolor="#FFF8E1", label=<<B>Célula Métricas (Célula 13.2)</B><BR/><FONT POINT-SIZE="8">259 linhas · 0 classes · 4 funções</FONT>>];
-  "13_3" [shape=component, style=filled, fillcolor="#FFF8E1", label=<<B>Célula 13.3</B><BR/><FONT POINT-SIZE="8">245 linhas · 0 classes · 4 funções</FONT>>];
+  "13_3" [shape=component, style=filled, fillcolor="#FFF8E1", label=<<B>Célula 13.3</B><BR/><FONT POINT-SIZE="8">249 linhas · 0 classes · 4 funções</FONT>>];
   "13_4" [shape=component, style=filled, fillcolor="#FFF8E1", label=<<B>Célula 13.4</B><BR/><FONT POINT-SIZE="8">291 linhas · 0 classes · 8 funções</FONT>>];
   "13_5" [shape=component, style=filled, fillcolor="#FFF8E1", label=<<B>Célula 13.5</B><BR/><FONT POINT-SIZE="8">142 linhas · 0 classes · 2 funções</FONT>>];
   "13_6_cronus" [shape=component, style=filled, fillcolor="#FFF8E1", label=<<B>Célula 13.6 (Cronus)</B><BR/><FONT POINT-SIZE="8">64 linhas · 0 classes · 1 funções</FONT>>];
   "13_7_cronus" [shape=component, style=filled, fillcolor="#FFF8E1", label=<<B>Célula 13.7 (Cronus)</B><BR/><FONT POINT-SIZE="8">299 linhas · 0 classes · 9 funções</FONT>>];
   "13_7_1_cronus" [shape=component, style=filled, fillcolor="#FFF8E1", label=<<B>Célula 13.7.1 (Cronus)</B><BR/><FONT POINT-SIZE="8">379 linhas · 0 classes · 8 funções</FONT>>];
+  "13_7_2_cronus" [shape=component, style=filled, fillcolor="#FFF8E1", label=<<B>Célula 13.7.2 (Cronus)</B><BR/><FONT POINT-SIZE="8">324 linhas · 0 classes · 8 funções</FONT>>];
   "extra_1" [shape=component, style=filled, fillcolor="#FFF8E1", label=<<B>Célula Extra 1</B><BR/><FONT POINT-SIZE="8">268 linhas · 0 classes · 6 funções</FONT>>];
   "auxiliar_cronus_retomada_do_fechamento_s" [shape=component, style=filled, fillcolor="#FFF8E1", label=<<B>Célula auxiliar (Cronus - Retomada do Fechamento, Somente Leitura)</B><BR/><FONT POINT-SIZE="8">63 linhas · 0 classes · 0 funções</FONT>>];
   "full_umls" [shape=component, style=filled, fillcolor="#FFF8E1", label=<<B>Célula Full UMLs</B><BR/><FONT POINT-SIZE="8">397 linhas · 0 classes · 13 funções</FONT>>];
@@ -153,6 +154,7 @@ digraph pipeline {
   "13_5" -> "13_7_1_cronus" [label="md_rmf"];
   "13_6_cronus" -> "13_7_cronus" [label="CRONUS, gpt8_v1"];
   "13_6_cronus" -> "13_7_1_cronus" [label="CRONUS, gpt8_v1"];
+  "13_6_cronus" -> "13_7_2_cronus" [label="CRONUS"];
   "13_6_cronus" -> "auxiliar_cronus_retomada_do_fechamento_s" [label="CRONUS"];
   "13_6_cronus" -> "extra_2" [label="gpt8"];
   "13_7_cronus" -> "13_7_1_cronus" [label="TAB_KV"];

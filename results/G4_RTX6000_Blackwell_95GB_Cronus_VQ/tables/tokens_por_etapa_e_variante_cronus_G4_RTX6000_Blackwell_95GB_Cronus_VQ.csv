@@ -1,0 +1,37 @@
+Etapa,Modelo,Variante,Unidade,Quantidade,Tokens por unidade,Tokens,Posições processadas pelo Transformer,Tipo,Observação
+Ajuste fino da V1 (Célula 4),F-PluvIA-G (V1),treino,amostra de 8 quadros,49700,512,25446400,25446400,lidos (treino/validação),"rodada 20261123T0028Z: 3110 passos, 5.00 épocas de 9940 janelas"
+Ajuste fino da V1 (Célula 4),F-PluvIA-G (V1),validação a cada época,amostra de 8 quadros,11120,512,5693440,5693440,lidos (treino/validação),5 validações de 2224 janelas de 2024
+Ajuste fino suave (Célula 4.3),F-PluvIA suave (lr 1e-5),treino,amostra de 8 quadros,24616,512,12603392,12603392,lidos (treino/validação),"rodada 20261123T0049Z: 1540 passos, 2.48 épocas de 9940 janelas (interrompida)"
+Ajuste fino suave (Célula 4.3),F-PluvIA suave (lr 1e-5),validação a cada 1/4 de época,amostra de 8 quadros,20016,512,10248192,10248192,lidos (treino/validação),9 validações de 2224 janelas de 2024
+Ajuste fino do VQ (Célula 4.7),F-PluvIA-VQ,treino,amostra de 8 quadros,49700,512,25446400,25446400,lidos (treino/validação),"rodada 20261123T0717Z: 3110 passos, 5.00 épocas de 9940 janelas"
+Ajuste fino do VQ (Célula 4.7),F-PluvIA-VQ,validação a cada época,amostra de 8 quadros,11120,512,5693440,5693440,lidos (treino/validação),5 validações de 2224 janelas de 2024
+Validação Fine-Tuned × Zero-Shot (Célula 4.1),F-PluvIA-G (V1),perda nos tokens,amostra de 8 quadros,2224,512,1138688,1138688,lidos (treino/validação),uma passada sobre a validação de 2024
+Validação Fine-Tuned × Zero-Shot (Célula 4.1),Zero-Shot,perda nos tokens,amostra de 8 quadros,2224,512,1138688,1138688,lidos (treino/validação),uma passada sobre a validação de 2024
+"Escolha da decodificação (Célula 4.5, validação 2024)",F-PluvIA-G (V1),"Padrão (T=1, sem top-k)",janela (4 quadros),240,256,61440,29521920,gerados (previsão),240 janelas
+"Escolha da decodificação (Célula 4.5, validação 2024)",F-PluvIA-G (V1),top-k 50,janela (4 quadros),240,256,61440,29521920,gerados (previsão),240 janelas
+"Escolha da decodificação (Célula 4.5, validação 2024)",F-PluvIA-G (V1),top-k 10,janela (4 quadros),240,256,61440,29521920,gerados (previsão),240 janelas
+"Escolha da decodificação (Célula 4.5, validação 2024)",F-PluvIA-G (V1),"Temperatura 0,7",janela (4 quadros),240,256,61440,29521920,gerados (previsão),240 janelas
+"Escolha da decodificação (Célula 4.5, validação 2024)",F-PluvIA-G (V1),Gulosa (top-k 1),janela (4 quadros),240,256,61440,29521920,gerados (previsão),240 janelas
+"Escolha da decodificação (Célula 4.5, validação 2024)",F-PluvIA-G (V1),Média de 8 sorteios (T=1),janela (4 quadros),1920,256,491520,236175360,gerados (previsão),240 janelas x 8 membros
+"Escolha da decodificação (Célula 4.5, validação 2024)",Zero-Shot,"Padrão (T=1, sem top-k)",janela (4 quadros),240,256,61440,29521920,gerados (previsão),240 janelas
+"Escolha da decodificação (Célula 4.5, validação 2024)",Zero-Shot,top-k 50,janela (4 quadros),240,256,61440,29521920,gerados (previsão),240 janelas
+"Escolha da decodificação (Célula 4.5, validação 2024)",Zero-Shot,top-k 10,janela (4 quadros),240,256,61440,29521920,gerados (previsão),240 janelas
+"Escolha da decodificação (Célula 4.5, validação 2024)",Zero-Shot,"Temperatura 0,7",janela (4 quadros),240,256,61440,29521920,gerados (previsão),240 janelas
+"Escolha da decodificação (Célula 4.5, validação 2024)",Zero-Shot,Gulosa (top-k 1),janela (4 quadros),240,256,61440,29521920,gerados (previsão),240 janelas
+"Escolha da decodificação (Célula 4.5, validação 2024)",Zero-Shot,Média de 8 sorteios (T=1),janela (4 quadros),1920,256,491520,236175360,gerados (previsão),240 janelas x 8 membros
+"Validação V1 × VQ (Célula 4.8, 2024)",F-PluvIA-G (V1),gulosa,janela (4 quadros),240,256,61440,29521920,gerados (previsão),240 janelas sorteadas de 2024
+"Validação V1 × VQ (Célula 4.8, 2024)",F-PluvIA-VQ,gulosa,janela (4 quadros),240,256,61440,29521920,gerados (previsão),240 janelas sorteadas de 2024
+Teste 2025 (Célula 12),F-PluvIA-G (V1),gulosa,janela (4 quadros),1729,256,442624,212680832,gerados (previsão),decodificação escolhida em 2024
+Teste 2025 (Célula 12),Zero-Shot,top-k 10,janela (4 quadros),1729,256,442624,212680832,gerados (previsão),decodificação escolhida em 2024
+Teste 2025 (Célula 12),F-PluvIA-VQ,gulosa,janela (4 quadros),1729,256,442624,212680832,gerados (previsão),decodificação escolhida em 2024
+Teste cego 2026 (Célula 13.1),F-PluvIA-G (V1),gulosa,janela (4 quadros),2110,256,540160,259546880,gerados (previsão),2108 janelas da série + 2 estudos de caso
+Teste cego 2026 (Célula 13.1),Zero-Shot,top-k 10,janela (4 quadros),2110,256,540160,259546880,gerados (previsão),2108 janelas da série + 2 estudos de caso
+Teste cego 2026 (Célula 13.1),F-PluvIA-VQ,gulosa,janela (4 quadros),2110,256,540160,259546880,gerados (previsão),2108 janelas da série + 2 estudos de caso
+Duelo: variante com KV cache (Célula 13.7),F-PluvIA-G (V1),"gulosa com KV cache, 2025",janela (4 quadros),1729,256,442624,3540992,gerados (previsão),1729 janelas de 2025; a previsão sem cache é a das Células 12 e 13.1
+Duelo: variante com KV cache (Célula 13.7),F-PluvIA-G (V1),"gulosa com KV cache, 2026",janela (4 quadros),2108,256,539648,4317184,gerados (previsão),2108 janelas de 2026; a previsão sem cache é a das Células 12 e 13.1
+Duelo: variante com KV cache (Célula 13.7),F-PluvIA-VQ,"gulosa com KV cache, 2025",janela (4 quadros),1729,256,442624,3540992,gerados (previsão),1729 janelas de 2025; a previsão sem cache é a das Células 12 e 13.1
+Duelo: variante com KV cache (Célula 13.7),F-PluvIA-VQ,"gulosa com KV cache, 2026",janela (4 quadros),2108,256,539648,4317184,gerados (previsão),2108 janelas de 2026; a previsão sem cache é a das Células 12 e 13.1
+Análise de complexidade (Célula 13.7.1),F-PluvIA-G (V1),recálculo (sem cache),quadro,370,64,23680,11378240,gerados (previsão),"6 tamanhos x 10 instâncias, medições cronometradas"
+Análise de complexidade (Célula 13.7.1),F-PluvIA-G (V1),KV cache,quadro,370,64,23680,189440,gerados (previsão),as mesmas instâncias
+Análise de complexidade (Célula 13.7.1),F-PluvIA-VQ,recálculo (sem cache),quadro,370,64,23680,11378240,gerados (previsão),"6 tamanhos x 10 instâncias, medições cronometradas"
+Análise de complexidade (Célula 13.7.1),F-PluvIA-VQ,KV cache,quadro,370,64,23680,189440,gerados (previsão),as mesmas instâncias

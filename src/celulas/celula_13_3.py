@@ -10,6 +10,9 @@
 #   - previsão: cada quadro futuro tem 64 tokens gerados um a um (predict_next_frame_indices), cada um com uma
 #     passada completa do Transformer sobre SOS + 7 quadros de contexto (448 tokens) + os já gerados no quadro.
 #     Não há cache de atenção (KV cache, ele evitaria processamento repetido dos mesmos tokens ): o contexto é reprocessado a cada token.
+if 'Cronus' in str(globals().get('ENV_TAG', '')):
+  raise RuntimeError('No ambiente Cronus use a Célula 13.7.2: esta célula conta as etapas da V1 original '
+                     '(F-PluvIA-A, F-PluvIA-C8) e somaria execuções que o Cronus não fez.')
 import glob
 import json
 import os
