@@ -1,0 +1,47 @@
+// ===== Célula auxiliar (Cronus - Somente Leitura) — Cópia dos caches .npz da V1 — pseudo-código =====
+// Célula auxiliar (Cronus - Somente Leitura) — Cópia dos caches .npz da V1
+// Lê de GPTCast_RMF (V1) e grava apenas em GPTCast_RMF_Cronus.
+// Nunca sobrescreve: arquivo já existente no destino é mantido.
+IMPORTAR os, glob, shutil, time
+ORIGEM_V1 ← "/content/drive/MyDrive/GPTCast_RMF"
+DESTINO ← BASE_WORK_DIR   // definido na Célula 1 (GPTCast_RMF_Cronus)
+SE os.path.realpath(DESTINO) = os.path.realpath(ORIGEM_V1) ENTÃO
+    LANÇAR ERRO RuntimeError("Destino igual à pasta da V1: abortado.")
+FIM SE
+// Subpastas de cache a copiar (só .npz). Ajuste se o listado abaixo mostrar outro nome.
+SUBPASTAS ← ["series_2019_2025_2km"]
+SO_LISTAR ← VERDADEIRO   // 1ª execução: só lista. Depois mude para False e rode de novo.
+EXIBIR "Pastas de primeiro nível na V1:"
+PARA CADA p EM sorted(os.listdir(ORIGEM_V1)) FAÇA
+    SE os.path.isdir(os.path.join(ORIGEM_V1, p)) ENTÃO
+        n ← len(glob.glob(os.path.join(ORIGEM_V1, p, "*.npz")))
+        EXIBIR f'  {p:45s} {n:5d} .npz'
+    FIM SE
+FIM PARA
+t0 ← time.time()
+PARA CADA sub EM SUBPASTAS FAÇA
+    src_dir ← os.path.join(ORIGEM_V1, sub)
+    dst_dir ← os.path.join(DESTINO, sub)
+    arquivos ← sorted(glob.glob(os.path.join(src_dir, "*.npz")))
+    tam_gb ← sum([os.path.getsize(a) PARA CADA a EM arquivos]) / 1000000000.0
+    EXIBIR f'\n[{sub}] {len(arquivos)} arquivos .npz, {tam_gb:.2f} GB'
+    SE SO_LISTAR OU NÃO arquivos ENTÃO
+        PASSAR À PRÓXIMA ITERAÇÃO
+    FIM SE
+    EXECUTAR os.makedirs(dst_dir, exist_ok=VERDADEIRO)
+    copiados ← pulados ← 0
+    PARA CADA a EM arquivos FAÇA
+        alvo ← os.path.join(dst_dir, os.path.basename(a))
+        SE os.path.exists(alvo) E os.path.getsize(alvo) = os.path.getsize(a) ENTÃO
+            pulados ← pulados + 1
+            PASSAR À PRÓXIMA ITERAÇÃO
+        FIM SE
+        EXECUTAR shutil.copy2(a, alvo + ".part")
+        EXECUTAR os.replace(alvo + ".part", alvo)
+        copiados ← copiados + 1
+    FIM PARA
+    EXIBIR f'  copiados: {copiados} | já existiam: {pulados}'
+    n_dst ← len(glob.glob(os.path.join(dst_dir, "*.npz")))
+    GARANTIR QUE n_dst ≥ len(arquivos) (senão: f'Destino com {n_dst} de {len(arquivos)} arquivos.')
+FIM PARA
+EXIBIR f'\nTempo: {(time.time() - t0) / 60:.1f} min' + (" (modo listagem: nada foi copiado)" SE SO_LISTAR SENÃO "")

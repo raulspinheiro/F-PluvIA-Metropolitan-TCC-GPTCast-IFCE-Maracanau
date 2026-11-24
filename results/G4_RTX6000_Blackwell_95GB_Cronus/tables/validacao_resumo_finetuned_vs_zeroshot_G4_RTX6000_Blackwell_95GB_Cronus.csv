@@ -1,0 +1,3 @@
+Modelo,val/loss (nats/token),Perplexidade (exp L),val/loss quadros 8–11,Delta,IC95_inf,IC95_sup,Ganho_perplexidade_pct,Janelas,Dias,Frac_janelas_FT_melhor
+Zero-Shot,5.1779,177.3,4.9908,-0.4624,-0.4773,-0.4472,37.02,2224,114,1.0
+Fine-Tuned,4.7155,111.7,4.5338,-0.4624,-0.4773,-0.4472,37.02,2224,114,1.0

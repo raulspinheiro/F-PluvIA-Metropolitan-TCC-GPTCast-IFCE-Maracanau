@@ -1,0 +1,71 @@
+// ===== Célula auxiliar (Cronus) — Diagnóstico de retomada após desconexão (só leitura) — pseudo-código =====
+// Célula auxiliar (Cronus) — Diagnóstico de retomada após desconexão (só leitura)
+// Não grava nem apaga nada. Rode logo depois de montar o Drive (Célula 0 ou 1).
+IMPORTAR os, glob, json, time
+IMPORTAR pandas (como pd)
+IMPORTAR drive DE google.colab
+SE NÃO os.path.ismount("/content/drive") ENTÃO
+    EXECUTAR drive.mount("/content/drive")
+FIM SE
+BASE ← "/content/drive/MyDrive/GPTCast_RMF_Cronus"
+HORAS ← 14   // janela: arquivos alterados nas últimas HORAS horas
+agora ← time.time()
+FUNÇÃO ler_json(padrao)
+    achados ← sorted(glob.glob(os.path.join(BASE, "**", padrao), recursive=VERDADEIRO))
+    PARA CADA a EM achados FAÇA
+        EXIBIR f"\n--- {a.replace(BASE, '…')}"
+        TENTAR
+            USANDO open(a) COMO f
+                d ← json.load(f)
+            FIM USANDO
+            PARA CADA (k, v) EM d.items() FAÇA
+                SE NÃO isinstance(v, (list, dict)) ENTÃO
+                    EXIBIR f'  {k}: {v}'
+                FIM SE
+            FIM PARA
+        SE OCORRER ERRO Exception (chamado e)
+            EXIBIR "  (não foi possível ler)", e
+        FIM TENTAR
+    FIM PARA
+    SE NÃO achados ENTÃO
+        EXIBIR f'\n--- nenhum arquivo {padrao}'
+    FIM SE
+FIM FUNÇÃO
+EXIBIR "=== 1. Arquivos alterados nas últimas", HORAS, "h (mais recentes primeiro) ==="
+recentes ← []
+PARA CADA (raiz, _, arqs) EM os.walk(BASE) FAÇA
+    PARA CADA a EM arqs FAÇA
+        p ← os.path.join(raiz, a)
+        TENTAR
+            m ← os.path.getmtime(p)
+        SE OCORRER ERRO OSError
+            PASSAR À PRÓXIMA ITERAÇÃO
+        FIM TENTAR
+        SE agora − m < HORAS × 3600 ENTÃO
+            EXECUTAR recentes.append((m, p, os.path.getsize(p)))
+        FIM SE
+    FIM PARA
+FIM PARA
+PARA CADA (m, p, s) EM sorted(recentes, reverse=VERDADEIRO)[:40] FAÇA
+    EXIBIR f"{time.strftime('%d/%m %H:%M', time.localtime(m - 3 * 3600))}  …
+FIM PARA
+EXIBIR " === 2. Célula 4.6 (VQGAN) ==="
+PARA CADA padrao EM ("vqgan_rmf_2km_*_melhor.pt", "vqgan_rmf_2km_*_ultima.pt") FAÇA
+    PARA CADA a EM glob.glob(os.path.join(BASE, "**", padrao), recursive=VERDADEIRO) FAÇA
+        EXIBIR f"{padrao.split('_')[-1]:10s} {os.path.getsize(a) / 1000000.0:8.…
+    FIM PARA
+FIM PARA
+EXECUTAR ler_json("registro_vqgan_*.json")
+PARA CADA a EM glob.glob(os.path.join(BASE, "**", "curva_ajuste_vqgan_*.csv"), recursive=VERDADEIRO) FAÇA
+    EXIBIR " Curva por época:"
+    EXIBIR pd.read_csv(a).to_string(index=FALSO)
+FIM PARA
+EXIBIR " === 3. Célula 4.7 (Transformer do F-PluvIA-VQ) ==="
+EXECUTAR ler_json("registro_treino_fpluvia_vq_*.json")
+EXIBIR " === 4. Célula 4.8 (validação 2024, V1 × VQ) ==="
+EXECUTAR ler_json("cronus_previsao_v1_vs_vq_validacao2024_*.json")
+EXIBIR " === 5. Cronômetro (últimas células registradas) ==="
+PARA CADA a EM glob.glob(os.path.join(BASE, "cronometro", "*celulas*.csv")) FAÇA
+    df ← pd.read_csv(a)
+    EXIBIR df.tail(15).to_string(index=FALSO)
+FIM PARA

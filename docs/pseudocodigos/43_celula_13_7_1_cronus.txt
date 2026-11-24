@@ -1,0 +1,330 @@
+// ===== Célula 13.7.1 (Cronus) — pseudo-código =====
+// Célula 13.7.1 (Cronus): Análise de Complexidade (Big O) dos dois modelos do duelo da Célula 13.7 — F-PluvIA-G (V1,
+// VQGAN original) e F-PluvIA-VQ (VQGAN ajustada à RMF) — como estudo de caso comparativo entre duas implementações
+// equivalentes do gerador guloso: recálculo integral (sem cache) × memoização das chaves e valores da atenção (KV cache).
+// Metodologia do estudo de caso de Programação Dinâmica (Edit Distance, top-down com memoização × bottom-up) da disciplina
+// ANALG 2051.1 IFCE Maracanaú Profº Thiago Alves: semente 42, k tamanhos sorteados e igualmente espaçados, m instâncias
+// sorteadas e IGUAIS para os dois modelos e as duas versões, tempo médio por instância com perf_counter e verificação
+// de correção com assert. Complementa a Célula 13.4 (que analisa só o F-PluvIA-G).
+IMPORTAR math
+IMPORTAR os
+IMPORTAR random
+IMPORTAR statistics
+IMPORTAR time
+IMPORTAR einops
+IMPORTAR matplotlib.pyplot (como plt)
+IMPORTAR numpy (como np)
+IMPORTAR pandas (como pd)
+IMPORTAR torch
+IMPORTAR torch.nn.functional (como F)
+// ------------------------------------------------------------------- 1. parâmetros do experimento
+SEED ← 42   // reprodutibilidade, como no estudo de caso
+(MIN_S, MAX_S) ← (1, 12)   // intervalo dos tamanhos de entrada: passos de 30 min (+30 a +360 min)
+K_RANGE ← (6, 10)   // nº de tamanhos distintos (sorteado)
+M_RANGE ← (10, 20)   // nº de instâncias por tamanho (sorteado, o mesmo para todos os tamanhos)
+CONTEXTO ← 7   // quadros observados, como nas Células 12 e 13.7
+AQUECIMENTO ← 2   // execuções descartadas antes de medir (compilação de kernels na GPU)
+TOL_EMPATE ← 0.001   // diferença entre os 2 maiores logits abaixo da qual há empate numérico
+faltam ← [n PARA CADA n EM ("CRONUS", "gpt8_v1", "gpt8_vq", "md_rmf") SE n NÃO EM globals()]
+SE faltam OU "vq" NÃO EM globals().get("CRONUS", {}) ENTÃO
+    LANÇAR ERRO RuntimeError(f"Rode antes a Célula 13.6 e a 13.7 (duelo) nesta sessão. Faltam…)
+FIM SE
+ENV_LABEL ← globals().get("ENV_LABEL", "Hardware Ativo")
+SAIDA ← CRONUS["vq"]["results_dir"]   // mesma pasta do duelo (nada da V1 é sobrescrito)
+TAG ← CRONUS["vq"]["env_tag"]
+EXECUTAR os.makedirs(SAIDA, exist_ok=VERDADEIRO)
+MODELOS ← {"F-PluvIA-G (V1)": gpt8_v1, "F-PluvIA-VQ": gpt8_vq}
+PARA CADA _m EM MODELOS.values() FAÇA
+    EXECUTAR _m.eval()
+FIM PARA
+DEVICE ← next(gpt8_v1.parameters()).device
+SE DEVICE.type ≠ "cuda" ENTÃO
+    EXIBIR "[aviso] Os modelos estão na CPU: os tempos não representam a…"
+FIM SE
+// Mesma arquitetura nos dois modelos: a complexidade teórica é idêntica; só os pesos mudam.
+_cfg ← [nome: (int(m.transformer.config.n_layer), int(m.transformer.config.n_embd), int(m.transformer.config.block_size), sum([p.numel() PARA CADA p …
+GARANTIR QUE len(set(_cfg.values())) = 1 (senão: f'Os dois modelos deveriam ter a mesma arquitetura: {_cfg}')
+(L_CAM, D_LARG, BLOCK, P_TRANSFORMER, P_VQGAN) ← next(iter(_cfg.values()))
+WS ← int(math.sqrt(BLOCK DIV 8))   // janela espacial em tokens (8 → 8×8 = 64 por quadro)
+T_QUADRO ← WS × WS
+seqs ← md_rmf.splits["test"].sequences_dbz   // teste de 2025, o conjunto que decide o duelo
+FUNÇÃO br(n)
+    RETORNAR f'{int(n):,}'.replace(",", ".")
+FIM FUNÇÃO
+FUNÇÃO cronometro()
+    SE DEVICE.type = "cuda" ENTÃO
+        EXECUTAR torch.cuda.synchronize()
+    FIM SE
+    RETORNAR time.perf_counter()
+FIM FUNÇÃO
+// ------------------------------------------------------------------- 2. as duas implementações (para qualquer modelo)
+FUNÇÃO _proximo_token(M, logits)
+    // Mesma regra de predict_next_index com temperatura 1 e top-k 1 (decodificação gulosa).
+    lg ← M.top_k_logits(logits[(:, −1, :)] / 1.0, 1)
+    (_, res) ← torch.topk(F.softmax(lg, dim=−1), k=1, dim=−1)
+    RETORNAR res
+FIM FUNÇÃO
+FUNÇÃO quadro_recalculo(M, ind_ctx, c_idx)
+    // Versão 1, sem cache: o gerador original do pacote. Cada um dos T tokens do quadro
+    // reprocessa o contexto inteiro (condicionamento + quadros passados + tokens já gerados).
+    RETORNAR M.predict_next_frame_indices(ind_ctx, c_idx, WS, temperature=1.0, top_k=1, show_progress=FALSO)
+FIM FUNÇÃO
+FUNÇÃO quadro_kv_cache(M, ind_ctx, c_idx)
+    // Versão 2, com memoização: o contexto passa uma única vez pelo Transformer e as chaves e valores
+    // de cada camada ficam guardados (KV cache); cada token novo processa só 1 posição.
+    TR ← M.transformer
+    (b, _, h, w) ← ind_ctx.shape
+    SE (h, w) ≠ (WS, WS) ENTÃO
+        LANÇAR ERRO RuntimeError(f'O KV cache exige que a janela ({WS}×{WS}) cubra o quadro intei…)
+    FIM SE
+    prefixo ← torch.cat((c_idx.reshape(b, −1), ind_ctx.reshape(b, −1)), dim=1)
+    (logits, _, cache) ← TR.forward_with_past(prefixo)
+    n ← prefixo.shape[1]
+    tok ← _proximo_token(M, logits)
+    tokens ← [tok]
+    PARA CADA _ EM range(h × w − 1) FAÇA
+        (logits, _, novo) ← TR.forward_with_past(tok, past=[cache], past_length=n)
+        cache ← torch.cat((cache, novo), dim=−2)   // o pacote devolve só k e v da posição nova
+        n ← n + 1
+        tok ← _proximo_token(M, logits)
+        EXECUTAR tokens.append(tok)
+    FIM PARA
+    RETORNAR torch.cat(tokens, dim=1).reshape(b, h, w)
+FIM FUNÇÃO
+VERSOES ← {"Recálculo (sem cache)": quadro_recalculo, "KV cache (memoização)": quadro_kv_cache}
+// decorador: torch.inference_mode()
+FUNÇÃO codificar(M, ctx_dbz)
+    x ← torch.tensor(np.clip(np.nan_to_num(ctx_dbz, nan=0.0), 0, 60) / 30.0 − 1.0, dtype=torch.float32, device=DEVICE)
+    s ← x.shape[0]
+    xs ← einops.rearrange(x, "s h w -> (s h) w")[(NULO, NULO)].contiguous()
+    (quant, idx) ← M.encode_to_z(xs)   // cada modelo usa a SUA VQGAN (original ou ajustada)
+    (_, c_idx) ← M.encode_to_c(xs)
+    qs ← quant.shape
+    RETORNAR (idx.reshape(qs[0], s, qs[2] DIV s, qs[3]), c_idx, qs)
+FIM FUNÇÃO
+// decorador: torch.inference_mode()
+FUNÇÃO prever(M, ctx_dbz, passos, gerador)
+    // Previsão completa de S passos (a mesma das Células 12 e 13.7): codifica, gera quadro a quadro com a janela
+    // deslizante dos últimos CONTEXTO quadros e decodifica cada quadro. Só o gerador de tokens muda.
+    (ind, c_idx, qs) ← codificar(M, ctx_dbz)
+    (s, ih, iw) ← (ind.shape[1], ind.shape[2], ind.shape[3])
+    quadros ← []
+    PARA CADA _ EM range(passos) FAÇA
+        USANDO torch.autocast(DEVICE.type, dtype=torch.bfloat16, enabled=DEVICE.type = "cuda")
+            p ← gerador(M, ind[(:, −s:)], c_idx)
+        FIM USANDO
+        EXECUTAR M.decode_to_img(p.reshape(1, −1), torch.Size([1, qs[1], ih, iw]))
+        ind ← torch.cat((ind, p[(:, NULO)]), dim=1)
+        EXECUTAR quadros.append(p)
+    FIM PARA
+    RETORNAR torch.stack(quadros, dim=1)
+FIM FUNÇÃO
+// decorador: torch.inference_mode()
+FUNÇÃO verificar_token_a_token(M, ctx_dbz)
+    // Verificação de correção em fp32, sem divergência em cascata: em cada um dos T tokens do quadro, as duas
+    // versões recebem o MESMO contexto e devem escolher o mesmo token (logits iguais a menos de arredondamento).
+    TR ← M.transformer
+    (ind, c_idx, _) ← codificar(M, ctx_dbz)
+    ind_ctx ← ind[(:, −CONTEXTO:)]
+    b ← ind_ctx.shape[0]
+    prefixo ← torch.cat((c_idx.reshape(b, −1), ind_ctx.reshape(b, −1)), dim=1)
+    (logits_kv, _, cache) ← TR.forward_with_past(prefixo)
+    (n, gerados, dif_max, divergentes, empates) ← (prefixo.shape[1], [], 0.0, 0, 0)
+    PARA CADA t EM range(T_QUADRO) FAÇA
+        contexto ← torch.cat([prefixo] + gerados, dim=1)
+        l_rc ← TR(contexto)[0][(:, −1, :)].float()
+        l_kv ← logits_kv[(:, −1, :)].float()
+        dif_max ← max(dif_max, float(l_rc − l_kv.abs().max()))
+        SE int(l_rc.argmax(−1)) ≠ int(l_kv.argmax(−1)) ENTÃO
+            divergentes ← divergentes + 1
+            top2 ← l_rc.topk(2, dim=−1).values[0]
+            empates ← empates + int(float(top2[0] − top2[1]) < TOL_EMPATE)
+        FIM SE
+        tok ← _proximo_token(M, logits_kv)
+        EXECUTAR gerados.append(tok)
+        SE t < T_QUADRO − 1 ENTÃO
+            (logits_kv, _, novo) ← TR.forward_with_past(tok, past=[cache], past_length=n)
+            cache ← torch.cat((cache, novo), dim=−2)
+            n ← n + 1
+        FIM SE
+    FIM PARA
+    RETORNAR (dif_max, divergentes, empates)
+FIM FUNÇÃO
+// ------------------------------------------------------------------- 3. sorteio de k, m e dos tamanhos
+EXECUTAR random.seed(SEED)
+EXECUTAR torch.manual_seed(SEED)
+EXECUTAR np.random.seed(SEED)
+k ← random.randint(*K_RANGE)   // sorteia k
+m ← random.randint(*M_RANGE)   // sorteia m (o mesmo para todos os tamanhos)
+passo ← MAX_S − MIN_S / k − 1   // tamanhos igualmente espaçados
+tamanhos ← sorted([int(MIN_S + i × passo + 1e-09) PARA CADA i EM range(k)])
+_amostra ← np.clip(seqs[(0, :CONTEXTO)], 0, 60)
+P0 ← int(codificar(gpt8_v1, _amostra)[1].numel() + CONTEXTO × T_QUADRO)   // tokens do contexto antes do 1º token
+POS_RC ← T_QUADRO × P0 + T_QUADRO × T_QUADRO − 1 DIV 2   // posições por quadro, recálculo: Σ (P0 + t)
+POS_KV ← P0 + T_QUADRO − 1   // posições por quadro, KV cache: P0 + (T − 1)
+EXIBIR f'Arquitetura (idêntica nos dois modelos): Transformer {P_TRANSF…
+EXIBIR f'Sorteio (semente {SEED}): k = {k} tamanhos {tamanhos}, m = {m}…
+t0_total ← time.perf_counter()
+// ------------------------------------------------------------------- 4. verificação de correção (fp32, token a token)
+_tf32 ← (torch.backends.cuda.matmul.allow_tf32, torch.backends.cudnn.allow_tf32)
+torch.backends.cuda.matmul.allow_tf32 ← torch.backends.cudnn.allow_tf32 ← FALSO
+janelas_verif ← random.sample(range(len(seqs)), m)
+verif ← {}
+TENTAR
+    PARA CADA (nome, M) EM MODELOS.items() FAÇA
+        verif[nome] ← [verificar_token_a_token(M, np.clip(seqs[(jv, :CONTEXTO)], 0, 60)) PARA CADA jv EM janelas_verif]
+    FIM PARA
+AO FINAL, SEMPRE
+    (torch.backends.cuda.matmul.allow_tf32, torch.backends.cudnn.allow_tf32) ← _tf32
+FIM TENTAR
+PARA CADA (nome, v) EM verif.items() FAÇA
+    (dmax, ndiv, nemp) ← (max([x[0] PARA CADA x EM v]), sum([x[1] PARA CADA x EM v]), sum([x[2] PARA CADA x EM v]))
+    GARANTIR QUE ndiv = nemp (senão: f'{nome}: as versões divergem fora de empate numérico em {ndiv -…)
+    EXIBIR f'Verificação (fp32) {nome}: {m} instâncias × {T_QUADRO} tokens,…
+FIM PARA
+// ------------------------------------------------------------------- 5. tempo médio por instância × tamanho
+PARA CADA _ EM range(AQUECIMENTO) FAÇA
+    PARA CADA M EM MODELOS.values() FAÇA
+        PARA CADA g EM VERSOES.values() FAÇA
+            EXECUTAR prever(M, _amostra, 1, g)
+        FIM PARA
+    FIM PARA
+FIM PARA
+linhas ← []
+PARA CADA S EM tamanhos FAÇA
+    janelas ← random.sample(range(len(seqs)), m)   // *uma única* lista de instâncias para este tamanho
+    totais ← [(mod, ver): 0.0 PARA CADA mod EM MODELOS PARA CADA ver EM VERSOES]
+    tempos ← [(mod, ver): [] PARA CADA mod EM MODELOS PARA CADA ver EM VERSOES]   // por instância (média e desvio)
+    identicos ← [mod: 0 PARA CADA mod EM MODELOS]
+    PARA CADA j EM janelas FAÇA   // os dois modelos e as duas versões sobre as MESMAS instâncias
+        ctx ← np.clip(seqs[(j, :CONTEXTO)], 0, 60)
+        PARA CADA (mod, M) EM MODELOS.items() FAÇA
+            saidas ← {}
+            PARA CADA (ver, g) EM VERSOES.items() FAÇA
+                inicio ← cronometro()
+                saidas[ver] ← prever(M, ctx, S, g)
+                dt ← cronometro() − inicio
+                totais[(mod, ver)] ← totais[(mod, ver)] + dt
+                EXECUTAR tempos[(mod, ver)].append(dt)
+            FIM PARA
+            identicos[mod] ← identicos[mod] + int(torch.equal(*saidas.values()))
+        FIM PARA
+    FIM PARA
+    PARA CADA mod EM MODELOS FAÇA
+        (t_rc, t_kv) ← [totais[(mod, ver)] / m PARA CADA ver EM VERSOES]
+        EXECUTAR linhas.append({"Ambiente_Execucao": ENV_LABEL, "Modelo": mod, "Passos (S)": S, "Horizonte [min]": 30 × S, "Instâncias (m)": m, "Temp…
+    FIM PARA
+    EXIBIR f'S = {S:2d} ({30 * S:3d} min)  OK  ' + " | ".join([f"{mod}: recálculo {totais[mod, 'Recálculo (sem cache)'] / m:.3f… PARA CADA mod EM MOD…
+FIM PARA
+df ← pd.DataFrame(linhas)
+// Ajuste t = a + b·S para cada modelo e versão (O(S) em todos: a janela desliza e o contexto nunca passa de BLOCK)
+COLS ← {"Recálculo (sem cache)": "Tempo médio recálculo [s]", "KV cache (memoização)": "Tempo médio KV cache [s]"}
+ajustes ← {}
+PARA CADA mod EM MODELOS FAÇA
+    sub ← df[df["Modelo"] = mod]
+    S_arr ← sub["Passos (S)"].to_numpy(float)
+    PARA CADA (ver, col) EM COLS.items() FAÇA
+        y ← sub[col].to_numpy(float)
+        (b_, a_) ← np.polyfit(S_arr, y, 1)
+        r2 ← 1 − np.sum(y − a_ + b_ × S_arr ^ 2) / np.sum(y − y.mean() ^ 2)
+        ajustes[(mod, ver)] ← (a_, b_, r2, np.polyfit(S_arr, y, 2)[0])
+    FIM PARA
+FIM PARA
+csv_path ← os.path.join(SAIDA, f'tabela_complexidade_bigO_v1_vs_vq_{TAG}.csv')
+EXECUTAR df.to_csv(csv_path, index=FALSO)
+verif_path ← os.path.join(SAIDA, f'tabela_verificacao_kvcache_v1_vs_vq_{TAG}.csv')
+EXECUTAR pd.DataFrame([{"Ambiente_Execucao": ENV_LABEL, "Modelo": nome, "Janela": jv, "Tokens": T_QUADRO, "Max |Δ logit|": x[0], "Tokens divergentes"…
+ajustes_path ← os.path.join(SAIDA, f'tabela_ajustes_bigO_v1_vs_vq_{TAG}.csv')
+EXECUTAR pd.DataFrame([{"Modelo": mod, "Versão": ver, "a [s]": round(a, 4), "b [s por passo]": round(b, 4), "R²": round(r2, 5), "Termo quadrático": r…
+// ------------------------------------------------------------------- 6. painel
+CORES ← {"Recálculo (sem cache)": "#c0392b", "KV cache (memoização)": "#2471a3"}
+ESTILO ← {"F-PluvIA-G (V1)": ("o", "-"), "F-PluvIA-VQ": ("s", "--")}
+(fig, axes) ← plt.subplots(1, 2, figsize=(14, 5), constrained_layout=VERDADEIRO)
+ax ← axes[0]
+xs_fit ← np.linspace(0, max(tamanhos), 50)
+PARA CADA mod EM MODELOS FAÇA
+    sub ← df[df["Modelo"] = mod]
+    (mk, ls) ← ESTILO[mod]
+    PARA CADA (ver, col) EM COLS.items() FAÇA
+        (a_, b_, r2, _) ← ajustes[(mod, ver)]
+        EXECUTAR ax.plot(sub["Passos (S)"], sub[col], marker=mk, ls=ls, color=CORES[ver], label=f'{mod} · {ver}: t ≈ {a_:.2f} + {b_:.3f}·S (R² = {r2:…
+    FIM PARA
+FIM PARA
+EXECUTAR ax.set_xlabel("Tamanho da entrada: passos de previsão S (× 30 min)")
+EXECUTAR ax.set_ylabel("Tempo médio por instância [s]")
+EXECUTAR ax.set_title(f'(a) Tempo × tamanho, dois modelos e duas versões – k = {k}, m …, fontweight="bold")
+EXECUTAR ax.set_xticks(tamanhos)
+EXECUTAR ax.grid(VERDADEIRO, ls=":", alpha=0.6)
+EXECUTAR ax.legend(fontsize=7.5)
+ax ← axes[1]
+razao_pos ← POS_RC / POS_KV
+speed ← [mod: float(df.loc[(df["Modelo"] = mod, "Speedup (recálculo / KV)")].mean()) PARA CADA mod EM MODELOS]
+rotulos ← ["Posições processadas (teórico, Θ, os dois)"] + [f'Tempo medido\n{mod}' PARA CADA mod EM MODELOS]
+valores ← [razao_pos] + list(speed.values())
+barras ← ax.bar(rotulos, valores, color=["#7f8c8d", "#2471a3", "#5dade2"])
+PARA CADA (bar_, v) EM zip(barras, valores) FAÇA
+    EXECUTAR ax.annotate(f'{v:.1f}×', (bar_.get_x() + bar_.get_width() / 2, v), ha="center", va="bottom", fontsize=11, fontweight="bold")
+FIM PARA
+EXECUTAR ax.set_yscale("log")
+EXECUTAR ax.set_ylim(min(0.5, min(speed.values()) / 2), razao_pos × 1.8)
+EXECUTAR ax.axhline(1, color="#555555", lw=0.8)
+EXECUTAR ax.set_ylabel("Razão recálculo / KV cache (escala log)")
+EXECUTAR ax.set_title("(b) Ganho assintótico × ganho real nos dois modelos", fontweight="bold")
+EXECUTAR ax.grid(VERDADEIRO, axis="y", ls=":", alpha=0.6)
+EXECUTAR fig.suptitle(f'F-PluvIA-G (V1) × F-PluvIA-VQ: recálculo O(S·T·L·(n·d² + n²·d)…, fontsize=10.5, fontweight="bold")
+fig_path ← os.path.join(SAIDA, f'painel_complexidade_bigO_v1_vs_vq_{TAG}.png')
+EXECUTAR fig.savefig(fig_path, dpi=300, bbox_inches="tight")
+EXIBIR
+// ------------------------------------------------------------------- 6b. gráfico no estilo do estudo de caso de ANALG
+// Mesmo formato da Figura 1 do repositório ANALG-2025.2 (Comparação Experimental, eixos log-log, uma linha com
+// marcador por versão e a ordem de complexidade na legenda), agora com as duas versões nos dois modelos.
+ESTILO_ANALG ← {("F-PluvIA-G (V1)", "Recálculo (sem cache)"): dict(color="#E69F00", marker="o", ls="-"), ("F-PluvIA-G (V1)", "KV cache (memoização)")…
+ORDEM ← {"Recálculo (sem cache)": "O(S·T·L·(n·d² + n²·d))", "KV cache (memoização)": "O(S·L·(n·d² + n²·d))"}
+(fig2, ax2) ← plt.subplots(figsize=(11, 6.2), constrained_layout=VERDADEIRO)
+PARA CADA mod EM MODELOS FAÇA
+    sub ← df[df["Modelo"] = mod]
+    PARA CADA (ver, col) EM COLS.items() FAÇA
+        desvio ← sub[("Desvio recálculo [s]" SE ver.startswith("Recálculo") SENÃO "Desvio KV cache [s]")]
+        EXECUTAR ax2.errorbar(sub["Passos (S)"], sub[col], yerr=desvio, lw=2, ms=7, capsize=3, elinewidth=0.8, label=f'{mod} · {ver} ({ORDEM[ver]})',…
+    FIM PARA
+FIM PARA
+EXECUTAR ax2.set_xscale("log")
+EXECUTAR ax2.set_yscale("log")
+EXECUTAR ax2.set_xticks(tamanhos)
+EXECUTAR ax2.set_xticklabels([f'{S}\n(+{30 * S} min)' PARA CADA S EM tamanhos])
+EXECUTAR ax2.minorticks_off()
+EXECUTAR ax2.set_xlabel("Tamanho da entrada: passos de previsão S (escala log)")
+EXECUTAR ax2.set_ylabel("Tempo médio (segundos)")
+EXECUTAR ax2.set_title("Comparação Experimental — Recálculo × KV Cache no F-PluvIA-G…", fontsize=14, color="#333333")
+EXECUTAR ax2.grid(VERDADEIRO, which="major", ls="--", alpha=0.6)
+EXECUTAR ax2.legend(fontsize=9.5, loc="upper left")
+fig2_path ← os.path.join(SAIDA, f'figura_comparacao_experimental_bigO_v1_vs_vq_{TAG}.png')
+EXECUTAR fig2.savefig(fig2_path, dpi=300, bbox_inches="tight")
+EXIBIR
+// Tabela no mesmo formato da Tabela 1 do estudo de caso (média, desvio e divergências por tamanho)
+TAB_ANALG ← df[["Modelo", "Passos (S)", "Horizonte [min]", "Instâncias (m)", "Tempo médio recálculo [s]", "Desvio recálculo [s]", "Tempo médio KV cac…
+EXIBIR "Tabela no formato do estudo de caso (divergências = previsõe…"
+EXIBIR TAB_ANALG.set_index(["Modelo", "Passos (S)"])
+// ------------------------------------------------------------------- 7. resultados e discussão
+EXIBIR df.drop(columns=["Ambiente_Execucao"]).set_index(["Modelo", "Passos (S)"])
+t_total ← time.perf_counter() − t0_total
+EXIBIR " Resumo do estudo de caso (decodificação gulosa, os dois mod…"
+EXIBIR f'  • Arquitetura: os dois modelos têm o mesmo Transformer ({P_T…
+PARA CADA mod EM MODELOS FAÇA
+    (a_rc, b_rc, r2_rc, c2_rc) ← ajustes[(mod, "Recálculo (sem cache)")]
+    (a_kv, b_kv, r2_kv, c2_kv) ← ajustes[(mod, "KV cache (memoização)")]
+    EXIBIR f'  • {mod}: recálculo t ≈ {a_rc:.3f} + {b_rc:.3f}·S s (R² = {r2…
+FIM PARA
+_rc ← [mod: ajustes[(mod, "Recálculo (sem cache)")][1] PARA CADA mod EM MODELOS]
+_kv ← [mod: ajustes[(mod, "KV cache (memoização)")][1] PARA CADA mod EM MODELOS]
+(_m1, _m2) ← list(MODELOS)
+EXIBIR f'  • Custo por passo, {_m2} / {_m1}: {_rc[_m2] / _rc[_m1]:.3f} …
+EXIBIR f'  • Trabalho: {br(POS_RC)} → {br(POS_KV)} posições por quadro … + " e ".join([f'{speed[mod]:.2f}× ({mod})' PARA CADA mod EM MODELOS]) + ". A…
+_tab_kv ← globals().get("TAB_KV")
+SE isinstance(_tab_kv, pd.DataFrame) E len(_tab_kv) ENTÃO
+    EXIBIR " Conferência com a Célula 13.7 (todas as janelas de 2025 e 2…"
+    EXIBIR _tab_kv[[c PARA CADA c EM ("Modelo", "Conjunto", "Janelas", "Tempo médio sem cache (s)", "Tempo médio com KV cache (s)", "Aceleração (×)",…
+SENÃO
+    EXIBIR " (TAB_KV da Célula 13.7 não está na sessão: sem a conferênci…"
+FIM SE
+EXIBIR f'[Célula 13.7.1] Tabela -> {csv_path}\n[Célula 13.7.1] Ajustes …

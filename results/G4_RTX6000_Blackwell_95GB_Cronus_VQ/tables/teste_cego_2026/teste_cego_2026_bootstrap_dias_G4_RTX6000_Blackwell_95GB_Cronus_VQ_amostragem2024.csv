@@ -1,0 +1,6 @@
+Método,Dias,MAE IC95 [mm/h],CSI ≥ 1.0 IC95,ΔCSI ≥ 1.0 (FT − método) IC95,ΔMAE (FT − método) IC95,FT melhor no CSI?
+"GPTCast-8x8 (Fine-Tuned RMF, gulosa)",110,0.270 – 0.371,0.374 – 0.446,,,
+"GPTCast-8x8 (Zero-Shot, top-k 10)",110,0.497 – 0.782,0.335 – 0.392,+0.034 – +0.059,-0.423 – -0.218,sim
+LINDA (pysteps),110,0.283 – 0.381,0.391 – 0.442,-0.020 – +0.008,-0.023 – +0.001,inconclusivo
+Fluxo Óptico LK (pysteps),110,0.264 – 0.359,0.384 – 0.440,-0.014 – +0.009,-0.000 – +0.020,inconclusivo
+Persistência (Baseline),110,0.297 – 0.400,0.351 – 0.415,+0.016 – +0.040,-0.040 – -0.015,sim

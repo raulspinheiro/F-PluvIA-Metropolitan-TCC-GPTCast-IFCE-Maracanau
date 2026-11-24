@@ -1,0 +1,13 @@
+digraph "13_7_cronus" {
+  graph [fontname="Helvetica", rankdir=LR, nodesep=0.35, ranksep=0.6, labelloc=t, fontsize=14];
+  node  [fontname="Helvetica", fontsize=10, shape=plain];
+  edge  [fontname="Helvetica", fontsize=8, color="#555555"];
+  label=<<B>Célula 13.7 (Cronus)</B> — 299 linhas>;
+  celula [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF8E1"><TR><TD><FONT POINT-SIZE="9">«célula»</FONT><BR/><B>Célula 13.7 (Cronus)</B></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT">+ CELL13_7_DUELO</TD></TR><TR><TD ALIGN="LEFT">+ CONJ</TD></TR><TR><TD ALIGN="LEFT">+ CRONUS_PASTAS_EXTRAS</TD></TR><TR><TD ALIGN="LEFT">+ CRONUS_PASTAS_RESULTADOS</TD></TR><TR><TD ALIGN="LEFT">+ CTX25</TD></TR><TR><TD ALIGN="LEFT">+ CTX26</TD></TR><TR><TD ALIGN="LEFT">+ DEVICE</TD></TR><TR><TD ALIGN="LEFT">+ DIAS25</TD></TR><TR><TD ALIGN="LEFT">+ DIAS26</TD></TR><TR><TD ALIGN="LEFT">+ DIR_2026</TD></TR><TR><TD ALIGN="LEFT">+ DUELO</TD></TR><TR><TD ALIGN="LEFT">+ I25</TD></TR><TR><TD ALIGN="LEFT">+ KV_MODELOS</TD></TR><TR><TD ALIGN="LEFT">+ LIMIARES_PIXEL</TD></TR><TR><TD ALIGN="LEFT"><I>+ 59 mais</I></TD></TR></TABLE></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT">- _rain(dbz)</TD></TR><TR><TD ALIGN="LEFT">+ medias_municipais(r)</TD></TR><TR><TD ALIGN="LEFT">- _carregar_2025(pasta)</TD></TR><TR><TD ALIGN="LEFT">- _carregar_2026(pasta)</TD></TR><TR><TD ALIGN="LEFT">- _contagens(o, p, thr)</TD></TR><TR><TD ALIGN="LEFT">- _f1(c)</TD></TR><TR><TD ALIGN="LEFT">- _csi(c)</TD></TR><TR><TD ALIGN="LEFT">+ comparar(conj, a, b, preds)</TD></TR><TR><TD ALIGN="LEFT">- _veredito(df)</TD></TR></TABLE></TD></TR></TABLE>>];
+  libs [shape=tab, style=filled, fillcolor="#F1F8E9", fontsize=9, label=<<B>bibliotecas</B><BR/>contextlib<BR/>einops<BR/>glob<BR/>gptcast<BR/>io<BR/>json<BR/>math<BR/>numpy<BR/>os<BR/>pandas<BR/>re<BR/>time<BR/>torch<BR/>warnings>];
+  celula -> libs [style=dashed, arrowhead=open, label="«import»"];
+  entradas [shape=note, style=filled, fillcolor="#FCE4EC", fontsize=9, label=<<B>usa de outras células</B><BR/>CKPT_DIR<BR/>CONTEXT_STEPS<BR/>CRONUS<BR/>FORECAST_STEPS<BR/>PASTA_PREV<BR/>SERIES_CACHE_DIR<BR/>etapa<BR/>gpt8_v1<BR/>gpt8_vq<BR/>mascaras_municipais_rmf<BR/>md_rmf<BR/>prever_kv>];
+  entradas -> celula [style=dashed, arrowhead=open, label="«use»"];
+  arquivos [shape=folder, style=filled, fillcolor="#EDE7F6", fontsize=9, label=<<B>arquivos citados</B><BR/>.tmp.npz<BR/>RMF_2026_*.npz<BR/>bloco_*.npz>];
+  celula -> arquivos [style=dotted, arrowhead=open, label="lê/grava"];
+}

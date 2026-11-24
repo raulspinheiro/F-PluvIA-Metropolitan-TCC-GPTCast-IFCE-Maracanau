@@ -1,0 +1,2 @@
+// ===== Célula de código nº 32 — pseudo-código =====
+CRONUS_INCLUIR_MEDIA ← FALSO

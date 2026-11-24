@@ -1,0 +1,237 @@
+// ===== Célula 4.6 (Cronus - Fine-tuning VQGAN) — pseudo-código =====
+// Célula 4.6 (Cronus - Fine-tuning VQGAN): Ajuste da VQGAN do GPTCast-8x8 à RMF — codificador e decodificador treináveis, dicionário
+// (codebook) de 1.024 códigos fixo, treino 2019–2023, escolha da época na validação de 2024, FP32 + TF32, sem
+// discriminador (GAN). Teste 2025 e teste cego 2026 intocados. Retomável: se a sessão cair, continua da última época.
+IMPORTAR copy
+IMPORTAR datetime
+IMPORTAR json
+IMPORTAR os
+IMPORTAR time
+IMPORTAR types
+IMPORTAR numpy (como np)
+IMPORTAR pandas (como pd)
+IMPORTAR torch
+// ------------------------------------------------------------------ 1. parâmetros
+SEED_VQ ← 42
+QUADROS_EMPILHADOS ← 8   // 8 quadros na vertical (1.024 × 128 px → 64 × 8 = 512 tokens), como no treino do Transformer
+LOTE_VQ ← 8   // pilhas por lote (8 × 8 = 64 quadros)
+LR_VQ ← 1e-05   // baixa: parte da VQGAN original e só a adapta (o GPTCast treinou do zero com 4,5e-6 × lote)
+BETAS_VQ ← (0.5, 0.9)   // Adam, como no treino original da VQGAN
+MAX_EPOCAS_VQ ← 20
+PACIENCIA_VQ ← 3   // épocas sem melhora na validação de 2024 antes de parar
+TEMPO_MAX_H_VQ ← 5.0   // orçamento de relógio para o ajuste (h); ao estourar, fica a melhor época até ali
+(PESO_PIXEL, PESO_PERCEPTUAL) ← (10.0, 0.1)   // mesmos pesos da VQGAN "vae_mwae" do GPTCast (perda MWAE + LPIPS)
+PESO_QUADRO_ISOLADO ← 1.0   // reconstrução de cada quadro decodificado sozinho, como no forecast()
+CONGELAR_DICIONARIO ← VERDADEIRO   // mantém o significado dos 1.024 tokens (o Transformer continua comparável)
+N_VAL_VQ ← NULO   // None = todas as janelas de validação de 2024
+FORCE_RETRAIN_VQ ← FALSO   // True = descarta o ajuste anterior desta pasta e treina de novo
+faltam ← [n PARA CADA n EM ("md_rmf", "gpt8_zeroshot", "CHECKPOINTS_ENV_DIR", "RESULTS_ENV_DIR", "ENV_TAG") SE n NÃO EM globals()]
+SE faltam ENTÃO
+    LANÇAR ERRO RuntimeError(f"Rode antes as Células 1 a 4. Faltam: {', '.join(faltam)}")
+FIM SE
+SE NÃO torch.cuda.is_available() ENTÃO
+    LANÇAR ERRO RuntimeError("A Célula 4.6 treina a VQGAN: ative a GPU (Ambiente de execuç…")
+FIM SE
+DEVICE ← "cuda"
+torch.backends.cuda.matmul.allow_tf32 ← VERDADEIRO
+torch.backends.cudnn.allow_tf32 ← VERDADEIRO
+torch.backends.cudnn.benchmark ← VERDADEIRO
+PASTA_VQ ← os.path.join(CHECKPOINTS_ENV_DIR, "vqgan_rmf")
+EXECUTAR os.makedirs(PASTA_VQ, exist_ok=VERDADEIRO)
+ARQ_MELHOR ← os.path.join(PASTA_VQ, f'vqgan_rmf_2km_{ENV_TAG}_melhor.pt')
+ARQ_ULTIMA ← os.path.join(PASTA_VQ, f'vqgan_rmf_2km_{ENV_TAG}_ultima.pt')
+ARQ_REGISTRO ← os.path.join(PASTA_VQ, f'registro_vqgan_{ENV_TAG}.json')
+ARQ_CURVA ← os.path.join(RESULTS_ENV_DIR, f'curva_ajuste_vqgan_{ENV_TAG}.csv')
+SE FORCE_RETRAIN_VQ ENTÃO
+    PARA CADA _f EM (ARQ_MELHOR, ARQ_ULTIMA, ARQ_REGISTRO, ARQ_CURVA) FAÇA
+        SE os.path.exists(_f) ENTÃO
+            EXECUTAR os.replace(_f, _f + f'.descartado_{datetime.datetime.utcnow():%Y%m%dT%H%MZ}')
+        FIM SE
+    FIM PARA
+FIM SE
+_cron ← globals().get("etapa")   // Célula 0 (cronômetro), se estiver na sessão
+_ctx_cron ← (FUNÇÃO(nome, cat) ↦ _cron(nome, categoria=cat) SE callable(_cron) SENÃO NULO)
+// ------------------------------------------------------------------ 2. VQGAN treinável
+// O GPTCast troca o train() da VQGAN por uma função que não faz nada (disabled_train) e congela os pesos.
+// Aqui se trabalha numa CÓPIA: o Zero-Shot e o F-PluvIA (V1) continuam com a VQGAN original intacta.
+vq_orig ← gpt8_zeroshot.first_stage_model
+vq ← copy.deepcopy(vq_orig).to(DEVICE).float()
+vq.train ← types.MethodType(torch.nn.Module.train, vq)
+PARA CADA p EM vq.parameters() FAÇA
+    p.requires_grad ← VERDADEIRO
+FIM PARA
+SE CONGELAR_DICIONARIO ENTÃO
+    vq.quantize.embedding.weight.requires_grad ← FALSO
+FIM SE
+treinaveis ← [p PARA CADA p EM vq.parameters() SE p.requires_grad]
+N_TREINAVEIS ← sum([p.numel() PARA CADA p EM treinaveis])
+N_TOTAL_VQ ← sum([p.numel() PARA CADA p EM vq.parameters()])
+// Perda de reconstrução do próprio GPTCast (MWAE ponderada + LPIPS). Sem discriminador: a disputa gerador ×
+// discriminador fica instável e não caberia no prazo. Se o LPIPS não baixar os pesos, segue só com a MWAE.
+IMPORTAR mwae DE gptcast.models.components.vaegan.losses.discriminator
+TENTAR
+    IMPORTAR LPIPS DE gptcast.models.components.vaegan.losses
+    lpips ← LPIPS().eval().to(DEVICE)
+    PARA CADA p EM lpips.parameters() FAÇA
+        p.requires_grad ← FALSO
+    FIM PARA
+SE OCORRER ERRO Exception (chamado e)
+    (lpips, PESO_PERCEPTUAL) ← (NULO, 0.0)
+    EXIBIR f'[Aviso Célula 4.6] LPIPS indisponível ({type(e).__name__}: {e}…
+FIM TENTAR
+FUNÇÃO _norm(dbz)
+    // dBZ [0, 60] -> [-1, 1], como no treino e na previsão do GPTCast.
+    RETORNAR np.clip(np.nan_to_num(dbz, nan=0.0), 0.0, 60.0) / 30.0 − 1.0
+FIM FUNÇÃO
+FUNÇÃO _pilhas(seqs, rng)
+    // (N, 11, H, W) dBZ -> (N, 1, 8·H, W): 8 quadros consecutivos empilhados, início sorteado (0 a 3).
+    (n, t) ← (seqs.shape[0], seqs.shape[1])
+    ini ← rng.integers(0, t − QUADROS_EMPILHADOS + 1, size=n)
+    out ← np.stack([seqs[(i, s:s + QUADROS_EMPILHADOS)] PARA CADA (i, s) EM zip(range(n), ini)])
+    RETORNAR out.reshape(n, 1, QUADROS_EMPILHADOS × out.shape[−2], out.shape[−1])
+FIM FUNÇÃO
+FUNÇÃO _perda(x)
+    // Pilha inteira (codifica junto, como no forecast) + cada quadro decodificado sozinho (como no forecast).
+    (quant, dif, _) ← vq.encode(x)
+    rec ← vq.decode(quant)
+    l_pix ← PESO_PIXEL × mwae(x, rec).mean()
+    l_per ← (PESO_PERCEPTUAL × lpips(x, rec).mean() SE lpips NÃO É NULO E PESO_PERCEPTUAL > 0 SENÃO x.new_zeros(()))
+    // quadros isolados: (B, C, 8·h, w) -> (B·8, C, h, w), decodificados um a um
+    (b, c, hh, w) ← quant.shape
+    q_iso ← quant.reshape(b, c, QUADROS_EMPILHADOS, hh DIV QUADROS_EMPILHADOS, w).permute(0, 2, 1, 3, 4)
+    q_iso ← q_iso.reshape(b × QUADROS_EMPILHADOS, c, hh DIV QUADROS_EMPILHADOS, w)
+    rec_iso ← vq.decode(q_iso)
+    x_iso ← x.reshape(b, 1, QUADROS_EMPILHADOS, x.shape[−2] DIV QUADROS_EMPILHADOS, x.shape[−1]).permute(0, 2, 1, 3, 4)
+    x_iso ← x_iso.reshape(b × QUADROS_EMPILHADOS, 1, x.shape[−2] DIV QUADROS_EMPILHADOS, x.shape[−1])
+    l_iso ← PESO_QUADRO_ISOLADO × PESO_PIXEL × mwae(x_iso, rec_iso).mean()
+    l_vq ← dif.mean()
+    RETORNAR (l_pix + l_per + l_iso + l_vq, {"pixel": float(l_pix), "perceptual": float(l_per), "quadro_isolado": float(l_iso), "quantizacao": float(…
+FIM FUNÇÃO
+// ------------------------------------------------------------------ 3. dados (só treino e validação)
+tr_seq ← md_rmf.splits["train"].sequences_dbz
+va_seq ← md_rmf.splits["val"].sequences_dbz
+SE N_VAL_VQ ENTÃO
+    va_seq ← va_seq[:N_VAL_VQ]
+FIM SE
+rng_val ← np.random.default_rng(SEED_VQ + 1)
+X_VAL ← _pilhas(np.asarray(va_seq), rng_val).astype(np.float32)   // pilhas de validação fixas
+// decorador: torch.no_grad()
+FUNÇÃO _avaliar(modelo, X)
+    modelo_estava ← modelo.training
+    EXECUTAR modelo.eval()
+    (tot, n) ← (0.0, 0)
+    PARA CADA i EM range(0, len(X), LOTE_VQ) FAÇA
+        x ← torch.from_numpy(_norm(X[i:i + LOTE_VQ])).to(DEVICE)
+        SE modelo É vq ENTÃO
+            (l, _) ← _perda(x)
+        SENÃO
+            (quant, dif, _) ← modelo.encode(x)
+            rec ← modelo.decode(quant)
+            l ← PESO_PIXEL × mwae(x, rec).mean() + dif.mean()
+            SE lpips NÃO É NULO E PESO_PERCEPTUAL > 0 ENTÃO
+                l ← l + PESO_PERCEPTUAL × lpips(x, rec).mean()
+            FIM SE
+            (b, c, hh, w) ← quant.shape
+            q_iso ← quant.reshape(b, c, QUADROS_EMPILHADOS, hh DIV QUADROS_EMPILHADOS, w).permute(0, 2, 1, 3, 4).reshape(b × QUADROS_EMPILHADOS, c, h…
+            x_iso ← x.reshape(b, 1, QUADROS_EMPILHADOS, x.shape[−2] DIV QUADROS_EMPILHADOS, x.shape[−1]).permute(0, 2, 1, 3, 4).reshape(b × QUADROS_E…
+            l ← l + PESO_QUADRO_ISOLADO × PESO_PIXEL × mwae(x_iso, modelo.decode(q_iso)).mean()
+        FIM SE
+        tot ← tot + float(l) × len(x)
+        n ← n + len(x)
+    FIM PARA
+    SE modelo_estava ENTÃO
+        EXECUTAR modelo.train()
+    FIM SE
+    RETORNAR tot / max(n, 1)
+FIM FUNÇÃO
+// ------------------------------------------------------------------ 4. treino retomável
+opt ← torch.optim.Adam(treinaveis, lr=LR_VQ, betas=BETAS_VQ)
+estado ← {"epoca": 0, "melhor_val": NULO, "melhor_epoca": NULO, "sem_melhora": 0, "tempo_s": 0.0, "curva": []}
+SE os.path.exists(ARQ_ULTIMA) ENTÃO
+    ck ← torch.load(ARQ_ULTIMA, map_location=DEVICE)
+    EXECUTAR vq.load_state_dict(ck["vq"])
+    EXECUTAR opt.load_state_dict(ck["opt"])
+    estado ← ck["estado"]
+    EXIBIR f"[Célula 4.6] Retomando depois da época {estado['epoca']} (melh…
+FIM SE
+val_original ← estado.get("val_vqgan_original")
+SE val_original É NULO ENTÃO
+    val_original ← _avaliar(vq_orig.to(DEVICE), X_VAL)
+    estado["val_vqgan_original"] ← val_original
+FIM SE
+EXIBIR f'[Célula 4.6] VQGAN: {N_TOTAL_VQ:,} parâmetros, {N_TREINAVEIS:,….replace(",", ".") + f"({('dicionário fixo' if CONGELAR_DICIONARIO else 'dici…
+terminou ← estado.get("terminou", FALSO)
+t_ini_sessao ← time.perf_counter()
+EXECUTAR torch.manual_seed(SEED_VQ)
+ENQUANTO NÃO terminou E estado["epoca"] < MAX_EPOCAS_VQ FAÇA
+    ep ← estado["epoca"] + 1
+    rng ← np.random.default_rng(SEED_VQ + ep)
+    ordem ← rng.permutation(len(tr_seq))
+    EXECUTAR vq.train()
+    t0 ← time.perf_counter()
+    (soma, n, comp) ← (0.0, 0, {})
+    PARA CADA i EM range(0, len(ordem), LOTE_VQ) FAÇA
+        idx ← np.sort(ordem[i:i + LOTE_VQ])
+        x ← torch.from_numpy(_norm(_pilhas(np.asarray(tr_seq[idx]), rng)).astype(np.float32)).to(DEVICE)
+        (perda, partes) ← _perda(x)
+        EXECUTAR opt.zero_grad(set_to_none=VERDADEIRO)
+        EXECUTAR perda.backward()
+        EXECUTAR torch.nn.utils.clip_grad_norm_(treinaveis, 1.0)
+        EXECUTAR opt.step()
+        soma ← soma + float(perda) × len(x)
+        n ← n + len(x)
+        PARA CADA (k, v) EM partes.items() FAÇA
+            comp[k] ← comp.get(k, 0.0) + v × len(x)
+        FIM PARA
+        SE i DIV LOTE_VQ MOD 200 = 0 ENTÃO
+            EXIBIR f'  época {ep} | {min(i + LOTE_VQ, len(ordem))}/{len(ordem)} | p…
+        FIM SE
+    FIM PARA
+    val ← _avaliar(vq, X_VAL)
+    dt ← time.perf_counter() − t0
+    estado["tempo_s"] ← estado["tempo_s"] + dt
+    EXECUTAR estado["curva"].append({"epoca": ep, "perda_treino": soma / n, "perda_val_2024": val, "tempo_s": dt, **[f'treino_{k}': v / n PARA CADA (…
+    melhorou ← estado["melhor_val"] É NULO OU val < estado["melhor_val"]
+    SE melhorou ENTÃO
+        EXECUTAR estado.update(melhor_val=val, melhor_epoca=ep, sem_melhora=0)
+        EXECUTAR torch.save([k: v.detach().cpu() PARA CADA (k, v) EM vq.state_dict().items()], ARQ_MELHOR)
+    SENÃO
+        estado["sem_melhora"] ← estado["sem_melhora"] + 1
+    FIM SE
+    estado["epoca"] ← ep
+    horas ← time.perf_counter() − t_ini_sessao / 3600
+    terminou ← estado["sem_melhora"] ≥ PACIENCIA_VQ OU horas ≥ TEMPO_MAX_H_VQ
+    estado["terminou"] ← terminou OU ep ≥ MAX_EPOCAS_VQ
+    EXECUTAR torch.save({"vq": vq.state_dict(), "opt": opt.state_dict(), "estado": estado}, ARQ_ULTIMA)
+    EXECUTAR pd.DataFrame(estado["curva"]).to_csv(ARQ_CURVA, index=FALSO)
+    situacao ← ("melhor até aqui" SE melhorou SENÃO f"sem melhora há {estado['sem_melhora']} época(s)")
+    EXIBIR f'[Célula 4.6] época {ep}: treino {soma / n:.5f} | val 2024 {val…
+FIM ENQUANTO
+// ------------------------------------------------------------------ 5. melhor época e registro
+vq_rmf ← copy.deepcopy(vq_orig).to(DEVICE)   // mesma classe e mesmo disabled_train da original
+EXECUTAR vq_rmf.load_state_dict(torch.load(ARQ_MELHOR, map_location=DEVICE))
+PARA CADA p EM vq_rmf.parameters() FAÇA
+    p.requires_grad ← FALSO
+FIM PARA
+// decorador: torch.no_grad()
+FUNÇÃO _fracao_tokens_iguais(X)
+    (iguais, total) ← (0, 0)
+    PARA CADA i EM range(0, len(X), LOTE_VQ) FAÇA
+        x ← torch.from_numpy(_norm(X[i:i + LOTE_VQ])).to(DEVICE)
+        a ← vq_orig.encode(x)[2].reshape(−1)
+        b ← vq_rmf.encode(x)[2].reshape(−1)
+        iguais ← iguais + int(a = b.sum())
+        total ← total + a.numel()
+    FIM PARA
+    RETORNAR iguais / max(total, 1)
+FIM FUNÇÃO
+FRAC_TOKENS_IGUAIS_2024 ← _fracao_tokens_iguais(X_VAL)
+registro_vq ← {"ambiente": ENV_TAG, "data_utc": datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M"), "arquivo_melhor": os.path.basename(ARQ_MELHOR)…
+USANDO open(ARQ_REGISTRO, "w") COMO f
+    EXECUTAR json.dump(registro_vq, f, indent=2, ensure_ascii=FALSO)
+FIM USANDO
+CELL4_6_VQGAN ← registro_vq
+EXIBIR " === Célula 4.6: VQGAN ajustada à RMF ==="
+EXIBIR pd.DataFrame([registro_vq]).T.rename(columns={0: "valor"})
+EXIBIR f'Curva por época: {ARQ_CURVA}'
+EXIBIR "Próximo passo: Célula 4.7 (Transformer reajustado sobre os t…"

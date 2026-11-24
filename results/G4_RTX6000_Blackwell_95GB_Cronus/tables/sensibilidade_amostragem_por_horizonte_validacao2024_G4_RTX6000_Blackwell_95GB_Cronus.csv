@@ -1,0 +1,53 @@
+Modelo,Amostragem,Horizonte,CSI @ 0.5
+Fine-Tuned,"Padrão (T=1, sem top-k)",30,0.4679476487529328
+Fine-Tuned,"Padrão (T=1, sem top-k)",60,0.3526222181643029
+Fine-Tuned,"Padrão (T=1, sem top-k)",90,0.280635549221126
+Fine-Tuned,"Padrão (T=1, sem top-k)",120,0.2320155817529472
+Fine-Tuned,top-k 50,30,0.5324944357594499
+Fine-Tuned,top-k 50,60,0.4284518556521345
+Fine-Tuned,top-k 50,90,0.3468330592967349
+Fine-Tuned,top-k 50,120,0.28874776485335596
+Fine-Tuned,top-k 10,30,0.5581116883361775
+Fine-Tuned,top-k 10,60,0.4580840702777772
+Fine-Tuned,top-k 10,90,0.3743299011410185
+Fine-Tuned,top-k 10,120,0.30726598624507334
+Fine-Tuned,"Temperatura 0,7",30,0.515594839713475
+Fine-Tuned,"Temperatura 0,7",60,0.4141827893792006
+Fine-Tuned,"Temperatura 0,7",90,0.33956677619757125
+Fine-Tuned,"Temperatura 0,7",120,0.281133555869727
+Fine-Tuned,Gulosa (top-k 1),30,0.5686510314222257
+Fine-Tuned,Gulosa (top-k 1),60,0.46983921744996626
+Fine-Tuned,Gulosa (top-k 1),90,0.39044361166051716
+Fine-Tuned,Gulosa (top-k 1),120,0.32431548850577396
+Fine-Tuned,Média de 8 sorteios (T=1),30,0.5363143332353426
+Fine-Tuned,Média de 8 sorteios (T=1),60,0.41852312263275626
+Fine-Tuned,Média de 8 sorteios (T=1),90,0.325098858531424
+Fine-Tuned,Média de 8 sorteios (T=1),120,0.2650499983560897
+Zero-Shot,"Padrão (T=1, sem top-k)",30,0.5188868088141142
+Zero-Shot,"Padrão (T=1, sem top-k)",60,0.41914068127034737
+Zero-Shot,"Padrão (T=1, sem top-k)",90,0.3408551629911446
+Zero-Shot,"Padrão (T=1, sem top-k)",120,0.27371496776606324
+Zero-Shot,top-k 50,30,0.5951468034478795
+Zero-Shot,top-k 50,60,0.48975628394211945
+Zero-Shot,top-k 50,90,0.4056129256858021
+Zero-Shot,top-k 50,120,0.3339100766759408
+Zero-Shot,top-k 10,30,0.5966967171724658
+Zero-Shot,top-k 10,60,0.5037743491897642
+Zero-Shot,top-k 10,90,0.4268705042218836
+Zero-Shot,top-k 10,120,0.36140584788893215
+Zero-Shot,"Temperatura 0,7",30,0.5636795214216451
+Zero-Shot,"Temperatura 0,7",60,0.46809522263743103
+Zero-Shot,"Temperatura 0,7",90,0.3896837575565616
+Zero-Shot,"Temperatura 0,7",120,0.322615769645825
+Zero-Shot,Gulosa (top-k 1),30,0.5850400788963682
+Zero-Shot,Gulosa (top-k 1),60,0.4984833174059561
+Zero-Shot,Gulosa (top-k 1),90,0.432778666213459
+Zero-Shot,Gulosa (top-k 1),120,0.3627780950622426
+Zero-Shot,Média de 8 sorteios (T=1),30,0.5716635768066055
+Zero-Shot,Média de 8 sorteios (T=1),60,0.4856001727507472
+Zero-Shot,Média de 8 sorteios (T=1),90,0.3976875583675085
+Zero-Shot,Média de 8 sorteios (T=1),120,0.3282853730883316
+Persistência,—,30,0.6305536005275405
+Persistência,—,60,0.4953525095089878
+Persistência,—,90,0.41093454174999333
+Persistência,—,120,0.34564329580844233

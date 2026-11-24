@@ -1,0 +1,11 @@
+digraph "auxiliar_cronus_diagnostico_de_retomada" {
+  graph [fontname="Helvetica", rankdir=LR, nodesep=0.35, ranksep=0.6, labelloc=t, fontsize=14];
+  node  [fontname="Helvetica", fontsize=10, shape=plain];
+  edge  [fontname="Helvetica", fontsize=8, color="#555555"];
+  label=<<B>Célula auxiliar (Cronus) — Diagnóstico de retomada após desconexão (só leitura)</B> — 63 linhas>;
+  celula [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF8E1"><TR><TD><FONT POINT-SIZE="9">«célula»</FONT><BR/><B>Célula auxiliar (Cronus) — Diagnóstico de retomada após desconexão (só leitura)</B></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT">+ BASE</TD></TR><TR><TD ALIGN="LEFT">+ HORAS</TD></TR><TR><TD ALIGN="LEFT">+ agora</TD></TR><TR><TD ALIGN="LEFT">+ df</TD></TR><TR><TD ALIGN="LEFT">+ m</TD></TR><TR><TD ALIGN="LEFT">+ p</TD></TR><TR><TD ALIGN="LEFT">+ recentes</TD></TR></TABLE></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT">+ ler_json(padrao)</TD></TR></TABLE></TD></TR></TABLE>>];
+  libs [shape=tab, style=filled, fillcolor="#F1F8E9", fontsize=9, label=<<B>bibliotecas</B><BR/>glob<BR/>google<BR/>json<BR/>os<BR/>pandas<BR/>time>];
+  celula -> libs [style=dashed, arrowhead=open, label="«import»"];
+  arquivos [shape=folder, style=filled, fillcolor="#EDE7F6", fontsize=9, label=<<B>arquivos citados</B><BR/>*celulas*.csv<BR/>cronus_previsao_v1_vs_vq_validacao2024_*.json<BR/>curva_ajuste_vqgan_*.csv<BR/>registro_treino_fpluvia_vq_*.json<BR/>registro_vqgan_*.json<BR/>vqgan_rmf_2km_*_melhor.pt<BR/>vqgan_rmf_2km_*_ultima.pt>];
+  celula -> arquivos [style=dotted, arrowhead=open, label="lê/grava"];
+}

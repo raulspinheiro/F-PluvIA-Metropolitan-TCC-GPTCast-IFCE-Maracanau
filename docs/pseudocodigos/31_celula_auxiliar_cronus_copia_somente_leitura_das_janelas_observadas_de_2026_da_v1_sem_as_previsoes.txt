@@ -1,0 +1,28 @@
+// ===== Célula auxiliar (Cronus) — Cópia somente-leitura das janelas observadas de 2026 da V1 (sem as previsões) — pseudo-código =====
+// Célula auxiliar (Cronus) — Cópia somente-leitura das janelas observadas de 2026 da V1 (sem as previsões)
+// Lê de GPTCast_RMF (V1) e grava só em GPTCast_RMF_Cronus. Nunca sobrescreve.
+// Copia só as entradas observadas que a Célula 13.1 reaproveita como cache (RMF_2026_MM_s2.npz e caso_*_s1.npz).
+// NÃO copia a pasta previsoes/ (previsões da V1): a 13.1 do Cronus gera as próprias com o modelo desta execução.
+// NÃO copia os dia_corrente_* (a 13.1 procura o dia corrente pelo horário de agora; com a NASA PPS fora, ele é omitido).
+IMPORTAR os, glob, shutil
+ORIGEM ← "/content/drive/MyDrive/GPTCast_RMF/series_2019_2025_2km/test…"
+DESTINO ← os.path.join(SERIES_CACHE_DIR, "teste_cego_2026")   // SERIES_CACHE_DIR vem da Célula 1 (pasta do Cronus)
+SE "/GPTCast_RMF/" EM DESTINO + "/" E "/GPTCast_RMF_Cronus/" NÃO EM DESTINO + "/" ENTÃO
+    LANÇAR ERRO RuntimeError("Destino aponta para a pasta da V1: abortado.")
+FIM SE
+EXECUTAR os.makedirs(DESTINO, exist_ok=VERDADEIRO)
+arquivos ← sorted(glob.glob(os.path.join(ORIGEM, "RMF_2026_*_s2.npz")) + glob.glob(os.path.join(ORIGEM, "caso_*_s1.npz")))
+copiados ← pulados ← 0
+PARA CADA a EM arquivos FAÇA
+    alvo ← os.path.join(DESTINO, os.path.basename(a))
+    SE os.path.exists(alvo) E os.path.getsize(alvo) = os.path.getsize(a) ENTÃO
+        pulados ← pulados + 1
+        PASSAR À PRÓXIMA ITERAÇÃO
+    FIM SE
+    EXECUTAR shutil.copy2(a, alvo + ".part")
+    EXECUTAR os.replace(alvo + ".part", alvo)
+    copiados ← copiados + 1
+    EXIBIR f'  copiado: {os.path.basename(a)} ({os.path.getsize(a) / 100000…
+FIM PARA
+EXIBIR f'[Cópia 2026] {copiados} copiados | {pulados} já existiam | des…
+EXIBIR "Conteúdo do destino:", sorted(os.listdir(DESTINO))

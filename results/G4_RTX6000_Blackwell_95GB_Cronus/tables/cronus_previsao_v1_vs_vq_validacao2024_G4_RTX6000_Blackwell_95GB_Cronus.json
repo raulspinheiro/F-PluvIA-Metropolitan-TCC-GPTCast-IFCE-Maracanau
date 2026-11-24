@@ -1,0 +1,8 @@
+{
+  "veredito_2024": "empate técnico no F1 de Atenção em 2024 (IC 95% da diferença contém o zero)",
+  "incluir_c8_vq": false,
+  "n_janelas": 240,
+  "n_dias": 92,
+  "reconstrucao_csv": "/content/drive/MyDrive/GPTCast_RMF_Cronus/series_2019_2025_2km/resultados_G4_RTX6000_Blackwell_95GB_Cronus/cronus_teto_reconstrucao_v1_vs_vq_validacao2024_G4_RTX6000_Blackwell_95GB_Cronus.csv",
+  "previsao_csv": "/content/drive/MyDrive/GPTCast_RMF_Cronus/series_2019_2025_2km/resultados_G4_RTX6000_Blackwell_95GB_Cronus/cronus_previsao_v1_vs_vq_validacao2024_G4_RTX6000_Blackwell_95GB_Cronus.csv"
+}

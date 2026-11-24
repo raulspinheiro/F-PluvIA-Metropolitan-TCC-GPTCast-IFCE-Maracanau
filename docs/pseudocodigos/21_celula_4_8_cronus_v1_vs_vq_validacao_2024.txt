@@ -1,0 +1,219 @@
+// ===== Célula 4.8 (Cronus - V1 vs VQ - Validação 2024) — pseudo-código =====
+// Célula 4.8 (Cronus - V1 vs VQ - Validação 2024): F-PluvIA-G (V1) × F-PluvIA-VQ na validação de 2024 — (a) teto de reconstrução das duas VQGAN
+// nos quadros observados e (b) previsão gulosa nas mesmas janelas sorteadas, com F1 municipal dos alertas, CSI, MAE e
+// razão de volume, e IC 95 % da diferença por bootstrap pareado em blocos diários. Decide se o F-PluvIA-C8 também é
+// refeito com a VQGAN nova. Só usa 2024: o teste de 2025 e o teste cego de 2026 continuam intocados.
+IMPORTAR contextlib
+IMPORTAR io
+IMPORTAR json
+IMPORTAR math
+IMPORTAR os
+IMPORTAR urllib.request
+IMPORTAR warnings
+IMPORTAR einops
+IMPORTAR numpy (como np)
+IMPORTAR pandas (como pd)
+IMPORTAR torch
+IMPORTAR dbz_to_rainfall DE gptcast.utils.converters
+IMPORTAR Path (como MplPath) DE matplotlib.path
+N_JANELAS_VAL ← 240   // janelas de 2024 sorteadas (as mesmas para os dois modelos); None = todas
+SEED_VAL ← 42
+N_BOOT ← 1000
+NIVEIS_ALERTA ← {"Atenção": 0.5, "Alerta": 1.0, "Severo": 5.0}   // mm/h, média do município
+LIMIARES_PIXEL ← (0.5, 1.0, 5.0)
+STEP_MIN ← 30
+faltam ← [n PARA CADA n EM ("md_rmf", "gpt8", "gpt8_vq", "vq_rmf", "CONTEXT_STEPS", "FORECAST_STEPS", "RESULTS_ENV_DIR", "ENV_TAG") SE n NÃO EM globa…
+SE faltam ENTÃO
+    LANÇAR ERRO RuntimeError(f"Rode antes as Células 1 a 4, 4.6 e 4.7. Faltam: {', '.join(fal…)
+FIM SE
+DEVICE ← "cuda"
+torch.backends.cuda.matmul.allow_tf32 ← VERDADEIRO
+torch.backends.cudnn.allow_tf32 ← VERDADEIRO
+FUNÇÃO _rain(dbz)
+    RETORNAR np.clip(dbz_to_rainfall(np.clip(np.asarray(dbz, dtype=np.float64), 0.0, 60.0)), 0.0, 205.0).astype(np.float32)
+FIM FUNÇÃO
+FUNÇÃO mascaras_municipais_rmf()
+    // Máscaras dos 19 municípios na malha de 2 km, com a mesma regra das Células 12.1 e 13.2 (≥ 4 pixels).
+    SE globals().get("mun_masks") ENTÃO
+        RETORNAR dict(globals()["mun_masks"])
+    FIM SE
+    gdf ← globals().get("gdf_rmf")
+    SE gdf É NULO ENTÃO
+        IMPORTAR geopandas (como gpd)
+        rmf ← ["Aquiraz", "Cascavel", "Caucaia", "Chorozinho", "Eusébio", "Fortaleza", "Guaiúba", "Horizonte", "Itaitinga", "Maracanaú", "Maranguape"…
+        local ← os.path.join(globals().get("BASE_WORK_DIR", "/content"), "ceara_municipios_ibge.json")
+        SE NÃO os.path.exists(local) ENTÃO
+            EXECUTAR urllib.request.urlretrieve("https://raw.githubusercontent.com/tbrugz/geodata-br/master/g…", local)
+        FIM SE
+        gdf_ce ← gpd.read_file(local)
+        gdf ← gdf_ce[gdf_ce["name"].isin(rmf)]
+    FIM SE
+    (lon_g, lat_g) ← np.meshgrid(md_rmf.target_lons, md_rmf.target_lats)
+    pts ← np.column_stack([lon_g.ravel(), lat_g.ravel()])
+    out ← {}
+    PARA CADA (_, r) EM gdf.iterrows() FAÇA
+        polys ← (list(r.geometry.geoms) SE r.geometry.geom_type = "MultiPolygon" SENÃO [r.geometry])
+        m ← np.zeros(pts.shape[0], bool)
+        PARA CADA pg EM polys FAÇA
+            m ← m | MplPath(np.asarray(pg.exterior.coords)).contains_points(pts)
+        FIM PARA
+        SE m.sum() ≥ 4 ENTÃO
+            out[r["name"]] ← m.reshape(lon_g.shape)
+        FIM SE
+    FIM PARA
+    RETORNAR out
+FIM FUNÇÃO
+MASCARAS ← mascaras_municipais_rmf()
+M_STACK ← np.stack(list(MASCARAS.values()))
+EXIBIR f'[Célula 4.8] {len(MASCARAS)} municípios com máscara na malha d…
+FUNÇÃO medias_municipais(r)
+    // (..., H, W) -> (..., M)
+    RETORNAR np.stack([r[(Ellipsis, m)].mean(axis=−1) PARA CADA m EM M_STACK], axis=−1)
+FIM FUNÇÃO
+// ------------------------------------------------------------------ janelas de 2024 (fixas)
+va ← md_rmf.splits["val"]
+n_tot ← len(va.sequences_dbz)
+rng ← np.random.default_rng(SEED_VAL)
+IDX ← np.sort(rng.choice(n_tot, size=min(N_JANELAS_VAL OU n_tot, n_tot), replace=FALSO))
+SEQS ← np.clip(np.nan_to_num(np.asarray(va.sequences_dbz[IDX], dtype=np.float32), nan=0.0), 0.0, 60.0)
+TS_FIM ← np.asarray(va.timestamps)[IDX].astype("datetime64[m]")
+DIAS ← TS_FIM.astype("datetime64[D]")
+OBS ← _rain(SEQS[(:, CONTEXT_STEPS:CONTEXT_STEPS + FORECAST_STEPS)])   // (N, 4, H, W)
+// ------------------------------------------------------------------ (a) teto de reconstrução das duas VQGAN
+// decorador: torch.inference_mode()
+FUNÇÃO _reconstruir(vqm, seqs, empilhado)
+    out ← np.empty((len(seqs), FORECAST_STEPS) + seqs.shape[−2:], np.float32)
+    PARA CADA i EM range(0, len(seqs), 8) FAÇA
+        x ← torch.from_numpy(seqs[i:i + 8] / 30.0 − 1.0).to(DEVICE)   // (b, 11, H, W)
+        (b, t, h, w) ← x.shape
+        SE empilhado ENTÃO
+            (z, _, _) ← vqm.encode(x.reshape(b, 1, t × h, w))
+            rec ← vqm.decode(z).reshape(b, t, h, w)
+        SENÃO
+            (z, _, _) ← vqm.encode(x.reshape(b × t, 1, h, w))
+            rec ← vqm.decode(z).reshape(b, t, h, w)
+        FIM SE
+        y ← rec[(:, CONTEXT_STEPS:CONTEXT_STEPS + FORECAST_STEPS)].float().cpu().numpy().clip(−1, 1)
+        out[i:i + b] ← _rain(y + 1.0 × 30.0)
+    FIM PARA
+    RETORNAR out
+FIM FUNÇÃO
+FUNÇÃO _csi(o, p, thr)
+    (ob, pb) ← (o ≥ thr, p ≥ thr)
+    (tp, fp, fn) ← (np.sum(ob & pb), np.sum(~ob & pb), np.sum(ob & ~pb))
+    RETORNAR (float(tp / tp + fp + fn) SE tp + fp + fn SENÃO float("nan"))
+FIM FUNÇÃO
+linhas_rec ← []
+PARA CADA (nome, vqm) EM (("VQGAN original (V1)", gpt8.first_stage_model), ("VQGAN ajustada à RMF", vq_rmf)) FAÇA
+    PARA CADA modo EM (FALSO, VERDADEIRO) FAÇA
+        R ← _reconstruir(vqm, SEQS, modo)
+        EXECUTAR linhas_rec.append({"VQGAN": nome, "Modo": ("empilhado (11 quadros)" SE modo SENÃO "quadro isolado"), **[f'CSI ≥ {t:g}': _csi(OBS, R,…
+    FIM PARA
+FIM PARA
+df_rec ← pd.DataFrame(linhas_rec)
+// ------------------------------------------------------------------ (b) previsão gulosa (a mesma da Célula 12)
+WS ← int(math.sqrt(gpt8.transformer.config.block_size DIV 8))
+// decorador: torch.inference_mode()
+FUNÇÃO prever_guloso(model, ctx_dbz)
+    x ← torch.tensor(ctx_dbz / 30.0 − 1.0, dtype=torch.float32, device=DEVICE)
+    s ← x.shape[0]
+    xs ← einops.rearrange(x, "s h w -> (s h) w")[(NULO, NULO)].contiguous()
+    (quant, idx) ← model.encode_to_z(xs)
+    (_, c_idx) ← model.encode_to_c(xs)
+    qs ← quant.shape
+    ind ← idx.reshape(qs[0], s, qs[2] DIV s, qs[3])
+    (ih, iw) ← (ind.shape[2], ind.shape[3])
+    quadros ← []
+    PARA CADA _ EM range(FORECAST_STEPS) FAÇA
+        USANDO torch.autocast("cuda", dtype=torch.bfloat16)
+            p ← model.predict_next_frame_indices(ind[(:, −s:)], c_idx, WS, temperature=1.0, top_k=1, show_progress=FALSO)
+        FIM USANDO
+        EXECUTAR quadros.append(model.decode_to_img(p.reshape(1, −1), torch.Size([1, qs[1], ih, iw])))
+        ind ← torch.cat((ind, p[(:, NULO)]), dim=1)
+    FIM PARA
+    y ← torch.cat(quadros, dim=1).float().cpu().numpy().clip(−1, 1)
+    RETORNAR _rain(y + 1.0 × 30.0)[0]
+FIM FUNÇÃO
+PRED ← {}
+PARA CADA (nome, model) EM (("F-PluvIA-G (V1)", gpt8), ("F-PluvIA-VQ", gpt8_vq)) FAÇA
+    P ← np.empty_like(OBS)
+    USANDO warnings.catch_warnings(), contextlib.redirect_stdout(io.StringIO())
+        EXECUTAR warnings.simplefilter("ignore")
+        PARA CADA j EM range(len(SEQS)) FAÇA
+            EXECUTAR torch.manual_seed(SEED_VAL + int(IDX[j]))
+            P[j] ← prever_guloso(model, SEQS[(j, :CONTEXT_STEPS)])
+        FIM PARA
+    FIM USANDO
+    PRED[nome] ← P
+    EXIBIR f'[Célula 4.8] {nome}: {len(SEQS)} previsões gulosas de 2024 pro…
+FIM PARA
+// ------------------------------------------------------------------ métricas e bootstrap pareado por dia
+FUNÇÃO _contagens_mun(o_mun, p_mun, thr)
+    (ob, pb) ← (o_mun ≥ thr, p_mun ≥ thr)
+    RETORNAR np.array([np.sum(ob & pb), np.sum(~ob & pb), np.sum(ob & ~pb)], float)   // tp, fp, fn por janela somados
+FIM FUNÇÃO
+FUNÇÃO _f1(c)
+    (tp, fp, fn) ← c
+    RETORNAR (100 × 2 × tp / 2 × tp + fp + fn SE 2 × tp + fp + fn SENÃO float("nan"))
+FIM FUNÇÃO
+O_MUN ← medias_municipais(OBS)   // (N, 4, M)
+P_MUN ← [k: medias_municipais(v) PARA CADA (k, v) EM PRED.items()]
+(dias_u, inv) ← np.unique(DIAS, return_inverse=VERDADEIRO)
+FUNÇÃO _por_dia(fn)
+    // Soma por dia de uma estatística aditiva por janela: (D, ...)
+    vals ← np.stack([fn(j) PARA CADA j EM range(len(SEQS))])
+    out ← np.zeros((len(dias_u)) + vals.shape[1:])
+    EXECUTAR np.add.at(out, inv, vals)
+    RETORNAR out
+FIM FUNÇÃO
+nomes ← list(PRED)
+(linhas, boots) ← ([], {})
+rng_b ← np.random.default_rng(SEED_VAL)
+amostras ← rng_b.integers(0, len(dias_u), size=(N_BOOT, len(dias_u)))
+PARA CADA (nivel, thr) EM NIVEIS_ALERTA.items() FAÇA
+    cd ← [k: _por_dia(FUNÇÃO(j, k) ↦ _contagens_mun(O_MUN[j], P_MUN[k][j], thr)) PARA CADA k EM nomes]
+    pontos ← [k: _f1(cd[k].sum(0)) PARA CADA k EM nomes]
+    dif ← np.array([_f1(cd[nomes[1]][a].sum(0)) − _f1(cd[nomes[0]][a].sum(0)) PARA CADA a EM amostras])
+    (lo, hi) ← np.nanpercentile(dif, [2.5, 97.5])
+    EXECUTAR linhas.append({"Métrica": f'F1 municipal {nivel} (%)', nomes[0]: pontos[nomes[0]], nomes[1]: pontos[nomes[1]], "Δ (VQ − V1)": pontos[nom…
+FIM PARA
+PARA CADA thr EM LIMIARES_PIXEL FAÇA
+    cd ← [k: _por_dia(FUNÇÃO(j, k) ↦ _contagens_mun(OBS[j], PRED[k][j], thr)) PARA CADA k EM nomes]
+    csi ← FUNÇÃO(c) ↦ (100 × c[0] / c[0] + c[1] + c[2] SE c.sum() SENÃO float("nan"))
+    pontos ← [k: csi(cd[k].sum(0)) PARA CADA k EM nomes]
+    dif ← np.array([csi(cd[nomes[1]][a].sum(0)) − csi(cd[nomes[0]][a].sum(0)) PARA CADA a EM amostras])
+    (lo, hi) ← np.nanpercentile(dif, [2.5, 97.5])
+    EXECUTAR linhas.append({"Métrica": f'CSI pixel ≥ {thr:g} mm/h (%)', nomes[0]: pontos[nomes[0]], nomes[1]: pontos[nomes[1]], "Δ (VQ − V1)": pontos…
+FIM PARA
+EXECUTAR linhas.append({"Métrica": "MAE pixel (mm/h)", **[k: float(np.mean(np.abs(PRED[k] − OBS))) PARA CADA k EM nomes]})
+EXECUTAR linhas.append({"Métrica": "Razão de volume (prev./obs.)", **[k: float(PRED[k].sum() / max(OBS.sum(), 1e-09)) PARA CADA k EM nomes]})
+PARA CADA r EM linhas[−2:] FAÇA
+    r["Δ (VQ − V1)"] ← r[nomes[1]] − r[nomes[0]]
+FIM PARA
+df_val ← pd.DataFrame(linhas)
+f1a ← df_val.iloc[0]
+SE f1a["IC 95% Δ inf"] > 0 ENTÃO
+    VEREDITO_2024 ← "F-PluvIA-VQ melhor que a V1 no F1 de Atenção em 2024 (IC 95%…"
+    INCLUIR_C8_VQ ← VERDADEIRO
+SENÃO SE f1a["IC 95% Δ sup"] < 0 ENTÃO
+    VEREDITO_2024 ← "F-PluvIA-VQ pior que a V1 no F1 de Atenção em 2024 (IC 95% t…"
+    INCLUIR_C8_VQ ← FALSO
+SENÃO
+    VEREDITO_2024 ← "empate técnico no F1 de Atenção em 2024 (IC 95% da diferença…"
+    INCLUIR_C8_VQ ← FALSO
+FIM SE
+arq_rec ← os.path.join(RESULTS_ENV_DIR, f'cronus_teto_reconstrucao_v1_vs_vq_validacao2024_{ENV_TAG}.csv')
+arq_val ← os.path.join(RESULTS_ENV_DIR, f'cronus_previsao_v1_vs_vq_validacao2024_{ENV_TAG}.csv')
+EXECUTAR df_rec.to_csv(arq_rec, index=FALSO)
+EXECUTAR df_val.to_csv(arq_val, index=FALSO)
+CELL4_8_VALIDACAO ← {"veredito_2024": VEREDITO_2024, "incluir_c8_vq": INCLUIR_C8_VQ, "n_janelas": int(len(SEQS)), "n_dias": int(len(dias_u)), "recons…
+USANDO open(arq_val.replace(".csv", ".json"), "w") COMO f
+    EXECUTAR json.dump(CELL4_8_VALIDACAO, f, indent=2, ensure_ascii=FALSO)
+FIM USANDO
+EXIBIR " === Célula 4.8 (a): teto de reconstrução em 2024 (quadros-a…"
+EXIBIR df_rec
+EXIBIR f'\n=== Célula 4.8 (b): previsão gulosa em {len(SEQS)} janelas d…
+EXIBIR df_val
+EXIBIR f'\nVeredito em 2024: {VEREDITO_2024}.'
+EXIBIR f"F-PluvIA-C8 com a VQGAN nova nos testes: {('SIM' if INCLUIR_C8…
+EXIBIR "Próximo passo: rodar o caminho da V1 (Células 5 a 13.2) e de…"

@@ -1,0 +1,26 @@
+// ===== Célula (Encerramento do Ambiente Cronus) — pseudo-código =====
+// Célula (Encerramento do Ambiente Cronus): resumo do cronômetro, conferência do que ficou salvo no Drive e
+// desligamento do ambiente de execução, para não consumir mais unidades de computação (UC) parado.
+IMPORTAR os
+ENCERRAR_AO_FINAL ← VERDADEIRO   // False = só mostra o resumo e não desliga
+SALDO_UC_FINAL ← NULO   // opcional: o saldo lido agora no painel "Recursos" do Colab (ex.: 512.3)
+SE SALDO_UC_FINAL NÃO É NULO E callable(globals().get("registrar_saldo_uc")) ENTÃO
+    EXECUTAR registrar_saldo_uc(SALDO_UC_FINAL, "fim da execução Cronus")
+FIM SE
+SE callable(globals().get("resumo_cronometro")) ENTÃO
+    EXECUTAR resumo_cronometro()
+FIM SE
+conferir ← {"VQGAN ajustada (Célula 4.6)": globals().get("ARQ_MELHOR"), "Registro do F-PluvIA-VQ (Célula 4.7)": globals().get("REGISTRO_VQT"), "Resul…
+EXIBIR "=== Encerramento do ambiente Cronus ==="
+PARA CADA (rotulo, caminho) EM conferir.items() FAÇA
+    ok ← bool(caminho) E os.path.exists(str(caminho))
+    EXIBIR f"  [{('ok' if ok else '--')}] {rotulo}: {caminho or 'não defini…
+FIM PARA
+SE globals().get("CELL13_7_DUELO") ENTÃO
+    EXIBIR f"\nVencedor em 2025: {CELL13_7_DUELO['vencedor_2025']} — {CELL1…
+FIM SE
+SE ENCERRAR_AO_FINAL ENTÃO
+    EXIBIR " Desligando o ambiente de execução em seguida (o Drive já te…"
+    IMPORTAR runtime DE google.colab
+    EXECUTAR runtime.unassign()
+FIM SE

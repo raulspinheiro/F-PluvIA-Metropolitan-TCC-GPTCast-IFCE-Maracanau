@@ -1,0 +1,13 @@
+Ambiente_Execucao,Modelo,Passos (S),Horizonte [min],Instâncias (m),Tempo médio recálculo [s],Tempo médio KV cache [s],Desvio recálculo [s],Desvio KV cache [s],Speedup (recálculo / KV),Posições recálculo,Posições KV cache,TFLOP/s recálculo,TFLOP/s KV cache,Previsões idênticas (bf16),Divergências (bf16)
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-G (V1),1,30,10,0.4139,0.3659,0.0003,0.0011,1.13,30752,512,45.3,0.9,3/10,7
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-VQ,1,30,10,0.4138,0.366,0.0005,0.0013,1.13,30752,512,45.3,0.9,3/10,7
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-G (V1),3,90,10,1.2257,1.0879,0.0007,0.0015,1.13,92256,1536,45.9,0.9,1/10,9
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-VQ,3,90,10,1.2253,1.0892,0.0002,0.0026,1.12,92256,1536,45.9,0.9,0/10,10
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-G (V1),5,150,10,2.0366,1.8037,0.0005,0.0028,1.13,153760,2560,46.0,0.9,0/10,10
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-VQ,5,150,10,2.0362,1.8048,0.0008,0.002,1.13,153760,2560,46.1,0.9,0/10,10
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-G (V1),7,210,10,2.848,2.5228,0.001,0.0072,1.13,215264,3584,46.1,0.9,0/10,10
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-VQ,7,210,10,2.8471,2.5239,0.001,0.0047,1.13,215264,3584,46.1,0.9,0/10,10
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-G (V1),9,270,10,3.6581,3.2324,0.0008,0.005,1.13,276768,4608,46.1,0.9,0/10,10
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-VQ,9,270,10,3.6573,3.2316,0.0005,0.0043,1.13,276768,4608,46.2,0.9,1/10,9
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-G (V1),12,360,10,4.8757,4.3109,0.001,0.0035,1.13,369024,6144,46.2,0.9,0/10,10
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-VQ,12,360,10,4.8753,4.3123,0.0014,0.0072,1.13,369024,6144,46.2,0.9,0/10,10

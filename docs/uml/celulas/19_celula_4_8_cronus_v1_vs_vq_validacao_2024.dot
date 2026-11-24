@@ -1,0 +1,13 @@
+digraph "4_8_cronus_v1_vs_vq_validacao_2024" {
+  graph [fontname="Helvetica", rankdir=LR, nodesep=0.35, ranksep=0.6, labelloc=t, fontsize=14];
+  node  [fontname="Helvetica", fontsize=10, shape=plain];
+  edge  [fontname="Helvetica", fontsize=8, color="#555555"];
+  label=<<B>Célula 4.8 (Cronus - V1 vs VQ - Validação 2024)</B> — 235 linhas>;
+  celula [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF8E1"><TR><TD><FONT POINT-SIZE="9">«célula»</FONT><BR/><B>Célula 4.8 (Cronus - V1 vs VQ - Validação 2024)</B></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT">+ CELL4_8_VALIDACAO</TD></TR><TR><TD ALIGN="LEFT">+ DEVICE</TD></TR><TR><TD ALIGN="LEFT">+ DIAS</TD></TR><TR><TD ALIGN="LEFT">+ IDX</TD></TR><TR><TD ALIGN="LEFT">+ INCLUIR_C8_VQ</TD></TR><TR><TD ALIGN="LEFT">+ LIMIARES_PIXEL</TD></TR><TR><TD ALIGN="LEFT">+ M_STACK</TD></TR><TR><TD ALIGN="LEFT">+ MASCARAS</TD></TR><TR><TD ALIGN="LEFT">+ N_BOOT</TD></TR><TR><TD ALIGN="LEFT">+ N_JANELAS_VAL</TD></TR><TR><TD ALIGN="LEFT">+ NIVEIS_ALERTA</TD></TR><TR><TD ALIGN="LEFT">+ O_MUN</TD></TR><TR><TD ALIGN="LEFT">+ OBS</TD></TR><TR><TD ALIGN="LEFT">+ P</TD></TR><TR><TD ALIGN="LEFT"><I>+ 32 mais</I></TD></TR></TABLE></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT">- _rain(dbz)</TD></TR><TR><TD ALIGN="LEFT">+ mascaras_municipais_rmf()</TD></TR><TR><TD ALIGN="LEFT">+ medias_municipais(r)</TD></TR><TR><TD ALIGN="LEFT">- _reconstruir(vqm, seqs, empilhado)</TD></TR><TR><TD ALIGN="LEFT">- _csi(o, p, thr)</TD></TR><TR><TD ALIGN="LEFT">+ prever_guloso(model, ctx_dbz)</TD></TR><TR><TD ALIGN="LEFT">- _contagens_mun(o_mun, p_mun, thr)</TD></TR><TR><TD ALIGN="LEFT">- _f1(c)</TD></TR><TR><TD ALIGN="LEFT">- _por_dia(fn)</TD></TR></TABLE></TD></TR></TABLE>>];
+  libs [shape=tab, style=filled, fillcolor="#F1F8E9", fontsize=9, label=<<B>bibliotecas</B><BR/>contextlib<BR/>einops<BR/>geopandas<BR/>gptcast<BR/>io<BR/>json<BR/>math<BR/>matplotlib<BR/>numpy<BR/>os<BR/>pandas<BR/>torch<BR/>urllib<BR/>warnings>];
+  celula -> libs [style=dashed, arrowhead=open, label="«import»"];
+  entradas [shape=note, style=filled, fillcolor="#FCE4EC", fontsize=9, label=<<B>usa de outras células</B><BR/>BASE_WORK_DIR<BR/>CONTEXT_STEPS<BR/>ENV_TAG<BR/>FORECAST_STEPS<BR/>RESULTS_ENV_DIR<BR/>gdf_rmf<BR/>gpt8<BR/>gpt8_vq<BR/>md_rmf<BR/>mun_masks<BR/>vq_rmf>];
+  entradas -> celula [style=dashed, arrowhead=open, label="«use»"];
+  arquivos [shape=folder, style=filled, fillcolor="#EDE7F6", fontsize=9, label=<<B>arquivos citados</B><BR/>ceara_municipios_ibge.json<BR/>geojs-23-mun.json>];
+  celula -> arquivos [style=dotted, arrowhead=open, label="lê/grava"];
+}

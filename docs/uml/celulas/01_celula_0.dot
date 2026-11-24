@@ -1,0 +1,11 @@
+digraph "0" {
+  graph [fontname="Helvetica", rankdir=LR, nodesep=0.35, ranksep=0.6, labelloc=t, fontsize=14];
+  node  [fontname="Helvetica", fontsize=10, shape=plain];
+  edge  [fontname="Helvetica", fontsize=8, color="#555555"];
+  label=<<B>Célula 0</B> — 295 linhas>;
+  celula [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF8E1"><TR><TD><FONT POINT-SIZE="9">«célula»</FONT><BR/><B>Célula 0</B></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT">+ AMOSTRA_N</TD></TR><TR><TD ALIGN="LEFT">+ ARQ_CELULAS</TD></TR><TR><TD ALIGN="LEFT">+ ARQ_ETAPAS</TD></TR><TR><TD ALIGN="LEFT">+ ARQ_SALDO</TD></TR><TR><TD ALIGN="LEFT">+ CATEGORIAS_POR_TITULO</TD></TR><TR><TD ALIGN="LEFT">+ GPU_NOME</TD></TR><TR><TD ALIGN="LEFT">+ MODO</TD></TR><TR><TD ALIGN="LEFT">+ MODO_AMOSTRA</TD></TR><TR><TD ALIGN="LEFT">+ PASTA_CRONOMETRO</TD></TR><TR><TD ALIGN="LEFT">+ SESSAO_ID</TD></TR><TR><TD ALIGN="LEFT">+ TAXA_UC_PADRAO</TD></TR><TR><TD ALIGN="LEFT">+ TAXA_UC_POR_HORA</TD></TR><TR><TD ALIGN="LEFT">+ torch</TD></TR></TABLE></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT">+ limitar(seq, categoria)</TD></TR><TR><TD ALIGN="LEFT">- _agora()</TD></TR><TR><TD ALIGN="LEFT">- _gravar(arquivo, linha)</TD></TR><TR><TD ALIGN="LEFT">+ etapa(nome, categoria, quantidade, unidade)</TD></TR><TR><TD ALIGN="LEFT">- _antes_celula(info)</TD></TR><TR><TD ALIGN="LEFT">- _categoria(titulo)</TD></TR><TR><TD ALIGN="LEFT">- _depois_celula(result)</TD></TR><TR><TD ALIGN="LEFT">+ registrar_saldo_uc(saldo, observacao)</TD></TR><TR><TD ALIGN="LEFT">+ resumo_cronometro()</TD></TR><TR><TD ALIGN="LEFT">+ tabela_extrapolacao(csv_gpu, csv_cpu, taxa_uc_cpu)</TD></TR></TABLE></TD></TR></TABLE>>];
+  libs [shape=tab, style=filled, fillcolor="#F1F8E9", fontsize=9, label=<<B>bibliotecas</B><BR/>contextlib<BR/>csv<BR/>datetime<BR/>google<BR/>itertools<BR/>os<BR/>pandas<BR/>socket<BR/>time<BR/>torch<BR/>uuid>];
+  celula -> libs [style=dashed, arrowhead=open, label="«import»"];
+  arquivos [shape=folder, style=filled, fillcolor="#EDE7F6", fontsize=9, label=<<B>arquivos citados</B><BR/>cronometro_celulas.csv<BR/>cronometro_etapas.csv<BR/>cronometro_saldo_uc.csv>];
+  celula -> arquivos [style=dotted, arrowhead=open, label="lê/grava"];
+}

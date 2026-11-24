@@ -1,0 +1,11 @@
+digraph "encerramento_do_ambiente_cronus" {
+  graph [fontname="Helvetica", rankdir=LR, nodesep=0.35, ranksep=0.6, labelloc=t, fontsize=14];
+  node  [fontname="Helvetica", fontsize=10, shape=plain];
+  edge  [fontname="Helvetica", fontsize=8, color="#555555"];
+  label=<<B>Célula (Encerramento do Ambiente Cronus)</B> — 32 linhas>;
+  celula [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF8E1"><TR><TD><FONT POINT-SIZE="9">«célula»</FONT><BR/><B>Célula (Encerramento do Ambiente Cronus)</B></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT">+ ENCERRAR_AO_FINAL</TD></TR><TR><TD ALIGN="LEFT">+ SALDO_UC_FINAL</TD></TR><TR><TD ALIGN="LEFT">+ conferir</TD></TR><TR><TD ALIGN="LEFT">+ ok</TD></TR></TABLE></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT"><FONT COLOR="#888888">—</FONT></TD></TR></TABLE></TD></TR></TABLE>>];
+  libs [shape=tab, style=filled, fillcolor="#F1F8E9", fontsize=9, label=<<B>bibliotecas</B><BR/>google<BR/>os>];
+  celula -> libs [style=dashed, arrowhead=open, label="«import»"];
+  entradas [shape=note, style=filled, fillcolor="#FCE4EC", fontsize=9, label=<<B>usa de outras células</B><BR/>ARQ_MELHOR<BR/>CELL13_7_DUELO<BR/>CRONUS<BR/>REGISTRO_VQT<BR/>registrar_saldo_uc<BR/>resumo_cronometro<BR/>zip_path>];
+  entradas -> celula [style=dashed, arrowhead=open, label="«use»"];
+}

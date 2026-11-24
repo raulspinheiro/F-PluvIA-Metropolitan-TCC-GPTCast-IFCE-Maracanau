@@ -1,0 +1,13 @@
+Ambiente_Execucao,Hardware_Tag,Modelo,Lead Time,Lead_num,Estrutura (S),Amplitude (A),Localização (L) [↓],Deslocamento Baricentro [km] (↓),|S| + |A| + L (↓),Volume Previsto / Observado (=1),Objetos Obs / Prev,Situação
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,G4_RTX6000_Blackwell_95GB_Cronus,GPTCast-8x8 ajustado,+30 min,30,0.0661,-0.6976,0.3903,47.26,1.154,0.483,5 / 8,ok
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,G4_RTX6000_Blackwell_95GB_Cronus,GPTCast-8x8 ajustado,+60 min,60,-0.0844,-0.2693,0.5111,73.53,0.8649,0.763,3 / 6,ok
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,G4_RTX6000_Blackwell_95GB_Cronus,GPTCast-8x8 ajustado,+90 min,90,-0.885,-0.0155,0.2655,59.57,1.1659,0.985,3 / 15,ok
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,G4_RTX6000_Blackwell_95GB_Cronus,GPTCast-8x8 ajustado,+120 min,120,-1.1434,0.4605,0.3033,73.93,1.9073,1.598,4 / 20,ok
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,G4_RTX6000_Blackwell_95GB_Cronus,GPTCast-8x8 zero-shot,+30 min,30,0.1515,-0.3798,0.2797,25.54,0.8111,0.681,5 / 12,ok
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,G4_RTX6000_Blackwell_95GB_Cronus,GPTCast-8x8 zero-shot,+60 min,60,-0.2213,-0.283,0.407,60.14,0.9113,0.752,3 / 11,ok
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,G4_RTX6000_Blackwell_95GB_Cronus,GPTCast-8x8 zero-shot,+90 min,90,-0.4981,-0.2891,0.3428,65.99,1.1299,0.747,3 / 15,ok
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,G4_RTX6000_Blackwell_95GB_Cronus,GPTCast-8x8 zero-shot,+120 min,120,-1.5473,-1.3224,0.4618,89.96,3.3315,0.204,4 / 11,ok
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,G4_RTX6000_Blackwell_95GB_Cronus,Persistência,+30 min,30,-0.225,-0.0775,0.1863,21.88,0.4888,0.925,5 / 3,ok
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,G4_RTX6000_Blackwell_95GB_Cronus,Persistência,+60 min,60,-0.6411,0.3097,0.2841,53.19,1.2348,1.366,3 / 3,ok
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,G4_RTX6000_Blackwell_95GB_Cronus,Persistência,+90 min,90,-0.3012,0.4052,0.1708,53.74,0.8772,1.508,3 / 3,ok
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,G4_RTX6000_Blackwell_95GB_Cronus,Persistência,+120 min,120,-0.5707,0.2938,0.1564,53.05,1.0209,1.344,4 / 3,ok

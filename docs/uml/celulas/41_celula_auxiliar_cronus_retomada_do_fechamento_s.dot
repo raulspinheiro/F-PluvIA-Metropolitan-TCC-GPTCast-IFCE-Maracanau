@@ -1,0 +1,13 @@
+digraph "auxiliar_cronus_retomada_do_fechamento_s" {
+  graph [fontname="Helvetica", rankdir=LR, nodesep=0.35, ranksep=0.6, labelloc=t, fontsize=14];
+  node  [fontname="Helvetica", fontsize=10, shape=plain];
+  edge  [fontname="Helvetica", fontsize=8, color="#555555"];
+  label=<<B>Célula auxiliar (Cronus - Retomada do Fechamento, Somente Leitura)</B> — 63 linhas>;
+  celula [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF8E1"><TR><TD><FONT POINT-SIZE="9">«célula»</FONT><BR/><B>Célula auxiliar (Cronus - Retomada do Fechamento, Somente Leitura)</B></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT">+ ARQ_MELHOR</TD></TR><TR><TD ALIGN="LEFT">+ CELL13_7_DUELO</TD></TR><TR><TD ALIGN="LEFT">+ CHECKPOINTS_ENV_DIR</TD></TR><TR><TD ALIGN="LEFT">+ CRONUS</TD></TR><TR><TD ALIGN="LEFT">+ CRONUS_PASTAS_EXTRAS</TD></TR><TR><TD ALIGN="LEFT">+ CRONUS_PASTAS_RESULTADOS</TD></TR><TR><TD ALIGN="LEFT">+ ENV_TAG</TD></TR><TR><TD ALIGN="LEFT">+ ENV_TAG_BASE</TD></TR><TR><TD ALIGN="LEFT">+ REGISTRO_VQT</TD></TR><TR><TD ALIGN="LEFT">+ RESULTS_ENV_DIR</TD></TR><TR><TD ALIGN="LEFT">+ ausentes</TD></TR><TR><TD ALIGN="LEFT">+ best_ckpt_path</TD></TR><TR><TD ALIGN="LEFT">+ best_ckpt_path_vq</TD></TR><TR><TD ALIGN="LEFT">+ ckpt_dir</TD></TR><TR><TD ALIGN="LEFT"><I>+ 7 mais</I></TD></TR></TABLE></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT"><FONT COLOR="#888888">—</FONT></TD></TR></TABLE></TD></TR></TABLE>>];
+  libs [shape=tab, style=filled, fillcolor="#F1F8E9", fontsize=9, label=<<B>bibliotecas</B><BR/>json<BR/>os>];
+  celula -> libs [style=dashed, arrowhead=open, label="«import»"];
+  entradas [shape=note, style=filled, fillcolor="#FCE4EC", fontsize=9, label=<<B>usa de outras células</B><BR/>BASE_WORK_DIR<BR/>CHECKPOINTS_DIR<BR/>CRONUS<BR/>ENV_TAG<BR/>SERIES_CACHE_DIR>];
+  entradas -> celula [style=dashed, arrowhead=open, label="«use»"];
+  arquivos [shape=folder, style=filled, fillcolor="#EDE7F6", fontsize=9, label=<<B>arquivos citados</B><BR/>_melhor.pt>];
+  celula -> arquivos [style=dotted, arrowhead=open, label="lê/grava"];
+}

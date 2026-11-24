@@ -1,0 +1,33 @@
+Modelo,Métrica,Lead Time,Média ± dp,Melhor (semente),Pior (semente),Semente 42
+GPTCast-8x8 (Fine-Tuned RMF),"RMSE (mm/h, ↓)",+30 min,0.879 ± 0.189,0.659 (42),1.170 (50),0.659
+GPTCast-8x8 (Fine-Tuned RMF),"RMSE (mm/h, ↓)",+60 min,0.887 ± 0.573,0.558 (45),2.467 (50),0.617
+GPTCast-8x8 (Fine-Tuned RMF),"RMSE (mm/h, ↓)",+90 min,1.684 ± 2.064,0.612 (44),7.416 (51),0.969
+GPTCast-8x8 (Fine-Tuned RMF),"RMSE (mm/h, ↓)",+120 min,1.526 ± 0.652,0.671 (45),2.732 (43),1.498
+GPTCast-8x8 (Fine-Tuned RMF),"MAE (mm/h, ↓)",+30 min,0.362 ± 0.074,0.289 (45),0.484 (47),0.291
+GPTCast-8x8 (Fine-Tuned RMF),"MAE (mm/h, ↓)",+60 min,0.359 ± 0.080,0.267 (45),0.546 (50),0.302
+GPTCast-8x8 (Fine-Tuned RMF),"MAE (mm/h, ↓)",+90 min,0.535 ± 0.318,0.300 (46),1.332 (51),0.340
+GPTCast-8x8 (Fine-Tuned RMF),"MAE (mm/h, ↓)",+120 min,0.625 ± 0.203,0.333 (45),0.961 (48),0.556
+GPTCast-8x8 (Fine-Tuned RMF),SSIM em dBZ (↑),+30 min,0.500 ± 0.030,0.557 (48),0.461 (43),0.521
+GPTCast-8x8 (Fine-Tuned RMF),SSIM em dBZ (↑),+60 min,0.418 ± 0.041,0.473 (45),0.345 (50),0.453
+GPTCast-8x8 (Fine-Tuned RMF),SSIM em dBZ (↑),+90 min,0.382 ± 0.079,0.478 (46),0.266 (51),0.468
+GPTCast-8x8 (Fine-Tuned RMF),SSIM em dBZ (↑),+120 min,0.300 ± 0.061,0.365 (44),0.172 (48),0.357
+GPTCast-8x8 (Fine-Tuned RMF),"CSI ≥ 0,5 mm/h (↑)",+30 min,0.328 ± 0.062,0.432 (48),0.251 (46),0.363
+GPTCast-8x8 (Fine-Tuned RMF),"CSI ≥ 0,5 mm/h (↑)",+60 min,0.183 ± 0.053,0.254 (45),0.119 (50),0.214
+GPTCast-8x8 (Fine-Tuned RMF),"CSI ≥ 0,5 mm/h (↑)",+90 min,0.129 ± 0.053,0.208 (47),0.048 (49),0.173
+GPTCast-8x8 (Fine-Tuned RMF),"CSI ≥ 0,5 mm/h (↑)",+120 min,0.127 ± 0.074,0.282 (47),0.032 (49),0.155
+GPTCast-8x8 (Zero-Shot),"RMSE (mm/h, ↓)",+30 min,0.976 ± 0.239,0.729 (42),1.548 (49),0.729
+GPTCast-8x8 (Zero-Shot),"RMSE (mm/h, ↓)",+60 min,0.883 ± 0.413,0.534 (45),1.672 (49),0.636
+GPTCast-8x8 (Zero-Shot),"RMSE (mm/h, ↓)",+90 min,0.683 ± 0.177,0.509 (45),1.122 (48),0.675
+GPTCast-8x8 (Zero-Shot),"RMSE (mm/h, ↓)",+120 min,0.772 ± 0.258,0.546 (47),1.249 (48),0.718
+GPTCast-8x8 (Zero-Shot),"MAE (mm/h, ↓)",+30 min,0.383 ± 0.056,0.310 (45),0.477 (49),0.324
+GPTCast-8x8 (Zero-Shot),"MAE (mm/h, ↓)",+60 min,0.352 ± 0.090,0.252 (45),0.497 (49),0.327
+GPTCast-8x8 (Zero-Shot),"MAE (mm/h, ↓)",+90 min,0.291 ± 0.046,0.218 (45),0.365 (48),0.307
+GPTCast-8x8 (Zero-Shot),"MAE (mm/h, ↓)",+120 min,0.324 ± 0.072,0.254 (45),0.452 (43),0.286
+GPTCast-8x8 (Zero-Shot),SSIM em dBZ (↑),+30 min,0.486 ± 0.018,0.519 (49),0.463 (51),0.483
+GPTCast-8x8 (Zero-Shot),SSIM em dBZ (↑),+60 min,0.460 ± 0.040,0.498 (43),0.355 (51),0.450
+GPTCast-8x8 (Zero-Shot),SSIM em dBZ (↑),+90 min,0.485 ± 0.053,0.556 (45),0.379 (51),0.485
+GPTCast-8x8 (Zero-Shot),SSIM em dBZ (↑),+120 min,0.425 ± 0.074,0.499 (45),0.252 (43),0.496
+GPTCast-8x8 (Zero-Shot),"CSI ≥ 0,5 mm/h (↑)",+30 min,0.331 ± 0.082,0.420 (45),0.160 (46),0.378
+GPTCast-8x8 (Zero-Shot),"CSI ≥ 0,5 mm/h (↑)",+60 min,0.173 ± 0.083,0.339 (43),0.055 (46),0.179
+GPTCast-8x8 (Zero-Shot),"CSI ≥ 0,5 mm/h (↑)",+90 min,0.111 ± 0.090,0.297 (43),0.010 (46),0.164
+GPTCast-8x8 (Zero-Shot),"CSI ≥ 0,5 mm/h (↑)",+120 min,0.058 ± 0.068,0.216 (43),0.004 (46),0.028

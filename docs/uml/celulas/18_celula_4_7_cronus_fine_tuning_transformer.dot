@@ -1,0 +1,13 @@
+digraph "4_7_cronus_fine_tuning_transformer" {
+  graph [fontname="Helvetica", rankdir=LR, nodesep=0.35, ranksep=0.6, labelloc=t, fontsize=14];
+  node  [fontname="Helvetica", fontsize=10, shape=plain];
+  edge  [fontname="Helvetica", fontsize=8, color="#555555"];
+  label=<<B>Célula 4.7 (Cronus - Fine-tuning Transformer)</B> — 123 linhas>;
+  celula [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF8E1"><TR><TD><FONT POINT-SIZE="9">«célula»</FONT><BR/><B>Célula 4.7 (Cronus - Fine-tuning Transformer)</B></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT">+ CELL4_7_FPLUVIA_VQ</TD></TR><TR><TD ALIGN="LEFT">+ DEVICE</TD></TR><TR><TD ALIGN="LEFT">+ FORCE_RETRAIN_VQT</TD></TR><TR><TD ALIGN="LEFT">+ PASTA_VQT</TD></TR><TR><TD ALIGN="LEFT">+ REGISTRO_VQT</TD></TR><TR><TD ALIGN="LEFT">+ best</TD></TR><TR><TD ALIGN="LEFT">+ best_ckpt_path_vq</TD></TR><TR><TD ALIGN="LEFT">+ ck</TD></TR><TR><TD ALIGN="LEFT">+ ck_cb</TD></TR><TR><TD ALIGN="LEFT">+ es_cb</TD></TR><TR><TD ALIGN="LEFT">+ faltam</TD></TR><TR><TD ALIGN="LEFT">+ gpt8_vq</TD></TR><TR><TD ALIGN="LEFT">+ logger</TD></TR><TR><TD ALIGN="LEFT">+ m</TD></TR><TR><TD ALIGN="LEFT"><I>+ 8 mais</I></TD></TR></TABLE></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT">- _montar_vq()</TD></TR><TR><TD ALIGN="LEFT">- _carregar(model, path)</TD></TR></TABLE></TD></TR></TABLE>>];
+  libs [shape=tab, style=filled, fillcolor="#F1F8E9", fontsize=9, label=<<B>bibliotecas</B><BR/>copy<BR/>datetime<BR/>gptcast<BR/>json<BR/>lightning<BR/>os<BR/>pandas<BR/>pytorch_lightning<BR/>re<BR/>time<BR/>torch>];
+  celula -> libs [style=dashed, arrowhead=open, label="«import»"];
+  entradas [shape=note, style=filled, fillcolor="#FCE4EC", fontsize=9, label=<<B>usa de outras células</B><BR/>ACCUM_STEPS_AUTO<BR/>BATCH_SIZE_AUTO<BR/>CELL4_6_VQGAN<BR/>CHECKPOINTS_ENV_DIR<BR/>ENV_TAG<BR/>RESULTS_ENV_DIR<BR/>SEED<BR/>TOKENIZACAO_TREINO<BR/>VAL_CROP<BR/>gpt8_zeroshot<BR/>md_rmf<BR/>vq_rmf>];
+  entradas -> celula [style=dashed, arrowhead=open, label="«use»"];
+  arquivos [shape=folder, style=filled, fillcolor="#EDE7F6", fontsize=9, label=<<B>arquivos citados</B><BR/>metrics.csv>];
+  celula -> arquivos [style=dotted, arrowhead=open, label="lê/grava"];
+}

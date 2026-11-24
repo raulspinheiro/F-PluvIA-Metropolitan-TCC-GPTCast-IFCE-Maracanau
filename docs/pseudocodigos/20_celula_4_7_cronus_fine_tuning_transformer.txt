@@ -1,0 +1,107 @@
+// ===== Célula 4.7 (Cronus - Fine-tuning Transformer) — pseudo-código =====
+// Célula 4.7 (Cronus - Fine-tuning Transformer): F-PluvIA-VQ — o mesmo ajuste fino da Célula 4 (Transformer do GPTCast-8x8 do Zenodo, BF16,
+// lr 5e-5, lote efetivo 16, até 15 épocas, parada antecipada com paciência 4, semente 42), agora sobre os tokens da
+// VQGAN ajustada na Célula 4.6. Só a VQGAN muda em relação ao F-PluvIA-G (V1): é uma ablação limpa.
+IMPORTAR copy
+IMPORTAR datetime
+IMPORTAR json
+IMPORTAR os
+IMPORTAR re
+IMPORTAR time
+IMPORTAR pandas (como pd)
+IMPORTAR torch
+IMPORTAR lightning.pytorch (como pl_modern)
+IMPORTAR pytorch_lightning (como pl_legacy)
+IMPORTAR GPTCast DE gptcast.models
+FORCE_RETRAIN_VQT ← FALSO   // True = refaz o ajuste do Transformer mesmo havendo checkpoint registrado
+faltam ← [n PARA CADA n EM ("md_rmf", "gpt8_zeroshot", "vq_rmf", "CHECKPOINTS_ENV_DIR", "RESULTS_ENV_DIR", "ENV_TAG", "BATCH_SIZE_AUTO", "ACCUM_STEPS…
+SE faltam ENTÃO
+    LANÇAR ERRO RuntimeError(f"Rode antes as Células 1 a 4 e a 4.6. Faltam: {', '.join(faltam…)
+FIM SE
+SE NÃO hasattr(GPTCast, "_orig_encode_to_z") ENTÃO
+    LANÇAR ERRO RuntimeError("A tokenização empilhada da Célula 4 não está ativa: rode a C…")
+FIM SE
+SE NÃO torch.cuda.is_available() ENTÃO
+    LANÇAR ERRO RuntimeError("A Célula 4.7 treina o Transformer: ative a GPU.")
+FIM SE
+DEVICE ← "cuda"
+PASTA_VQT ← os.path.join(CHECKPOINTS_ENV_DIR, "fpluvia_vq")
+EXECUTAR os.makedirs(PASTA_VQT, exist_ok=VERDADEIRO)
+REGISTRO_VQT ← os.path.join(PASTA_VQT, f'registro_treino_fpluvia_vq_{ENV_TAG}.json')
+FUNÇÃO _montar_vq()
+    // GPTCast-8x8 do Zenodo (mesmo ponto de partida da V1) com a VQGAN da Célula 4.6 no lugar da original.
+    m ← copy.deepcopy(gpt8_zeroshot).to(DEVICE)
+    EXECUTAR m.first_stage_model.load_state_dict(vq_rmf.state_dict())
+    PARA CADA p EM m.first_stage_model.parameters() FAÇA
+        p.requires_grad ← FALSO
+    FIM PARA
+    RETORNAR m
+FIM FUNÇÃO
+FUNÇÃO _carregar(model, path)
+    state ← torch.load(path, map_location=DEVICE)["state_dict"]
+    res ← model.load_state_dict(state, strict=FALSO)
+    SE any([k.startswith("transformer.") PARA CADA k EM res.missing_keys]) ENTÃO
+        LANÇAR ERRO RuntimeError(f'{os.path.basename(path)} não tem os pesos do Transformer: abor…)
+    FIM SE
+    // a VQGAN do checkpoint tem de ser a da Célula 4.6 (o Lightning salva o modelo inteiro)
+    PARA CADA (k, v) EM vq_rmf.state_dict().items() FAÇA
+        SE NÃO torch.equal(model.first_stage_model.state_dict()[k].to(v.device), v) ENTÃO
+            LANÇAR ERRO RuntimeError(f'A VQGAN do checkpoint difere da Célula 4.6 em {k}: o checkpoin…)
+        FIM SE
+    FIM PARA
+    RETORNAR model
+FIM FUNÇÃO
+gpt8_vq ← _montar_vq()
+rec_vqt ← NULO
+SE NÃO FORCE_RETRAIN_VQT E os.path.exists(REGISTRO_VQT) ENTÃO
+    USANDO open(REGISTRO_VQT) COMO f
+        rec_vqt ← json.load(f)
+    FIM USANDO
+    ck ← os.path.join(PASTA_VQT, rec_vqt["checkpoint"])
+    SE os.path.isfile(ck) ENTÃO
+        gpt8_vq ← _carregar(gpt8_vq, ck).eval()
+        EXIBIR f"[Célula 4.7] Checkpoint do F-PluvIA-VQ carregado: {rec_vqt['ch…
+    SENÃO
+        rec_vqt ← NULO
+    FIM SE
+FIM SE
+SE rec_vqt É NULO ENTÃO
+    pl_active ← (pl_modern SE issubclass(GPTCast, pl_modern.LightningModule) SENÃO pl_legacy)
+    EXECUTAR pl_active.seed_everything(SEED, workers=VERDADEIRO)
+    precision_mode ← ("bf16-mixed" SE torch.cuda.is_bf16_supported() SENÃO "16-mixed")
+    EXECUTAR gpt8_vq.train()
+    PARA CADA p EM gpt8_vq.transformer.parameters() FAÇA
+        p.requires_grad ← VERDADEIRO
+    FIM PARA
+    target_lr ← 5e-05
+    gpt8_vq.base_learning_rate ← target_lr / BATCH_SIZE_AUTO × ACCUM_STEPS_AUTO
+    gpt8_vq.learning_rate ← target_lr
+    run_tag ← datetime.datetime.utcnow().strftime("%Y%m%dT%H%MZ")
+    ck_cb ← pl_active.callbacks.ModelCheckpoint(dirpath=PASTA_VQT, filename=f'fpluvia_vq_rmf_2km_{ENV_TAG}_{run_tag}_best-{{epoch:02d}}-{{va…, auto_i…
+    es_cb ← pl_active.callbacks.EarlyStopping(monitor="val/loss", patience=4, mode="min", verbose=VERDADEIRO)
+    logger ← pl_active.loggers.CSVLogger(save_dir=RESULTS_ENV_DIR, name=f'curva_treino_fpluvia_vq_{ENV_TAG}', version=run_tag)
+    trainer ← pl_active.Trainer(accelerator="gpu", devices=1, max_epochs=15, precision=precision_mode, accumulate_grad_batches=ACCUM_STEPS_AUTO, call…
+    EXIBIR f'[Célula 4.7] Ajuste do Transformer sobre os tokens da VQGAN no…
+    EXECUTAR torch.cuda.reset_peak_memory_stats(0)
+    EXECUTAR torch.cuda.synchronize()
+    t0 ← time.perf_counter()
+    EXECUTAR trainer.fit(gpt8_vq, datamodule=md_rmf)
+    EXECUTAR torch.cuda.synchronize()
+    t_fit ← time.perf_counter() − t0
+    best ← ck_cb.best_model_path
+    SE NÃO best OU NÃO os.path.exists(best) ENTÃO
+        LANÇAR ERRO RuntimeError("O ajuste terminou sem checkpoint de melhor val/loss.")
+    FIM SE
+    m ← re.search("best-(\d+)-", os.path.basename(best))
+    rec_vqt ← {"data_treino_utc": run_tag, "checkpoint": os.path.basename(best), "epocas_executadas": int(trainer.current_epoch), "melhor_epoca": (in…
+    USANDO open(REGISTRO_VQT, "w") COMO f
+        EXECUTAR json.dump(rec_vqt, f, indent=2, ensure_ascii=FALSO)
+    FIM USANDO
+    gpt8_vq ← _carregar(gpt8_vq, best)
+FIM SE
+gpt8_vq ← gpt8_vq.to(DEVICE).eval()
+best_ckpt_path_vq ← os.path.join(PASTA_VQT, rec_vqt["checkpoint"])
+CELL4_7_FPLUVIA_VQ ← rec_vqt
+EXIBIR " === Célula 4.7: F-PluvIA-VQ pronto (gpt8_vq) ==="
+EXIBIR pd.DataFrame([rec_vqt]).T.rename(columns={0: "valor"})
+EXIBIR "O F-PluvIA-G (V1) continua em gpt8, e o Zero-Shot em gpt8_ze…"

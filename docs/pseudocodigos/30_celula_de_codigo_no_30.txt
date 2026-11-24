@@ -1,0 +1,4 @@
+// ===== Célula de código nº 30 — pseudo-código =====
+IMPORTAR os
+d ← "/content/drive/MyDrive/GPTCast_RMF/series_2019_2025_2km/test…"
+EXIBIR (sorted(os.listdir(d))[:60] SE os.path.isdir(d) SENÃO "não existe")

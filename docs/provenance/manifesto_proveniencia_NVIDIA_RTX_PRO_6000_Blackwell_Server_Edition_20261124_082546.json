@@ -1,0 +1,3049 @@
+{
+  "tipo": "Manifesto de integridade e proveniência (SHA-256)",
+  "o_que_comprova": "Que os arquivos listados não mudaram desde a emissão: basta recalcular o SHA-256 de cada um (ou rodar \"sha256sum -c\" no arquivo SHA256SUMS). Não comprova autoria nem o hardware usado; esses campos são declarados pelo ambiente no momento da emissão.",
+  "metadados_academicos": {
+    "titulo": "F-PluvIA Metropolitan: Adaptação Cross-Sensor via Fine-Tuning Espaço-Temporal do VQGAN-Transformer GPTCast-8x8 para Nowcasting Generativo em Séries GPM IMERG-FR na Região Metropolitana de Fortaleza",
+    "formato": "Trabalho de Conclusão de Curso (TCC) — Artigo Científico",
+    "instituicao": "Instituto Federal de Educação, Ciência e Tecnologia do Ceará (IFCE) — Campus Maracanaú",
+    "curso": "Bacharelado em Ciência da Computação",
+    "semestre": "2026.2",
+    "autor": "Raul Santiago Pinheiro",
+    "orientador": "Amauri Holanda de Souza Júnior",
+    "orientador_lattes": "http://lattes.cnpq.br/2629504708221802",
+    "orientador_orcid": "https://orcid.org/0000-0002-2912-0781",
+    "repositorio": "https://github.com/raulspinheiro/F-PluvIA-Metropolitan-TCC-GPTCast-IFCE-Maracanau"
+  },
+  "emissao": {
+    "utc": "2026-11-24T11:25:46+00:00",
+    "fortaleza": "2026-11-24T08:25:46-03:00",
+    "ambiente_tag": "G4_RTX6000_Blackwell_95GB_Cronus_VQ",
+    "ambiente": "NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus",
+    "python": "3.13.16",
+    "so": "Linux-6.6.159+-x86_64-with-glibc2.39"
+  },
+  "hardware": {
+    "disponivel": true,
+    "modelo": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "vram_total_gb": 95.0,
+    "pico_vram_alocada_nesta_sessao_gb": 0.0,
+    "bf16": true,
+    "cuda": "13.0",
+    "driver": "580.82.07",
+    "uuid": "GPU-43b2e013-3b76-2cdd-5c78-6fef45809696"
+  },
+  "bibliotecas": {
+    "gpm-api": "0.4.0",
+    "pysteps": "1.21.5",
+    "torch": "2.14.1+cu130",
+    "lightning": "2.6.6",
+    "pytorch-lightning": "2.6.6",
+    "numpy": "2.4.6",
+    "pandas": "2.2.3",
+    "xarray": "2025.12.0",
+    "scikit-image": "0.25.2",
+    "cartopy": "0.26.0",
+    "geopandas": "1.2.0"
+  },
+  "execucao_do_modelo": {
+    "checkpoint": "fpluvia_vq_rmf_2km_G4_RTX6000_Blackwell_95GB_Cronus_20261123T0717Z_best-00-4.8038.ckpt"
+  },
+  "codigo_das_celulas": {
+    "Célula 0": {
+      "posicao": 1,
+      "linhas": 295,
+      "sha256_codigo": "99e1953080610bd0abb4ea38b5fa80cc7aac45d24b9095c5c118ceb6791cfba3"
+    },
+    "Célula auxiliar (Cronus) — Diagnóstico de retomada após desconexão (só leitura)": {
+      "posicao": 3,
+      "linhas": 63,
+      "sha256_codigo": "9d90e9db476409b7885b354f593b8f46263bbb7eea7f1b2e83b54cc9b1d169fc"
+    },
+    "Célula (Machine id)": {
+      "posicao": 4,
+      "linhas": 23,
+      "sha256_codigo": "e23b39c7329a8aae115bbfc39593df7464d37a62001ef60d95d6c8389d1a2c6d"
+    },
+    "Célula (Security info)": {
+      "posicao": 5,
+      "linhas": 38,
+      "sha256_codigo": "95d1ef372ae138e1a18dcfe247c66dfe1153c17d7276705fffa7334b32919a0f"
+    },
+    "Célula 1": {
+      "posicao": 6,
+      "linhas": 182,
+      "sha256_codigo": "570545f72b6898c10ed7d93d95cefb22e8059289fd031a72f9fc0ef2ba4cd1f5"
+    },
+    "Célula auxiliar (Cronus - Somente Leitura) — Cópia dos caches .npz da V1": {
+      "posicao": 7,
+      "linhas": 48,
+      "sha256_codigo": "83b3619627af8409bc7ec123ce4778f5d89c0ddc4911458ae157109126da8d7e"
+    },
+    "Célula (Limpeza de Saídas Obsoletas)": {
+      "posicao": 8,
+      "linhas": 145,
+      "sha256_codigo": "582e4aff7db521d66756e0e6439dedd72aceaeb9618ba3bb3232bb3cdd4bf249"
+    },
+    "Célula 2": {
+      "posicao": 9,
+      "linhas": 426,
+      "sha256_codigo": "395d509c894286b83c08d8ded28508281c0bffbd3cb596b075ced406f4591eda"
+    },
+    "Célula 3": {
+      "posicao": 10,
+      "linhas": 373,
+      "sha256_codigo": "fa150491f5dbb360676a6cd1037c163c42f41acdeb18c3fb6ea566fad6af2ac5"
+    },
+    "Célula 4": {
+      "posicao": 11,
+      "linhas": 401,
+      "sha256_codigo": "ee961e3a1ddeb2253c4e419498614b8f10cf99005fec6b5caa32e5a7f6383438"
+    },
+    "Célula 4 (conferência rápida)": {
+      "posicao": 12,
+      "linhas": 6,
+      "sha256_codigo": "e87d93247e5d9a6b6264a251b117fd5cfd6c2c117632647008307559950f4826"
+    },
+    "Célula 4.1": {
+      "posicao": 13,
+      "linhas": 241,
+      "sha256_codigo": "284d91c2d62b0e96f6c9881660047f53610dc966f567fc0e0ed6e1a23794b3dd"
+    },
+    "Célula 4.2": {
+      "posicao": 14,
+      "linhas": 152,
+      "sha256_codigo": "2788e9d1cb2924860fd849c02fe87a78908d8b7d53c5aaaf51091a9c555e9a85"
+    },
+    "Célula 4.3 (Opcional - Fine-Tuning Suave - Adds Another Dimension of Search)": {
+      "posicao": 15,
+      "linhas": 346,
+      "sha256_codigo": "90db637d3177bb691b56e7c929362b6d6462a25ad3ffbc6e6198378f299a9df2"
+    },
+    "Célula 4.4": {
+      "posicao": 16,
+      "linhas": 263,
+      "sha256_codigo": "05a2cf599175dfe0b933d9b0875dee50c08a451adcb2d63968a6022a07f111bf"
+    },
+    "Célula 4.5": {
+      "posicao": 17,
+      "linhas": 340,
+      "sha256_codigo": "e7950c6d8651d1bd2f873489b85f9471561fc45ad927208f776e0a511d16e116"
+    },
+    "Célula 4.6 (Cronus - Fine-tuning VQGAN)": {
+      "posicao": 18,
+      "linhas": 259,
+      "sha256_codigo": "d0b0808012b4acb2614bf7ba023cd0c1a5438f996ac49503ddc762b7d8a192cc"
+    },
+    "Célula 4.7 (Cronus - Fine-tuning Transformer)": {
+      "posicao": 19,
+      "linhas": 123,
+      "sha256_codigo": "1ce9473d3f54598f22a57ed5f65a3b5c0a01f9379cd50ca03562c41e69f3a012"
+    },
+    "Célula 4.8 (Cronus - V1 vs VQ - Validação 2024)": {
+      "posicao": 20,
+      "linhas": 235,
+      "sha256_codigo": "60fb2dabaa7aa34a089b9c28b129c5487a139f3a64394ea3d20abdd2cd2c6c25"
+    },
+    "Célula (Activates Checkpoint)": {
+      "posicao": 21,
+      "linhas": 151,
+      "sha256_codigo": "e68095f8d3ea79077d50f1e3def59c4a0c30f060f393798a93cec1b543a1fcb5"
+    },
+    "Célula 5": {
+      "posicao": 22,
+      "linhas": 174,
+      "sha256_codigo": "88f7888458faac683621c14cfb7d0be6246e6da244e1a8f1d6b426622b351cd2"
+    },
+    "Célula 6": {
+      "posicao": 23,
+      "linhas": 153,
+      "sha256_codigo": "f4d33840367afd03d8a3dc018dece07948c2ecee54bbb35a68e2f089ab6c4f86"
+    },
+    "Célula 7": {
+      "posicao": 24,
+      "linhas": 161,
+      "sha256_codigo": "f5a4b268449c107d201faa0ec0a4ea0d4b26cb55b8d2728def374718b4fcdbad"
+    },
+    "Célula 8": {
+      "posicao": 25,
+      "linhas": 159,
+      "sha256_codigo": "569989cc12cc004df70e1ad9b6e6b86597eb43efbffb75e1b5396e9a57b3628f"
+    },
+    "Célula 9": {
+      "posicao": 26,
+      "linhas": 216,
+      "sha256_codigo": "ea5a5255f8862609012c7242198880aa2132dd921ce3d94c59cc7fb68fae5309"
+    },
+    "Célula 10": {
+      "posicao": 27,
+      "linhas": 158,
+      "sha256_codigo": "1a597bd8bbdc39f6b793653f45cfbf314a7962271cee08f91ac9343ca601ba7d"
+    },
+    "Célula 11": {
+      "posicao": 28,
+      "linhas": 144,
+      "sha256_codigo": "2846484678410dc1f973c051aa839a5c03f9e8c92c22ded87b12a93a8bed2b23"
+    },
+    "Célula auxiliar (Cronus) — Cópia somente-leitura das janelas observadas de 2026 da V1 (sem as previsões)": {
+      "posicao": 30,
+      "linhas": 28,
+      "sha256_codigo": "b1e5df6b417f17bd1dbf6d93233a18bba186cfdafb4bd06a0f95791df6b4db84"
+    },
+    "Célula 12": {
+      "posicao": 32,
+      "linhas": 465,
+      "sha256_codigo": "ac2911693f8934c17f989ccbb704f154698b7dd73c68239b399b3394b969cb82"
+    },
+    "Célula Estatísticas (Célula 12.1)": {
+      "posicao": 33,
+      "linhas": 152,
+      "sha256_codigo": "68d64b917aae5ad2d768fade47b4468950fe2e19f4b719db5e0c2f21b6427bc1"
+    },
+    "Célula 13": {
+      "posicao": 34,
+      "linhas": 150,
+      "sha256_codigo": "8722ee31b33407e9d7defc990454d5d5e7324bc4cd1ffd7b54351389a9ff0f88"
+    },
+    "Célula 13.1": {
+      "posicao": 35,
+      "linhas": 595,
+      "sha256_codigo": "9aad0edd13b12a105e6ecd4854dab82e2b67e7eb26945fe12d5a29f59d3f90c3"
+    },
+    "Célula Métricas (Célula 13.2)": {
+      "posicao": 36,
+      "linhas": 259,
+      "sha256_codigo": "1f7928abcd4f413c62b27aa104eab44006ca984e5dfbcde56d544ed75228e59a"
+    },
+    "Célula 13.3": {
+      "posicao": 37,
+      "linhas": 245,
+      "sha256_codigo": "77bba557c0289487391284c055055fa46a91634d08bb1c2dff3b6f91847372fa"
+    },
+    "Célula 13.4": {
+      "posicao": 38,
+      "linhas": 291,
+      "sha256_codigo": "9c0c913d121c9becefda85ae474579581d7a62dcd7de1694b25108dc2683cf44"
+    },
+    "Célula 13.5": {
+      "posicao": 39,
+      "linhas": 142,
+      "sha256_codigo": "2a0989088119d29d6e3679e0f0ff919d385c81653f8269ac0635f27080ab1506"
+    },
+    "Célula 13.6 (Cronus)": {
+      "posicao": 40,
+      "linhas": 64,
+      "sha256_codigo": "174b5102af7eafb9f15cb51084faefa8e005b9e9684489083f51c8f9076afd1f"
+    },
+    "Célula 13.7 (Cronus)": {
+      "posicao": 41,
+      "linhas": 299,
+      "sha256_codigo": "0bdbd11aaf21285a219eebb009ca21bc25614f66dcd9ec93678e823c04bf7f54"
+    },
+    "Célula 13.7.1 (Cronus)": {
+      "posicao": 42,
+      "linhas": 379,
+      "sha256_codigo": "6714b15f62fe1ab40a9872239be9b2b91320b2721fdd40e3820559ab3fb120b5"
+    },
+    "Célula Extra 1": {
+      "posicao": 43,
+      "linhas": 268,
+      "sha256_codigo": "680ce0aa797a2f7709004e2c14e5108280ebefca119fce52525c2e39fa2f0d2a"
+    },
+    "Célula auxiliar (Cronus - Retomada do Fechamento, Somente Leitura)": {
+      "posicao": 44,
+      "linhas": 63,
+      "sha256_codigo": "a74da50440a9a5d00ce4c2242be220bcd23dd8b3bd74775df868defcc8e4338a"
+    },
+    "Célula Full UMLs": {
+      "posicao": 45,
+      "linhas": 397,
+      "sha256_codigo": "5594e3bc5494d5e858ac8a56227c7cf13e35b0bbfe0e819fbd0d9da1bf63f70b"
+    },
+    "Célula Extra 2": {
+      "posicao": 46,
+      "linhas": 284,
+      "sha256_codigo": "2377423ce28680a3689b4beb2983efa093920952827c218a9cbc65698598d022"
+    },
+    "Célula Base (Pseudo-vista)": {
+      "posicao": 47,
+      "linhas": 364,
+      "sha256_codigo": "02e17bd28ebb7e56ef75cc5681a0684074e988b0e5fb9a72469c917f86ffc495"
+    },
+    "Célula (Deploy Automatizado)": {
+      "posicao": 48,
+      "linhas": 324,
+      "sha256_codigo": "f0271a12fafaf1250409d33a59b25f624aa863cd1d96579aa5d8ce9320bf41b3"
+    },
+    "Célula Backup": {
+      "posicao": 49,
+      "linhas": 190,
+      "sha256_codigo": "5e8b9e9349072fc00910bb24e681cacdf1808c7b8560c49d29afd708d7d9b432"
+    },
+    "Célula (Encerramento do Ambiente Cronus)": {
+      "posicao": 50,
+      "linhas": 32,
+      "sha256_codigo": "69610451a4f78dec1108bee6d033d40065d91fcb7ed1d6038c6c20b1434b1fdb"
+    }
+  },
+  "artefatos": {
+    "algoritmo": "SHA-256",
+    "total": 549,
+    "bytes_total": 23954343579,
+    "hash_raiz": "112849f620090097607545946e72c8c109f3f0e52857265791cfb608c0df762b",
+    "pastas": [
+      "resultados",
+      "checkpoints",
+      "series_2km",
+      "comparativo_hardware",
+      "diagramas_uml",
+      "resultados_G4_RTX6000_Blackwell_95GB_Cronus"
+    ],
+    "lista": [
+      {
+        "arquivo": "checkpoints/alternativos/gptcast8_rmf_2km_G4_RTX6000_Blackwell_95GB_Cronus_20261123T0049Z_lr1e-5_val0.25_best-02-01399-4.7301.ckpt",
+        "bytes": 4047818642,
+        "sha256": "46c7740d2ebdcb22ec9da3a60aae843f83531ab6c162b3df58333ba6ec5e6be2"
+      },
+      {
+        "arquivo": "checkpoints/fpluvia_vq/fpluvia_vq_rmf_2km_G4_RTX6000_Blackwell_95GB_Cronus_20261123T0717Z_best-00-4.8038.ckpt",
+        "bytes": 4047818642,
+        "sha256": "573776c9054067e190bbd42c1e5768775d1438fb61a6684ab54c757285f4f6b8"
+      },
+      {
+        "arquivo": "checkpoints/fpluvia_vq/last.ckpt",
+        "bytes": 4047818770,
+        "sha256": "d0a99c059ea5f291d30954b64093868d0a8a45999a9b7423951e12fc1ca98b7a"
+      },
+      {
+        "arquivo": "checkpoints/fpluvia_vq/registro_treino_fpluvia_vq_G4_RTX6000_Blackwell_95GB_Cronus.json",
+        "bytes": 964,
+        "sha256": "ca95be592f73e5e09ea07f807c1f3bf984514e62ed6d688a9cf2aaef8b0aa328"
+      },
+      {
+        "arquivo": "checkpoints/gptcast8_rmf_2km_G4_RTX6000_Blackwell_95GB_Cronus_20261123T0028Z_best-00-4.7158.ckpt",
+        "bytes": 4047818642,
+        "sha256": "fb8015106f1c8d60f5ad18eb5be473d183dea0ecc2aef2ec7bd9385b70512866"
+      },
+      {
+        "arquivo": "checkpoints/last.ckpt",
+        "bytes": 4047818706,
+        "sha256": "192bd489d860258ca23d30eed32fde953a08a34931eacae79063524b6d1f5a54"
+      },
+      {
+        "arquivo": "checkpoints/registro_treino_G4_RTX6000_Blackwell_95GB_Cronus.json",
+        "bytes": 968,
+        "sha256": "3fc54d5281285703bb867f74f683f85b40efec152b837a5ed5837bdd9b6c306c"
+      },
+      {
+        "arquivo": "checkpoints/vqgan_rmf/registro_vqgan_G4_RTX6000_Blackwell_95GB_Cronus.json",
+        "bytes": 925,
+        "sha256": "8151f5124b24a8eab8e410210bfdfa8aaee94a750dece3cfe9637af334462725"
+      },
+      {
+        "arquivo": "checkpoints/vqgan_rmf/vqgan_rmf_2km_G4_RTX6000_Blackwell_95GB_Cronus_melhor.pt",
+        "bytes": 362953927,
+        "sha256": "08954fc18e16e69adeb7a2ce09ee99181c5d18e7aff403ae039c4f7cce93f413"
+      },
+      {
+        "arquivo": "checkpoints/vqgan_rmf/vqgan_rmf_2km_G4_RTX6000_Blackwell_95GB_Cronus_ultima.pt",
+        "bytes": 1088908176,
+        "sha256": "d47eb6461710e48866fcb7b4a6daf5c3c6799b26f53fa7c283d54a3d8e63d38d"
+      },
+      {
+        "arquivo": "comparativo_hardware/comparativo_velocidade_inferencia_modelos_G4_vs_H100.csv",
+        "bytes": 1049,
+        "sha256": "1cbfed9f580f3235f432ff8da40771375d668f431da6aae14d27706523e87ddc"
+      },
+      {
+        "arquivo": "comparativo_hardware/painel_benchmark_hardware_G4_vs_H100.png",
+        "bytes": 209786,
+        "sha256": "f4a904a1b10210dba98a0bb71ade55237dfda94f63bfba9598ea9564b6bd09c3"
+      },
+      {
+        "arquivo": "comparativo_hardware/tabela_comparativa_hardware_G4_vs_H100_2019_2025.csv",
+        "bytes": 469,
+        "sha256": "0a40980ca9e35c0c383501d380b67a07d74af9f459ed381e98bace125e6fedc7"
+      },
+      {
+        "arquivo": "diagramas_uml/00_fluxo_entre_celulas.png",
+        "bytes": 2358575,
+        "sha256": "855a31e3132477346e1e1de093794b8d06464abe481886aeca02285d5463fe12"
+      },
+      {
+        "arquivo": "diagramas_uml/00_fluxo_entre_celulas.svg",
+        "bytes": 102694,
+        "sha256": "104a8c5b2ed61fcc112d328fcdb7ae6ae791b85294d0cce47bcbcc883722a25f"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/01_celula_0.png",
+        "bytes": 147339,
+        "sha256": "68768c3cd5f7554c69812a30d6ac45e0e51f37c446e05a10784aa78b131f29c1"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/01_celula_0.svg",
+        "bytes": 7726,
+        "sha256": "dc73dd314656ed298d62c2aeede44b3ffa4099ffd204e8cc2b40fe4323b635fb"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/02_celula_auxiliar_cronus_diagnostico_de_retomada.png",
+        "bytes": 91585,
+        "sha256": "c219552b8c4db3cd9a05f46bf4fb5898d345a548e9ea96bb1962316be959211b"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/02_celula_auxiliar_cronus_diagnostico_de_retomada.svg",
+        "bytes": 6054,
+        "sha256": "752ec326c7ee42b125eb26a0ede0c86006d38892090a8f785d9fe7a3261094da"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/03_celula_machine_id.png",
+        "bytes": 26918,
+        "sha256": "7376744cf363918ae9b90e398b675c03eaa325e5ab9e3d952316d4b57790e651"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/03_celula_machine_id.svg",
+        "bytes": 3063,
+        "sha256": "246d090fc80cb07f0d31ca6d867fcad780b427a7f75f2ddc2d8517251594bdaa"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/04_celula_security_info.png",
+        "bytes": 32473,
+        "sha256": "33655c34548ff4bf5931c25f3ef15bdf0bcf040bdd59fcebc4a12e594f3f6111"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/04_celula_security_info.svg",
+        "bytes": 3221,
+        "sha256": "fa8b4e98e08b32083102bf02c43c424adc6f2d52527b53d80feaf0be5ebb97c1"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/05_celula_1.png",
+        "bytes": 80210,
+        "sha256": "9df77052b0d9f50675c41a81e709f250fdc91e7d68f9004624982ea32ac8f41d"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/05_celula_1.svg",
+        "bytes": 5868,
+        "sha256": "d2b8f3c3ef3d196ac5c3e74ce764e2a43a621633dd4c59f2429df9a9f93750df"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/06_celula_auxiliar_cronus_somente_leitura_copia_do.png",
+        "bytes": 70150,
+        "sha256": "5a9bc41dceb41d75191fd4f93946fa0670062ab6a6be8a4f84bf58dc345c56b1"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/06_celula_auxiliar_cronus_somente_leitura_copia_do.svg",
+        "bytes": 5882,
+        "sha256": "df175238220a496dc85874672c587978bb17240a9dea833a492a3259a8e804ed"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/07_celula_limpeza_de_saidas_obsoletas.png",
+        "bytes": 147054,
+        "sha256": "675573ee0913d2147ea59244745c1f50826bb34df6994f772f9b2c5a6ea886da"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/07_celula_limpeza_de_saidas_obsoletas.svg",
+        "bytes": 8973,
+        "sha256": "1e403902475697d5eeba9c4d2db9256e5dbff3dccca7dc1907e6799e9e0c286f"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/08_celula_2.png",
+        "bytes": 192088,
+        "sha256": "16d4c7a0a6c85833c9c2a8d46ac198070e3f694464ab57f5afa78ede6b1af4f3"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/08_celula_2.svg",
+        "bytes": 11946,
+        "sha256": "b6addf131139329e4d4d00a3c4490c4e0b0b669e796906619d82ad7eca541642"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/09_celula_3.png",
+        "bytes": 324232,
+        "sha256": "078c4deb049da09179104d8b7846913ae26a263472d1e649a241bcf367f7ed66"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/09_celula_3.svg",
+        "bytes": 19657,
+        "sha256": "54053787110ede3c613f35abcfc589050b8b5cfba41d3f926a3a615a93dca84c"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/10_celula_4.png",
+        "bytes": 153982,
+        "sha256": "b05d5c7740e6e7e30182f784b91270a021f37e9f0f757690bbb26b06e42eeec8"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/10_celula_4.svg",
+        "bytes": 9649,
+        "sha256": "19c58787147c6248d1b7292e2bd03fc3e6003d837588617ffc458fad480ddbe5"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/11_celula_4_conferencia_rapida.png",
+        "bytes": 37899,
+        "sha256": "bb7fb2d702c4bdc3273d89e45fe4ab2c73e021aa8052b5382f096fe7c642c336"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/11_celula_4_conferencia_rapida.svg",
+        "bytes": 4051,
+        "sha256": "44103f257367286f131c96055dc923b938db2597fdd138c66008f5ec6f492cd5"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/12_celula_4_1.png",
+        "bytes": 96260,
+        "sha256": "f190b8c4205c9ba96a7387198574fab27e8d7ea7b4b04c005b4d7d92d7fe7cfc"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/12_celula_4_1.svg",
+        "bytes": 7458,
+        "sha256": "2875ddd4064289b5febe6650796bce81e4f5d55fc079328a01a6eba4d956c992"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/13_celula_4_2.png",
+        "bytes": 67428,
+        "sha256": "ef795c64ad1766d1a97c448bd1696884d3d2b31ae8e25ec5c8d668e1506ec657"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/13_celula_4_2.svg",
+        "bytes": 6392,
+        "sha256": "ce892fd7e52c99cbc036df14659d4e930b40c73ff0341355c86ecb5ad9d6e596"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/14_celula_4_3_opcional_fine_tuning_suave_adds_anot.png",
+        "bytes": 157923,
+        "sha256": "aa0e7c646225007c71e2d50d6e4f6ad90742bda74fd6864846a0e361b18c0fcf"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/14_celula_4_3_opcional_fine_tuning_suave_adds_anot.svg",
+        "bytes": 9835,
+        "sha256": "3160e9f98ade30adcb55fc022eb8607d8466bef902b8d36676de7751b33868ff"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/15_celula_4_4.png",
+        "bytes": 111764,
+        "sha256": "92a6776e28705020d773c98e9ad0a9beb56a520d5aa7ed03b0712db5c9b4d494"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/15_celula_4_4.svg",
+        "bytes": 7926,
+        "sha256": "d17ccebc6dbb0d15bbb9306068357cd53355cb4df30c727cbb72f47000f6bb09"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/16_celula_4_5.png",
+        "bytes": 150043,
+        "sha256": "745dc3b47a9b5f4daabd430a8e99364044d64d17ce6a872017c9090fbcca327c"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/16_celula_4_5.svg",
+        "bytes": 10335,
+        "sha256": "d4e88a081fda3261906146e52c560edba1c1d8bf1a042d7df51a690e4aa8f43b"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/17_celula_4_6_cronus_fine_tuning_vqgan.png",
+        "bytes": 131344,
+        "sha256": "37acc2e6c186ea236f1abbf9e7abb6ecae34e592968fee7a57f2fa880cb1ee23"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/17_celula_4_6_cronus_fine_tuning_vqgan.svg",
+        "bytes": 9006,
+        "sha256": "35cdc0e65df9711264accaf5cacbeae5eb45e0568debcbb17af63f7f7304aba5"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/18_celula_4_7_cronus_fine_tuning_transformer.png",
+        "bytes": 135353,
+        "sha256": "1e60f8acdf2c30b5db255ceb33d5740eec4f9e6d699fec7905c3c8e0976e5ee2"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/18_celula_4_7_cronus_fine_tuning_transformer.svg",
+        "bytes": 9160,
+        "sha256": "2a9df283809ba6c496ea8b9d7e29b9b5d321f510aad7b453502296725943f958"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/19_celula_4_8_cronus_v1_vs_vq_validacao_2024.png",
+        "bytes": 177148,
+        "sha256": "4c1bc72b724b38131833b9b636c08087a057c9d2778a23efd8830fb43a321248"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/19_celula_4_8_cronus_v1_vs_vq_validacao_2024.svg",
+        "bytes": 10554,
+        "sha256": "84d9cc9e2dfa8d225e688d9b90cc987ff50f813c4ab5b3f6bf75dbf489b972a4"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/20_celula_activates_checkpoint.png",
+        "bytes": 132670,
+        "sha256": "0051c4a0cad8522688e4f8bd1561677ef9d7df512a338bfff52324f59bd81c90"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/20_celula_activates_checkpoint.svg",
+        "bytes": 9000,
+        "sha256": "c48f7c748a14c78b7e87f022a1fccf4f7511348769eeff67d3447821524cd49a"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/21_celula_5.png",
+        "bytes": 161263,
+        "sha256": "f687f3e5d0c30b9059e72b144c52466fce891df5ab7329f50fe2a5ca79989839"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/21_celula_5.svg",
+        "bytes": 9751,
+        "sha256": "661b4347f2aa6f3cd1e27e363599b5988620e48e519b4893e9cc42abde69c31e"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/22_celula_6.png",
+        "bytes": 145416,
+        "sha256": "5560e8c24c8b81599b40c65fd07c4b71d0e3017d536108c0022abc3ef7d692a7"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/22_celula_6.svg",
+        "bytes": 9413,
+        "sha256": "44e11ce3f83feee150ae816ed36295ae0cf9acd21eb7e802d98d3c1a74d5c9bb"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/23_celula_7.png",
+        "bytes": 125966,
+        "sha256": "605edbdc7d423ec1c671671fa70d55f7d14e447ef5d47c2f2e38e7e5f1e6ce8b"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/23_celula_7.svg",
+        "bytes": 8276,
+        "sha256": "0512650448c3a35cc454acfbfbf97712d9ef78c656ca2c52a681f7f901255928"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/24_celula_8.png",
+        "bytes": 105314,
+        "sha256": "39ed108e1430341eb49ce9f86609c3e58b1e6051e73cc32bb02a3ad51d06174f"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/24_celula_8.svg",
+        "bytes": 7740,
+        "sha256": "7188551ea52f301a9ea75b38a746813b6f5f00b5408e74f472f11f9aed5acb7f"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/25_celula_9.png",
+        "bytes": 139979,
+        "sha256": "828949eb62b874bf62af8d81fd7b52c5f12b2bb5ac7d2ef08b9502176cf3b494"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/25_celula_9.svg",
+        "bytes": 9221,
+        "sha256": "86882500375046a376de07d515d366ace722f9ac5c1d0298c1d114e3fd1372a3"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/26_celula_10.png",
+        "bytes": 162083,
+        "sha256": "f20042702e88f16fe8bced0e12b04e2cb3aaecb0e8f6c57ed6ba026183fd71ef"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/26_celula_10.svg",
+        "bytes": 10499,
+        "sha256": "49660a8bd7ee68b5a3419bd0a025be05d0e3c44e83d75831cbe0f7b04673d5fe"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/27_celula_11.png",
+        "bytes": 106983,
+        "sha256": "56dfcbfc27cf926ca869a96b847bb8dca1824c2a78ddd932fa5e555fb9fe43f2"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/27_celula_11.svg",
+        "bytes": 7581,
+        "sha256": "bdc7efb0320be0d2a5d8dd20158c583ea0a1a3d462835379edd87891236032be"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/28_celula_auxiliar_cronus_copia_somente_leitura_da.png",
+        "bytes": 75456,
+        "sha256": "6214613fd26703735dcb2f7c269ee1c867b3fb87fc8aaf727512fde000d4f0b5"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/28_celula_auxiliar_cronus_copia_somente_leitura_da.svg",
+        "bytes": 6011,
+        "sha256": "5bbfcddf61ae4541f2e405b1c6304fe3ba4c911913198e93b300aed7e03e1869"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/29_celula_12.png",
+        "bytes": 179715,
+        "sha256": "09540704965cea0e0ee0677786efc1c385b1ba3dadf2e8a1ef21f051cc216e4c"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/29_celula_12.svg",
+        "bytes": 11750,
+        "sha256": "ba3b41862203f893c4366f7d5a853671aeb3a0fd1004b68703526d73cf1f81cc"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/30_celula_estatisticas_celula_12_1.png",
+        "bytes": 109573,
+        "sha256": "9c3e14d1dc29a2cdc1f21cf41c2d74a35a122060560ba53bd9190479863baeac"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/30_celula_estatisticas_celula_12_1.svg",
+        "bytes": 7903,
+        "sha256": "9fc24fea40d75c267b2623f5156ca5ef5cc24195c6d798ea6598f48ed30005a4"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/31_celula_13.png",
+        "bytes": 124488,
+        "sha256": "4aaf6f4ad9941159a0460aad8ed8cdc001ad8ff0eed7a3bf2a6fc020eab81794"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/31_celula_13.svg",
+        "bytes": 8325,
+        "sha256": "714bf8e385f8a79f3f6ad5492e9d658c247eec1f3adadce38b4926471d21e5ef"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/32_celula_13_1.png",
+        "bytes": 210516,
+        "sha256": "d5cbc23da020d1ecff5517bd964e76c8aae9ae50a97ab012e5a0d6b5a12eed2c"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/32_celula_13_1.svg",
+        "bytes": 12183,
+        "sha256": "a53c236d8cdb8543435e469a3e49280fa471e909ef2519637fc45725f9c36376"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/33_celula_metricas_celula_13_2.png",
+        "bytes": 107823,
+        "sha256": "173ae80146c2d79e31b8176d202e022914521a3a65d018cb9f3c985b223ee717"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/33_celula_metricas_celula_13_2.svg",
+        "bytes": 7641,
+        "sha256": "2b5fd83533376d4e7bf26b1d5c6a3f07a961cf93f5753990a63af991dad87add"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/34_celula_13_3.png",
+        "bytes": 126817,
+        "sha256": "41aacc556f0b95339020839aec86c9a100ff29ad397ce3a22a1998a2fc8fc3ef"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/34_celula_13_3.svg",
+        "bytes": 8288,
+        "sha256": "9b0beeaeb613c45b3df46c989987f9a9aa4fb89ac2e7056002d501b1f2e66530"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/35_celula_13_4.png",
+        "bytes": 120956,
+        "sha256": "59ee2e7cfbc136665fe86560c59442f076b253d0ad97386c25f19214c15a3096"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/35_celula_13_4.svg",
+        "bytes": 7901,
+        "sha256": "dad778c2067ecad5985caaeaa40a89011073ca489d98628dbd401dd44e83a7cc"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/36_celula_13_5.png",
+        "bytes": 91289,
+        "sha256": "42feebda88951d3786a12be8152e03b0761070271ca51e7f7719675980134002"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/36_celula_13_5.svg",
+        "bytes": 7717,
+        "sha256": "521f7fa23a30b480f9b49c26e483527f18c22b1c92009bb5440e443227d2a756"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/37_celula_13_6_cronus.png",
+        "bytes": 92234,
+        "sha256": "3cf2450e16acc5758571268bf9be4e60bafefed132414d5158c1ba345b17bae7"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/37_celula_13_6_cronus.svg",
+        "bytes": 6075,
+        "sha256": "b45d55441035259a03523f46ee1df1aeca08b9009c9486cf8ed3ee6e6116f990"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/38_celula_13_7_cronus.png",
+        "bytes": 166821,
+        "sha256": "ed02359a70a97c0f5f7c5ec5db10495f3524f3330f944343104f063dce2e76ef"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/38_celula_13_7_cronus.svg",
+        "bytes": 10637,
+        "sha256": "8ff9b93339337dfdc05f4319f8ee258c49ff4340da24ca2f08a25144fd3c1b44"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/39_celula_13_7_1_cronus.png",
+        "bytes": 130461,
+        "sha256": "a5ee45ca7714ecf8ecfe0f0133b2858bd55a0d115f8f46fca28ef7e549a6c6e2"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/39_celula_13_7_1_cronus.svg",
+        "bytes": 7993,
+        "sha256": "f9720fba45b2be276b89e6452254bc69809aa105b874b3a6d00c5e4bf1182cee"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/40_celula_extra_1.png",
+        "bytes": 111960,
+        "sha256": "6c492fef6ae54a1f137595bb7d5a5c0f85648fe7b8032b11c4093acb0a0f5ac3"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/40_celula_extra_1.svg",
+        "bytes": 7827,
+        "sha256": "aba9925f5e8c4f32f85652bb941c694fe5d12cdb2028c5940e6c9acfda9f2107"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/41_celula_auxiliar_cronus_retomada_do_fechamento_s.png",
+        "bytes": 118984,
+        "sha256": "10b123f939809e3c5be0b5284e00163439ae74be361f296c57862444bba8508c"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/41_celula_auxiliar_cronus_retomada_do_fechamento_s.svg",
+        "bytes": 7482,
+        "sha256": "59708fff2583cbcded1e46655abd0391a670c171c44841fca75e7dd4178d3147"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/42_celula_full_umls.png",
+        "bytes": 141897,
+        "sha256": "232ced21313b151d6acd2738cdb6a093315addbe7c632e68d08e7254a502afea"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/42_celula_full_umls.svg",
+        "bytes": 9923,
+        "sha256": "22f477f25487c9554961ebb02d8ae80e14339404b45d864be0344c690bc4c595"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/43_celula_extra_2.png",
+        "bytes": 142500,
+        "sha256": "ab40c50865e6f8b8dc81a951460bfeb2194fc26126330387b321c204fede4b9d"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/43_celula_extra_2.svg",
+        "bytes": 9450,
+        "sha256": "94c019a8530391366b491c56dbd5840692ac709bdc40cd5b715162190fae2cb0"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/44_celula_base_pseudo_vista.png",
+        "bytes": 136223,
+        "sha256": "710faca3956bb34c69a1a3e124249eeefa6ea2333621f883e9d325e2a27e764f"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/44_celula_base_pseudo_vista.svg",
+        "bytes": 11268,
+        "sha256": "249dff484860343bc05de9837ca98eecb3aa6ec3fcce161cb08b8919623cb7d3"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/45_celula_deploy_automatizado.png",
+        "bytes": 141342,
+        "sha256": "6f7ad7c8960451c4a1a45d4f89f916d0940b6056342b84a654d2310083168a6e"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/45_celula_deploy_automatizado.svg",
+        "bytes": 9369,
+        "sha256": "d919ac3a770737038f8381c3a679c227a863303a028fb9ef8cc773b4009645a8"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/46_celula_backup.png",
+        "bytes": 119999,
+        "sha256": "47efe09abca25e6f895fddb3ce3cdcfd84adfd4a36015ddc1a02a8eaf2e43650"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/46_celula_backup.svg",
+        "bytes": 8987,
+        "sha256": "76cd53a8776a617afa2119b4224de209a21168036d4fb98b1eb9a149ca45f58a"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/47_celula_encerramento_do_ambiente_cronus.png",
+        "bytes": 59904,
+        "sha256": "ebd250304c4e2c427981d028c02c4865b5a212e6e6ad1033588c644985885717"
+      },
+      {
+        "arquivo": "diagramas_uml/celulas/47_celula_encerramento_do_ambiente_cronus.svg",
+        "bytes": 5055,
+        "sha256": "5778698b5106656636892b497fc098f5196b30e84a356180c4f06bb75d72f2ec"
+      },
+      {
+        "arquivo": "notebook/exec_Cronus_F_PluvIA_VQGAN_RMF.ipynb",
+        "bytes": 12864855,
+        "sha256": "6dd330beb3c246ba769e7214fde30b7bde7db3439d23d63f41fe1d25396da511"
+      },
+      {
+        "arquivo": "resultados/benchmark_agregado_teste2025_imerg_fr_2km_G4_RTX6000_Blackwell_95GB_Cronus_VQ_N1729_amostragem2024.csv",
+        "bytes": 7159,
+        "sha256": "55b383fd07ae5b3558a569ca5ad86be9e17cef4abf6db865e9838f97ad987c75"
+      },
+      {
+        "arquivo": "resultados/bootstrap_diario_teste2025_G4_RTX6000_Blackwell_95GB_Cronus_VQ_N1729_amostragem2024.csv",
+        "bytes": 648,
+        "sha256": "8ba11fbb887a7d69537f7f773cef34d9820e1713a66b26d4cbc53fc739b09dd0"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00000.npz",
+        "bytes": 7684701,
+        "sha256": "55a2a22f32de3b5208dd810af3e3b2cca4b63be0a90211e3625dd90ab97355d1"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00050.npz",
+        "bytes": 13167998,
+        "sha256": "e4a8d438a79e434feca47d3d9d9bfc49819e9c254d51029c004b75608623a67d"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00100.npz",
+        "bytes": 6889717,
+        "sha256": "511af045c1fc6f67008439c65aab06cd1e323210af4d2d095a618183303f819e"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00150.npz",
+        "bytes": 7977644,
+        "sha256": "c3f68b87ce92a822c115bbecc9b61d090cbe64fa32bc8e0e5f6dee11489009ba"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00200.npz",
+        "bytes": 7152631,
+        "sha256": "dde0a5ac16e49b4b7330374c1f1d617c510b8f0866fc74ae0db0c73abf55d34e"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00250.npz",
+        "bytes": 8650920,
+        "sha256": "4d60034148e5fcafe5b086889d33889eeb4ef8db4636c6931ee6dd9b7089a18f"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00300.npz",
+        "bytes": 13461317,
+        "sha256": "ac2adc79902071f61a01566b3659e7626f008b49c36795c7eef97aacf5c6ee78"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00350.npz",
+        "bytes": 9116338,
+        "sha256": "06c12e2b19df38e7d02d5e9afac232679d05b3d77f0c83fea72be95e69aaf15d"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00400.npz",
+        "bytes": 9484911,
+        "sha256": "167303d2cb05d298ae2ca93ecddeb9e68a52b5c9aa4328f255555c360888b9c2"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00450.npz",
+        "bytes": 18174731,
+        "sha256": "9eef8e9435eefcc7131121305a94ed399951146b1422781e7db3416983d95bcf"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00500.npz",
+        "bytes": 10681532,
+        "sha256": "93c6348addd704445e525899fd58cd4eac0db47bd0d9bffc0643cac44637abf1"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00550.npz",
+        "bytes": 8881515,
+        "sha256": "7ec3528279e11c9761c4712f6260118cbfa29a5618559e0056e60f232c096e00"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00600.npz",
+        "bytes": 10993665,
+        "sha256": "f8aa3a0dfd3c3529936540cdcefad5ff424e92f6aac235ac219d0460dc246c6b"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00650.npz",
+        "bytes": 18128181,
+        "sha256": "adb4222012fc0a43133c7412329158e4e649132d5f559278f93c0a2f46846660"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00700.npz",
+        "bytes": 9982947,
+        "sha256": "2f2b9bbbb0d5501be0665d9a22171e9b7f4c939ea676dbd6f454796dc031edbd"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00750.npz",
+        "bytes": 12316405,
+        "sha256": "5869c87cfa27a2faddb381a92a4d81758ae275b61699df91b5cf112d416a05e6"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00800.npz",
+        "bytes": 14505140,
+        "sha256": "c81977d245ec6be311d4b3d3fe2865fcdc4d78337a8cb1037629421129cadeae"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00850.npz",
+        "bytes": 8024630,
+        "sha256": "9eb37bdfbcc18d143e3d5061b08dd4b62a24707e1421b99f21a50c072b506e47"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00900.npz",
+        "bytes": 7757070,
+        "sha256": "2db542c2234c08fc9dbc94e514cf265957b16efba6dc6b25b447b8d4dc0a3320"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_00950.npz",
+        "bytes": 5552075,
+        "sha256": "60083f227131f3fd177e31891b5cb51984d0b7cbb606e2f04b77df785b390a6c"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_01000.npz",
+        "bytes": 9818229,
+        "sha256": "58563b93f597fac594ea11034d57ee4531b22eb03ad9bddbfb5aa6f05873aed8"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_01050.npz",
+        "bytes": 13098769,
+        "sha256": "bbd8d89c5cfa0098fd929eef33dfe42133b33f960ec788ac163b580bc8970700"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_01100.npz",
+        "bytes": 8867322,
+        "sha256": "55f2e305600b5ae013d9c5e42336a704880aaadd53d3bdb102fa6878d3678e62"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_01150.npz",
+        "bytes": 8841880,
+        "sha256": "defbd1dda9205b21300211a8437c7130ac4943ca0dca10daf038ce61e23205e0"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_01200.npz",
+        "bytes": 5911904,
+        "sha256": "d6f91fcb0ae49fc036e849478e9a30ff26aa89f39dde1b8b1894cbc42569a1b9"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_01250.npz",
+        "bytes": 7474326,
+        "sha256": "f6d686544bd5db5ce0474e18cb8febbba4f0934d47132f0a1aedca7f50337312"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_01300.npz",
+        "bytes": 8019566,
+        "sha256": "cb92c5e1b265d5f0b00529a76b8570374403f717c035ec58306da0d963f1f638"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_01350.npz",
+        "bytes": 11243799,
+        "sha256": "3b620c3eaf9e070f5d8ac894e0372d5eb9480b6fd335b1a3f3139642df0abadd"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_01400.npz",
+        "bytes": 12050395,
+        "sha256": "d4c0ab1eaa71ee1ecb3e3a2a1cfb3d06d3f7a0898be978b0f7fce103b1397082"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_01450.npz",
+        "bytes": 5452745,
+        "sha256": "b681ed2458e2cca59c32b3777f291cd54497dd757d7339d4566ab802724cb312"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_01500.npz",
+        "bytes": 14472377,
+        "sha256": "9bb93fba4e5bc989a5c6c2066ec2f43aff40035404cf7945093181a71d5c65f6"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_01550.npz",
+        "bytes": 10207035,
+        "sha256": "ed68e979ac05f700e24c2d4a496bd27e0837acef62f9eab8b1f0e883f7755564"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_01600.npz",
+        "bytes": 7914125,
+        "sha256": "e02308ce95eaa43651bedf31ee0034678b3afec97751641e63eb3da0e1061000"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_01650.npz",
+        "bytes": 5078555,
+        "sha256": "eddd825b897ac1b626555fa2f11d698cbb83d46027b7bb93108eed9cbfce5246"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/bloco_01700.npz",
+        "bytes": 3226621,
+        "sha256": "4eb7951500c0418a11cb5d5f53afaf31c47ed3f61bdb05910ac9a97ea2f92101"
+      },
+      {
+        "arquivo": "resultados/cell12_previsoes_242867fd02c3_n1729_s42_amostragem2024/config.json",
+        "bytes": 887,
+        "sha256": "0da4546009cd04e86eb0d7fbd14fb5b76e0a03ab54c32746e75cfbaccbb44c29"
+      },
+      {
+        "arquivo": "resultados/cronus_duelo_resumo_G4_RTX6000_Blackwell_95GB_Cronus_VQ.json",
+        "bytes": 2098,
+        "sha256": "6e892a5dc7f1b20402a5779bfbbfdd43a243e673908b35dc9e9c59bd67d21d59"
+      },
+      {
+        "arquivo": "resultados/cronus_duelo_v1_vs_vq_2025_G4_RTX6000_Blackwell_95GB_Cronus_VQ.csv",
+        "bytes": 1440,
+        "sha256": "90f88b2dd5d22ceb31381d28392301d5c41124b4143f483a4af82a789f2add09"
+      },
+      {
+        "arquivo": "resultados/cronus_duelo_v1_vs_vq_2026_G4_RTX6000_Blackwell_95GB_Cronus_VQ.csv",
+        "bytes": 1451,
+        "sha256": "1e099b6e2bc536bf31b1dbd92773c99d0f27a619c47e80107f54f85268255a70"
+      },
+      {
+        "arquivo": "resultados/cronus_kvcache_resumo_G4_RTX6000_Blackwell_95GB_Cronus_VQ.csv",
+        "bytes": 755,
+        "sha256": "253f3e770270be40f6509270a8848ce190ed78661af496aa7ff1443baebc17ac"
+      },
+      {
+        "arquivo": "resultados/cronus_kvcache_v1_2025_G4_RTX6000_Blackwell_95GB_Cronus_VQ.csv",
+        "bytes": 1503,
+        "sha256": "0fc8ac48961faccf0c37e808e87650e2c88dabe1713aa39465e80d27613309c8"
+      },
+      {
+        "arquivo": "resultados/cronus_kvcache_v1_2026_G4_RTX6000_Blackwell_95GB_Cronus_VQ.csv",
+        "bytes": 1519,
+        "sha256": "12d923cfff050fa3873fc98ea6a9afbde0f042b0981167ab09ded9f7df5eb9b4"
+      },
+      {
+        "arquivo": "resultados/cronus_kvcache_vq_2025_G4_RTX6000_Blackwell_95GB_Cronus_VQ.csv",
+        "bytes": 1497,
+        "sha256": "a1277c205f4475a887cc392c26d532555364ae74e45f21c044550658e54fc228"
+      },
+      {
+        "arquivo": "resultados/cronus_kvcache_vq_2026_G4_RTX6000_Blackwell_95GB_Cronus_VQ.csv",
+        "bytes": 1508,
+        "sha256": "01360d46dc27dc7b5fb7dc96ae3caae7e6f6a71acb171bd5e16dfdbba726f721"
+      },
+      {
+        "arquivo": "resultados/figura_comparacao_experimental_bigO_v1_vs_vq_G4_RTX6000_Blackwell_95GB_Cronus_VQ.png",
+        "bytes": 353407,
+        "sha256": "233c71ba546289f3b9dfee8b92a5c0451a740847ecc2ea71a5e94bf8fcdb79d6"
+      },
+      {
+        "arquivo": "resultados/fpluvia_metricas_classificacao_teste2025_G4_RTX6000_Blackwell_95GB_Cronus_VQ_N1729_amostragem2024.csv",
+        "bytes": 24380,
+        "sha256": "97688f2472953b0f3ff4e92306dbf41e0bdf975fb6802ea3c2b5968f5173b12c"
+      },
+      {
+        "arquivo": "resultados/fss_conjunto_teste2025_G4_RTX6000_Blackwell_95GB_Cronus_VQ_N1729_amostragem2024.csv",
+        "bytes": 2515,
+        "sha256": "742cf22244ae49683ec477f0f5566b5e9c6bb88372619fc2920b6e745a1a1980"
+      },
+      {
+        "arquivo": "resultados/metricas_classificacao_particao_completa_1729_teste_2025_G4_RTX6000_Blackwell_95GB_Cronus_VQ_amostragem2024.png",
+        "bytes": 733015,
+        "sha256": "889eb16b808d4b18d22ce4f456ca35c3aefc06d474f59b16b1538df6d7176e31"
+      },
+      {
+        "arquivo": "resultados/painel_complexidade_bigO_v1_vs_vq_G4_RTX6000_Blackwell_95GB_Cronus_VQ.png",
+        "bytes": 417285,
+        "sha256": "bee6831b3f01e21a8e09fddb726566de10a5448870d8e0560ee38257e7c77228"
+      },
+      {
+        "arquivo": "resultados/rastreabilidade_gptcast_por_celula_G4_RTX6000_Blackwell_95GB_Cronus_VQ.csv",
+        "bytes": 1835,
+        "sha256": "83bff66a9d9d33b2fedfe61da3fa71c6edca28a9dbcc865633aba3c70e8d06e1"
+      },
+      {
+        "arquivo": "resultados/sal_conjunto_teste2025_G4_RTX6000_Blackwell_95GB_Cronus_VQ_N1729_amostragem2024.csv",
+        "bytes": 3247,
+        "sha256": "63116ec3037727cf5cb22aa5c484dbb09f3d185f17c39b87624a7a4823dcca5f"
+      },
+      {
+        "arquivo": "resultados/tabela_ajustes_bigO_v1_vs_vq_G4_RTX6000_Blackwell_95GB_Cronus_VQ.csv",
+        "bytes": 312,
+        "sha256": "f97d07117025ec12c1f087f419ecbd9eb9e9a28b3f5813aa7d229e57a3ea426b"
+      },
+      {
+        "arquivo": "resultados/tabela_avaliacao_integral_1729_seq_teste_2025_G4_RTX6000_Blackwell_95GB_Cronus_VQ_amostragem2024.csv",
+        "bytes": 2220,
+        "sha256": "74ccb7ba3200d8c92c52e6f5ac12b065018fd0c54a7496612ba399f383ecfef7"
+      },
+      {
+        "arquivo": "resultados/tabela_complexidade_bigO_v1_vs_vq_G4_RTX6000_Blackwell_95GB_Cronus_VQ.csv",
+        "bytes": 2099,
+        "sha256": "03ade3c2fbaeb46b32a29603fd423b6145d81cf2cba6245975ec499d319a0b37"
+      },
+      {
+        "arquivo": "resultados/tabela_verificacao_kvcache_v1_vs_vq_G4_RTX6000_Blackwell_95GB_Cronus_VQ.csv",
+        "bytes": 2320,
+        "sha256": "a048d488a9d1902084fba00d5e4b7346ed78951de8a489ca4a018bea315190e3"
+      },
+      {
+        "arquivo": "resultados/teste_cego_2026/caso_Convectivo10092026_G4_RTX6000_Blackwell_95GB_Cronus_VQ_amostragem2024.png",
+        "bytes": 2799193,
+        "sha256": "04df4b63237335515c582e0b70a2ba91ca5604807fff0aff9ccea444eded5d6e"
+      },
+      {
+        "arquivo": "resultados/teste_cego_2026/caso_Estratiformelongo1617052026_G4_RTX6000_Blackwell_95GB_Cronus_VQ_amostragem2024.png",
+        "bytes": 2980718,
+        "sha256": "a847a796b668bb9c38209fce070966a54a2a9c3e21a9a177f6cdcbc178ab5d67"
+      },
+      {
+        "arquivo": "resultados/teste_cego_2026/f1_alertas_2025_vs_2026_G4_RTX6000_Blackwell_95GB_Cronus_VQ_amostragem2024.png",
+        "bytes": 328596,
+        "sha256": "8be307804b756330cb4b4c6336171f28bb08fba5d08f4f84e5e552470a7790f8"
+      },
+      {
+        "arquivo": "resultados/teste_cego_2026/fpluvia_f1_municipio_bootstrap_dias_2025_2026_G4_RTX6000_Blackwell_95GB_Cronus_VQ_amostragem2024.csv",
+        "bytes": 3978,
+        "sha256": "ac00665f5d53bae4cd21377462a5d56877c4fa83e2f9f21542875924ec693cb4"
+      },
+      {
+        "arquivo": "resultados/teste_cego_2026/fpluvia_metricas_classificacao_teste_cego_2026_G4_RTX6000_Blackwell_95GB_Cronus_VQ_N2108_amostragem2024.csv",
+        "bytes": 45501,
+        "sha256": "ec306702a30bc60836a4274a8bdacba36f72e4f9d322837754139dd15ba2a0bc"
+      },
+      {
+        "arquivo": "resultados/teste_cego_2026/metricas_classificacao_teste_cego_2026_por_horizonte_G4_RTX6000_Blackwell_95GB_Cronus_VQ_amostragem2024.png",
+        "bytes": 809714,
+        "sha256": "b6b2a5e1f63b74b5022ee96731134070f9d25224f13f8b53d604481d3cbac1a1"
+      },
+      {
+        "arquivo": "resultados/teste_cego_2026/painel_teste_cego_2026_vs_2025_G4_RTX6000_Blackwell_95GB_Cronus_VQ_amostragem2024.png",
+        "bytes": 731770,
+        "sha256": "c10591eed4610f8bb102f5d2a2789c59ae95b4f891c6c878a46333e2b43885b9"
+      },
+      {
+        "arquivo": "resultados/teste_cego_2026/teste_cego_2026_bootstrap_dias_G4_RTX6000_Blackwell_95GB_Cronus_VQ_amostragem2024.csv",
+        "bytes": 632,
+        "sha256": "9a382affcce5b3bbbf7961611eb8d906dd61612e51dadfe49927c265ab8f6665"
+      },
+      {
+        "arquivo": "resultados/teste_cego_2026/teste_cego_2026_estudos_de_caso_G4_RTX6000_Blackwell_95GB_Cronus_VQ_amostragem2024.csv",
+        "bytes": 14348,
+        "sha256": "beee23216796af00e9373cbbb790d61976d09d7f9b96f88ea64dff89ad99bb5e"
+      },
+      {
+        "arquivo": "resultados/teste_cego_2026/teste_cego_2026_meses_e_produtos_G4_RTX6000_Blackwell_95GB_Cronus_VQ_amostragem2024.csv",
+        "bytes": 189,
+        "sha256": "3fc0a533dbde15747af5bb38474a74f73e093929464ad08b0f92c4a19cfa375c"
+      },
+      {
+        "arquivo": "resultados/teste_cego_2026/teste_cego_2026_metricas_por_lead_G4_RTX6000_Blackwell_95GB_Cronus_VQ_amostragem2024.csv",
+        "bytes": 17320,
+        "sha256": "2680357bf579ed33a2ddf842ba77fa15fb7048c54683f49ec1892fb635968106"
+      },
+      {
+        "arquivo": "resultados/velocidade_inferencia_teste2025_G4_RTX6000_Blackwell_95GB_Cronus_VQ_N1729_amostragem2024.csv",
+        "bytes": 1057,
+        "sha256": "37406ceacf805f796157fa19802c4530be1d8fd68de19a2244beabdef79fad34"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00015.npz",
+        "bytes": 201748,
+        "sha256": "9e99698e0de9bda71a6ffe2ecfb7ba805f2737a260065ad80a5ab0740000f8bf"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00043.npz",
+        "bytes": 331095,
+        "sha256": "77708106cd8e0550816fb006fd62f20b954fa34cbb57312239bb54912f9af0fa"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00048.npz",
+        "bytes": 441902,
+        "sha256": "b6f637286a8db35860684631eab7ade1f27a2e46e17a38d575d9c3fb40b90e55"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00065.npz",
+        "bytes": 799732,
+        "sha256": "93fa5af74c4846a03d39b55cad0368e1bf5cf0aeab36590c6785d5c644aac369"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00073.npz",
+        "bytes": 925663,
+        "sha256": "6b5868ec35afcefcc58210cb1e3ebd0d96b3aad1bf5e7cd48049e0f27bd672ec"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00078.npz",
+        "bytes": 623765,
+        "sha256": "1cf77df2334258b8fa98393bcbc150a5b98c98008b0a3e6a38d056b2ac76460a"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00089.npz",
+        "bytes": 232326,
+        "sha256": "e7ed2d980d30a8cd80b7e9b8413a17aa0ef1de7700ee6ef33730f87731c320aa"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00124.npz",
+        "bytes": 523986,
+        "sha256": "797bda7a77a4ad595648c54445363f644e754d6360f2bcfd01355495071d1729"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00128.npz",
+        "bytes": 419230,
+        "sha256": "0b31102799b8eedccce76df81bdde6adae7ce07a8c7831481632e034f652e3a2"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00137.npz",
+        "bytes": 500923,
+        "sha256": "c6376fc908ca2247dfdca0a7edf42f1a4d29809be58de2fe577473ed0e029600"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00156.npz",
+        "bytes": 557189,
+        "sha256": "c8fc9db039d7a7ea29f267114f9e47ceb19fbbb509ff64d9869ab7593006e739"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00167.npz",
+        "bytes": 1063871,
+        "sha256": "7e2aa345659b6de9da277b31c77c40fec8b82008725d14788dfb0792f2c94fc6"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00171.npz",
+        "bytes": 648263,
+        "sha256": "f06ea82565ac01b77351fa563a1e2a592f6a16c0092ab0064a6e147ca9a06daa"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00174.npz",
+        "bytes": 357134,
+        "sha256": "b5cfaaf8316425094292117d46be7eae1cfd4f5684db83d511dc7ab6623da68d"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00177.npz",
+        "bytes": 539861,
+        "sha256": "480fff3660ee1b9f09d1102cca56d2ab3e6eafa80352130444701b0fe2d630a9"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00185.npz",
+        "bytes": 133405,
+        "sha256": "689ebcf246142339e88bdfbd35a400a9ae11dccd693efda6ef1d07598464242a"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00187.npz",
+        "bytes": 357620,
+        "sha256": "416f4a8eb10f5a0ac7566b8afdbe8b2ea6fcc9ddca2e530da75168ee9f55259e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00191.npz",
+        "bytes": 133734,
+        "sha256": "ea41b3135e86bab0f6d54bf9f44e5f60e21ea77312418831c2a2832fa0007268"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00194.npz",
+        "bytes": 189667,
+        "sha256": "7cf5d859c5fdce5de5fbd59ee8a3954773ba6bc470e54de7d14e65cd5667f510"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00201.npz",
+        "bytes": 375330,
+        "sha256": "793f34aa592453d5f0fd2a24b540570d7933063fb886605f498f7d03f5c215bc"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00212.npz",
+        "bytes": 519260,
+        "sha256": "6ce061ac7a1bc2d24c94aad4995a69eab6454bca33dda88f44dcd962ad3eebcf"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00228.npz",
+        "bytes": 854583,
+        "sha256": "348f129ce8e792af7a091014f2c444716b7415e2d7c9ed2812bf92e5ddc5ed1c"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00240.npz",
+        "bytes": 975971,
+        "sha256": "fdf35831c61fadb7e0aca27000fdb6c093a1148c5de83ffb0f2156aafb844b81"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00256.npz",
+        "bytes": 637703,
+        "sha256": "2acb2973ca69374c33a6b956eae9eadb62ba4335d7a20630fdec4eb44529a190"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00257.npz",
+        "bytes": 566707,
+        "sha256": "5e7db16071112a7e4432dd9ce1120be223372a850a76e060dfc95d736dd9bc1c"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00267.npz",
+        "bytes": 836616,
+        "sha256": "bcc5a9ede41645e80b28d34e21a93ff97fdfcd44d2817dd1da1db9a48ce2ab89"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00270.npz",
+        "bytes": 950653,
+        "sha256": "b60eb22644250b1233cb364e95cd9b8ffcae42cfe93dc9fdfc7179a9bf42582c"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00281.npz",
+        "bytes": 1162090,
+        "sha256": "7be1b50e1167586b3c540cc36e24e98cea972515bd8224211bead5a9a1d21905"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00291.npz",
+        "bytes": 794795,
+        "sha256": "3720672e51a0c6f8b4af7c8906a95ebf97bee30091ce34a168c7901ebb78fb49"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00293.npz",
+        "bytes": 1019738,
+        "sha256": "a565c8f68ffed4fe443f8b5ec5274ca38a8ce681cdebbb35e750dae7049686f8"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00315.npz",
+        "bytes": 428392,
+        "sha256": "1c5e648698d3b462c12800b226d18599a0700926cc8b58dd27cd9067266a0698"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00329.npz",
+        "bytes": 431443,
+        "sha256": "0623729caea654c37fc0b22299026d997e9d82a149c7f6ef9f0c7df05a0ed4db"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00332.npz",
+        "bytes": 823934,
+        "sha256": "26c55287f62f568b224c1d5f1bf78811142a665f0e12aac94684526ee07b5bcc"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00334.npz",
+        "bytes": 871390,
+        "sha256": "98ecd51648c82b60e39d0a7b57c0af1920ea5cb2e1b8f53057b1f8d244159341"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00348.npz",
+        "bytes": 365803,
+        "sha256": "853609cc893a95007f3919c885d43d9a93b3b93fe86f7d0c95148e7fa6745ff8"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00359.npz",
+        "bytes": 377168,
+        "sha256": "ebfa1e8d9cb29fef482d58d646cc2d835d6df342a93860374eddb64b3338d8db"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00360.npz",
+        "bytes": 316300,
+        "sha256": "98dbbd6407c0d468aefcd4e187b7ab28953a0e9ccc333fc258a9b37990a4c148"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00366.npz",
+        "bytes": 227800,
+        "sha256": "345af3f22b1c147eda0b9eff42a56060a651c02dd0c7c220f695026637c0079b"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00389.npz",
+        "bytes": 900415,
+        "sha256": "b37ed6763d4b565d06208de4f2e1a0e5b2aa4cbc76388d34dae2bd4afbc52372"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00391.npz",
+        "bytes": 984474,
+        "sha256": "5eb9bef7c3c554712376bc746fa2fe6737fce13ee7930556a3e691021a5085d5"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00396.npz",
+        "bytes": 1257375,
+        "sha256": "2f31ad0da9efad7afe8bbf94df0430687501761b3e6985641cdd3daa740dc5dc"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00401.npz",
+        "bytes": 1060487,
+        "sha256": "8342cf90058afdee3712e2f0c6ebcb08e4dcb274deca3fdd9c80fe26a51379c4"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00417.npz",
+        "bytes": 1268277,
+        "sha256": "eefc21defe9e10438e629a2ec422a67b8d9c58164716e7e17b85b9b9dde5b26b"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00446.npz",
+        "bytes": 835731,
+        "sha256": "b0104b9fc0d3e74af8706b1dc0203266f01325e6540912dce8c49cdd1c678028"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00456.npz",
+        "bytes": 316822,
+        "sha256": "f4fa573f761be2b824436e4e3d1c1e83e12779fb558bc88e74bbc3edb4c41120"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00458.npz",
+        "bytes": 266495,
+        "sha256": "5fde48f8bf5e5a18f51b9fe2d25ef64142965012cb39c8734953eb41015c9419"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00467.npz",
+        "bytes": 376550,
+        "sha256": "e93147fbd1ab927d4b69a29ca4eb89e4945ce728b3ad4358df46fe2471490c57"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00498.npz",
+        "bytes": 147363,
+        "sha256": "044fce87e7c4a8f49f20fd8646e0f4e35452cf611308945fffb0033ea77cac36"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00516.npz",
+        "bytes": 301256,
+        "sha256": "b9a32dffce639dde6c784d4f901e58873ce8a3be4926dbacd3b18bcd51630484"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00518.npz",
+        "bytes": 295879,
+        "sha256": "251c9f20d53c4f7d438f094e4d8573ca91ebd61551a09a7187972da53795bee0"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00559.npz",
+        "bytes": 359609,
+        "sha256": "c06f1ea784e114b60dd1799cd247881754a80ca5e666bbc6e039b2afd88b7b22"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00573.npz",
+        "bytes": 657574,
+        "sha256": "8a4d786888bb15a8466936caafcb74fcc89b6254270324d09845fbeecb00c3aa"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00577.npz",
+        "bytes": 473050,
+        "sha256": "044f47349929da08d52a4622cf76516fe62719b8abea86166d90dd9400aa7536"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00580.npz",
+        "bytes": 185364,
+        "sha256": "9cf0a389fa5ade390deb30249ac04cd7ddf865e6016469c94085aac492124b08"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00582.npz",
+        "bytes": 327882,
+        "sha256": "71cb219721a5488fbad8c28cdd7646a562dbe9749be35ad66458fbc99d5f70ae"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00588.npz",
+        "bytes": 1007431,
+        "sha256": "894f6650374c355d449b724ba69d50c6c7fdb24fef4a0368780caaae340b0985"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00598.npz",
+        "bytes": 892101,
+        "sha256": "181f13968ca99e4f31bdd4c85170954162305ce45a554135c26ef3fe92067174"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00599.npz",
+        "bytes": 706656,
+        "sha256": "f4b5bce442fd25fc7cddd28bd79acc59569e01685367b344154ee7bf11aa06df"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00601.npz",
+        "bytes": 608141,
+        "sha256": "1572d5a047a41cee0c6bd65c1badca68252e48b477d81aac0165011057095c53"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00627.npz",
+        "bytes": 489085,
+        "sha256": "ac7d47e735281abc2a0e464859fa0cb3e0805a6223682c664dd88009cac2daf7"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00644.npz",
+        "bytes": 382894,
+        "sha256": "57b6c74339210aee09f7c7ad5341f99ce6ca34396d743bb69d23404ee59e2bb4"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00647.npz",
+        "bytes": 82954,
+        "sha256": "a2f9efa25c4c44be42f67120df75c89eb60da7947bc8f71511b93548752a445a"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00655.npz",
+        "bytes": 256794,
+        "sha256": "1249ce5fdf5782aca7c4901b59b0820cd88804c0f4252251373490b5e86cd21e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00667.npz",
+        "bytes": 285647,
+        "sha256": "533e63a809a84612950324d10f06eb77296607715285ae303d759c7256cef288"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00676.npz",
+        "bytes": 616183,
+        "sha256": "d49fdb9ab2c670f7965739e55cbf6a715995096042787b3eaf37278d2ecb114b"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00680.npz",
+        "bytes": 277137,
+        "sha256": "5a034db38ff458c18f21683935a097c54cf703afec2a48937e6d0f9ad55a8bfc"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00686.npz",
+        "bytes": 278537,
+        "sha256": "d9c3deb01e6100ae37a8dcd8f3276200b43da2415f811b0ca12f627230821581"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00690.npz",
+        "bytes": 415626,
+        "sha256": "3bd5f934eed4d900bc2c0877eea1a8a2747d653dfc289657f1f3354849f03e80"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00718.npz",
+        "bytes": 701864,
+        "sha256": "9d5967c10ebf3936001c115d5088f8fe40ae85155f864105c38e4aa8d423f547"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00719.npz",
+        "bytes": 601005,
+        "sha256": "82a9c87421548dd8b8750999cd23617e411e8d7b9792e47fb451755c980e1cc4"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00737.npz",
+        "bytes": 1260748,
+        "sha256": "07c8c3bbd18b0c53d1231dd904bf4848c25549f945861db733bd0b296453fa46"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00739.npz",
+        "bytes": 740879,
+        "sha256": "fb796577ed033c27b1137d4397ddb230aacce7c0ff3331b4db6cc2dad70766cf"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00741.npz",
+        "bytes": 857238,
+        "sha256": "86df27558431cfa51fc49af58fddbc1f604ba70f42ecbf6fabdd5a9c4d446129"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00743.npz",
+        "bytes": 852056,
+        "sha256": "77a1235d7f2543c5e39e8654d83c108757f7a934736f9def237f4384d039c91c"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00747.npz",
+        "bytes": 877675,
+        "sha256": "784c6e6c80ae3c1813766ff4e80c9d240eb4350f825d60155a0b578f67e033b5"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00750.npz",
+        "bytes": 1048479,
+        "sha256": "71f256d6f8c4e9a59986c44175734ea9940dd06beed2d110d8f7715bf9bcba5f"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00760.npz",
+        "bytes": 619846,
+        "sha256": "a84323f1a5d3699fb3324b00bd9659e50075e34639cadda26289e0ed9205c513"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00788.npz",
+        "bytes": 939444,
+        "sha256": "00b67c3b66a42a7518a36e183d1f27d03fea5c63823a98b32b8decf76855287a"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00800.npz",
+        "bytes": 769406,
+        "sha256": "6ad0bb79e68b417d3f42ae71050cdf860ae7e1891c073a0066ad648c7dfed581"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00805.npz",
+        "bytes": 557410,
+        "sha256": "2aaa50177bfbb679af87629c86999787178ff67614142949d5ceeb57f52e5852"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00809.npz",
+        "bytes": 517851,
+        "sha256": "1124706122e3bacb185505f0a4d44c46158f538adbc56e017a5bc39b9732f013"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00827.npz",
+        "bytes": 475418,
+        "sha256": "fa1dae461b8e8e926c8ffc7814f2176f2f6077dfa1a08ef0b3094bb1cf025020"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00841.npz",
+        "bytes": 356895,
+        "sha256": "15e30168fa6152cb177322f1ab00c567898b343646fa556a2b817d0624534143"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00861.npz",
+        "bytes": 384820,
+        "sha256": "bcfbad16dcaac8aee92f92b8c3b9852defff370adea0ab336cf454ac9ac26091"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00869.npz",
+        "bytes": 135689,
+        "sha256": "1c6c752829ad6f828a10164d71d9f52a66b9b71ea5b68c92b13ce664062f0848"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00872.npz",
+        "bytes": 370825,
+        "sha256": "c656c8465b1aee5d6fcee7158316c23de0f6c3f4167a10c9912f528df79e6973"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00878.npz",
+        "bytes": 287847,
+        "sha256": "e47bc4ba97e3de20c2be4315956c7da50b9baa117f5f27e9c71ab1391561e6f4"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00893.npz",
+        "bytes": 390497,
+        "sha256": "8119e3642e0df12bdd66278d80193b6b0ee502c7b719f95a1f6868a68365dd53"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00898.npz",
+        "bytes": 449142,
+        "sha256": "a72c92d6050b956f8078cd76ba502b027c07cf4eeca6b785e0b92fe34b47396f"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00902.npz",
+        "bytes": 316687,
+        "sha256": "2710f72ac9683cc8609b1731ee816edbfef276a5869813a7d206c5627adb3f7a"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00903.npz",
+        "bytes": 320019,
+        "sha256": "3ad94de9f0d7a69a4a52667a69c9bc9d316956334a58d3403e579b676cbff17d"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00905.npz",
+        "bytes": 426851,
+        "sha256": "92b320edd5adaa72625bf9a6160e080b2750fbd9aa2ee574c72741b172edd061"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00907.npz",
+        "bytes": 326726,
+        "sha256": "e1216056d12eb44492209c2fd2707dd3c42106be915907e8e0ca45373e94c35a"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00925.npz",
+        "bytes": 958863,
+        "sha256": "5122d57c84fc11dc8fdb3150a1a2f2a0ae865608dfef7ed1fb72019cf5094fcd"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00927.npz",
+        "bytes": 844273,
+        "sha256": "27ddfab3a073e9a773bf88fa9b17f1b248a9f2481fd5dbb68a73525605781690"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00929.npz",
+        "bytes": 1020966,
+        "sha256": "d969c3d82843cd1cb33812bb6ab2e4acee661c59f1e9ebc842b3f38ed259d76e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00951.npz",
+        "bytes": 414603,
+        "sha256": "97d7e42c6dffa1479bc2359ba01639febdc5ad67b4f8f72e1fb31f466bc69823"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00952.npz",
+        "bytes": 383569,
+        "sha256": "18a53ab82b91e3b0d9449d1af18cda46105476277677298b83ba46068965908b"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00960.npz",
+        "bytes": 187228,
+        "sha256": "27d578eb04509f48d3d8fef9113e3996803bc1c1c88700460fed8ae230a021f6"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00962.npz",
+        "bytes": 320927,
+        "sha256": "de6ef45bac8ccbe95b5e758c43866e177c193ef2504639a0f2ef27f2b252d8c3"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00964.npz",
+        "bytes": 308684,
+        "sha256": "e15b8741eefafc14b37a1610c6ecb2d3cd3ec2fcbc389d8caf5e16bd91fa25ed"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00968.npz",
+        "bytes": 729259,
+        "sha256": "028f92d24c34da737cbc30e92f03d36a9e42b9b2c6ba5bc7bc78ea55352bae50"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00979.npz",
+        "bytes": 543975,
+        "sha256": "7187053f4a2b44ce383ccfe9dcc6a908f6a26b182e3f116b7b1e3ec9dee7979d"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00984.npz",
+        "bytes": 371656,
+        "sha256": "aa14c33018ac65f47d356cc021992029d0484d5af34d01737ac74fbdf9b32f73"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00986.npz",
+        "bytes": 471135,
+        "sha256": "0a069d31976f399edf5c2331979b7041744e8cfa9b90c8479b3283c1710a6d71"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00987.npz",
+        "bytes": 381862,
+        "sha256": "e00d01e6b597d76cedf7e4c103aab497a203a66ebdf685c38a9f346db0bf48ed"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00993.npz",
+        "bytes": 615424,
+        "sha256": "d3d1cfbced050dea33ab0746794655992f427c5dbdd4d81aa24236bec7793e96"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_00997.npz",
+        "bytes": 373844,
+        "sha256": "0f91b08ad94e095b8dd39814c1003a1833c2b84e2cc7d864cbf7f4bc41824e16"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01001.npz",
+        "bytes": 470534,
+        "sha256": "0ca12dff484445ef84dd61c8cd265ce3603c41c142e57ced13c484f557c4a468"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01003.npz",
+        "bytes": 749840,
+        "sha256": "762d17a3f5e3ec4e23aaa890c7e22d931e1e7220e10930d21354e00472a02ed4"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01005.npz",
+        "bytes": 1044582,
+        "sha256": "aca16502f9f29905e50372858014a0e0bbec9290634d601a8757987ea83b4f17"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01014.npz",
+        "bytes": 1112258,
+        "sha256": "a7153e7337e28261e0074dde6cfd3004fb6265958eeb7b1902af5e7d2e9820f4"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01026.npz",
+        "bytes": 486304,
+        "sha256": "530afaf00e23bb959c78462d886d228e63af8e5a1060cba12eaa5413a3d2aa2e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01050.npz",
+        "bytes": 212917,
+        "sha256": "29b7abb0aea895c71c3e0d8efc7808daf713758c6d8d62fe785a66c70c570351"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01061.npz",
+        "bytes": 395662,
+        "sha256": "e39f5a56bc2e60fa3a1a5b22e40b21073580fa8672371258f4fdc3e3aea4b1cb"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01075.npz",
+        "bytes": 1103630,
+        "sha256": "89a3a73b278cd62002f0d9eaa755c4a3e9680353e037e3d37c422911bf53fa24"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01077.npz",
+        "bytes": 1241716,
+        "sha256": "e370b3c146ef61559fcf89b4d284e96512fae3b83dd57d3cf057a51817cdb791"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01082.npz",
+        "bytes": 1012474,
+        "sha256": "14d0c1c6643d4293a4cf40b8af30aec0177287947342d35d36e7669eac520235"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01084.npz",
+        "bytes": 780931,
+        "sha256": "3f79c335d7c97fb9ac267ebe6046cd316474981bbd98fe89ef7efc1ce3b8d0ce"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01093.npz",
+        "bytes": 705701,
+        "sha256": "d540a0f20d1783fd82e01dd7788564fea6bf97755aeaafb4522162b669dc38ae"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01097.npz",
+        "bytes": 587514,
+        "sha256": "e56496d73d4f31cb58d74600158d2af21fb4afac9c64815630a67370af0f4286"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01115.npz",
+        "bytes": 381667,
+        "sha256": "2fe4eb0afc4a704d93d9523824e5ee6fd330466d917186a525e124a4f116b84f"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01119.npz",
+        "bytes": 236837,
+        "sha256": "5bf7e7f01a9d1c1662760e509246b37551d020d8d23579564a00b4b688eedef5"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01164.npz",
+        "bytes": 231021,
+        "sha256": "55263dfae337d53f5063110a28ba2364ba98ba33b412f31ca9aefbd39ee1a9db"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01165.npz",
+        "bytes": 299259,
+        "sha256": "713a22cf4f4334824a2c5e3e5963ceadfbeda54a39e8a97cd1f9682c20a00f60"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01171.npz",
+        "bytes": 1032994,
+        "sha256": "bde1c941764f8b3518a57e6445f3a51ea3bb965a323d79ef24ed943acaa4c5d7"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01184.npz",
+        "bytes": 269321,
+        "sha256": "cb722cf6f2f94ec2e0d921409b59b5bfd73e3f2fb685bddb3204f62154b5a98b"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01192.npz",
+        "bytes": 391942,
+        "sha256": "55a3b18578f5adbb6f31111e68b4ce19ea86d2452151009157f1c2cd78edb2da"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01193.npz",
+        "bytes": 396560,
+        "sha256": "ef0e50903fb3fa6d31ef7c653b2ed53af876ba93be8e92d0dfc574bc422de5ef"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01194.npz",
+        "bytes": 360956,
+        "sha256": "e450aa5273ac889d3d1afe9a19001aad5857d9bf25f76f958c8daa71453ce20c"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01195.npz",
+        "bytes": 286709,
+        "sha256": "a734a456a46c9dc300c672cc241f10aee2483403a634552ab2c31b363845f79c"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01210.npz",
+        "bytes": 755245,
+        "sha256": "f874d18ceddd294088ca5edf0d494cb4caa2f6314070f7f86a3cbf89146ad311"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01214.npz",
+        "bytes": 792877,
+        "sha256": "3a1727136b583a60c200cf012d68f04bf6bcd4aba302fa86b02c9fd57e4ec4d5"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01278.npz",
+        "bytes": 478249,
+        "sha256": "d25b632fa84b78c83ade8ca1ee9833675facc5f70f79339d923022347458d289"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01281.npz",
+        "bytes": 467542,
+        "sha256": "f31d92271fc45bfd9c24f271e570a2da384c62d734dc87ee2006cbfdbd946d48"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01294.npz",
+        "bytes": 1020829,
+        "sha256": "99cfedb3f7caaf00ff8aef5ef8d108b54a73c16f47e1835a35a06e7db9f08d5a"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01300.npz",
+        "bytes": 567202,
+        "sha256": "4c7211005858306a041381540f29c7d9acd88226c6b15103f2485229c61c4ffb"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01302.npz",
+        "bytes": 635566,
+        "sha256": "8e7e25202c1eaf42bab82f172aa9ad5263774fd28ec337133a5dee741089c274"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01321.npz",
+        "bytes": 331899,
+        "sha256": "00c039d8ad583467daeb59891cefeabf34f19005ef657c55caa1cad90fb45fe2"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01326.npz",
+        "bytes": 576824,
+        "sha256": "be2b9eba1188800ed745eb7afeb8485558d95c707330a02e9bbb19a9ca19a341"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01341.npz",
+        "bytes": 659275,
+        "sha256": "7c9bb04453d0a03f50f9d4e426f45dc0adc93a9b66359a0a612b499efead1c5b"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01371.npz",
+        "bytes": 630225,
+        "sha256": "2daf8959e9fa1b93298d48309da834f368f3d55edbf483737241a21fbef0ac7d"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01378.npz",
+        "bytes": 698020,
+        "sha256": "18454293961e42079fb91354bd5e60cde92ee8b5c6c1a7623ed53a17cd06d368"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01382.npz",
+        "bytes": 380545,
+        "sha256": "83acb0b4a71166d7dcce015a1d5330cdb3b139b5b8d3558070a450dba20f3c50"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01389.npz",
+        "bytes": 361246,
+        "sha256": "4e6c478a32e9a34e3068aa9beff38d392bf2c490595e0e732c12f36728a7eb7a"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01390.npz",
+        "bytes": 362339,
+        "sha256": "2c4c5dbbfe38a9b16b9319d6ab053760c197b34414472f6a1e325a6ac1281457"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01395.npz",
+        "bytes": 413125,
+        "sha256": "9cf09a05cd247be471464b46837de2ddb2bbbbc592e90af01cef670ff197c80e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01396.npz",
+        "bytes": 438329,
+        "sha256": "de6f86f600a42936dd6733c9b165077d8daeeda3a449d5f7920bff4bf3562f09"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01407.npz",
+        "bytes": 312376,
+        "sha256": "6a7af591b54fe60e0af44ba7c52cf215a8865b1c4d6c69f58f8277f4dd8159cf"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01413.npz",
+        "bytes": 250784,
+        "sha256": "ffe88615832d93a19b2d3b2a54516c54939850c3ec4f4738436275e5890f3b39"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01416.npz",
+        "bytes": 255096,
+        "sha256": "06f86c50b64a13effb16e79a7bf8bd5e10947a5b0b147d63ac3ef4bd819e0277"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01419.npz",
+        "bytes": 256519,
+        "sha256": "84395d14dc2449c87a1bb5e8d989fad22f9a7c8e9db1445783e0f13fef69ee97"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01420.npz",
+        "bytes": 204426,
+        "sha256": "79519322e74787aeb17f264c4c1e4342900887a6e2599ecd854336c3ff75c743"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01425.npz",
+        "bytes": 708267,
+        "sha256": "e1dc98ddb1646467781dac0a4ff1868824f38fdb85397b05f2be61101ff6f4c8"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01434.npz",
+        "bytes": 910952,
+        "sha256": "99f47cec51bc4f43bf522875b9bd5359c8572e6f503f36aaa1b82dfe569f32a9"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01449.npz",
+        "bytes": 310152,
+        "sha256": "a6b0ca011a3fd458aef373b9feb788dc73aff56e468aa035d937f54b4e6bb63b"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01469.npz",
+        "bytes": 456371,
+        "sha256": "399107f6b02a36fb2e5afbfc4ebefa957f53c270d6348223cc6d1a21c6adeb29"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01473.npz",
+        "bytes": 622702,
+        "sha256": "04aefe338a618445a0337d7e280a9d5bd2cb35fed268ee670d6830699138f085"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01476.npz",
+        "bytes": 441956,
+        "sha256": "681bcc5f2e218aa0743d26981ab7eb5767ec847cea90ce5be4760d5877ed91c1"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01487.npz",
+        "bytes": 263459,
+        "sha256": "2b78d9bb5781a9b96198856b60702f0aa6a107888e7f816fa24b0b5101337ce2"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01504.npz",
+        "bytes": 511334,
+        "sha256": "6922c665e147bbd5ceda06a83f75cbba10794207b0add080c67a5a5b13be1619"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01509.npz",
+        "bytes": 376474,
+        "sha256": "043450880580c3a50c13c97e4a67d418cd0bc1f1a8c20142b1a706e3e63c98ef"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01518.npz",
+        "bytes": 1014855,
+        "sha256": "ee2e301f1e5ed12b65d581a7bac6619052df818347d497395d36da6d327a72b3"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01520.npz",
+        "bytes": 1109539,
+        "sha256": "9a4e13eb8b4b010665e40d693e5fd2ce2208f86c3b1262f5ed35b27b95e4da7b"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01523.npz",
+        "bytes": 933668,
+        "sha256": "a69c0665fde35b174f7d2816afe8c0b2cd0fca7052f692244463d3b0da799bfa"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01530.npz",
+        "bytes": 687703,
+        "sha256": "09d6c7ea04258e624da384873ea8733392d19544b31c1c181440cc1fe6644b50"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01535.npz",
+        "bytes": 348056,
+        "sha256": "3d604270f623034939280d5e7c7110345b5ca3a30520f155dca2d768b68bf0e8"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01537.npz",
+        "bytes": 320217,
+        "sha256": "d6c959d051f8ccf9516a70c09a5f0ad98ca34c00e4045a249a7e66057afe859a"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01546.npz",
+        "bytes": 469018,
+        "sha256": "361c4a69b5609ce7c261d6daf344b56ca9290713a935fe5392af7123843d26e6"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01549.npz",
+        "bytes": 568484,
+        "sha256": "6a5a7826177aed263cd3d416a4e018f1ba8314cf252bb3e5739fd63e18cd41f6"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01553.npz",
+        "bytes": 540172,
+        "sha256": "73a5df891e8c2c008f6d5d42911614745ab8c32558181527346a6b607ad79583"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01558.npz",
+        "bytes": 895683,
+        "sha256": "87e114d5cf09bc61ac29f0a33f2cb1d9b12cb6ad45e845bb2536c285c6d79a29"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01570.npz",
+        "bytes": 957780,
+        "sha256": "31e242cc682fc1f7c1d89185c82754c129ce62f3d15ca2244efc3994113e7c26"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01572.npz",
+        "bytes": 905440,
+        "sha256": "5053874719e506401ed3654ff9db7c17f5db5c39ec6aaf9b17e1775c6564367e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01574.npz",
+        "bytes": 770000,
+        "sha256": "5014a1effefc2b2831f06bc8f18e683d7c5ca0a32c9e6f063003ed9c9deb57a5"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01583.npz",
+        "bytes": 707058,
+        "sha256": "df9c5a22bd59cda30d7b00b7012354778884fee3a1ce874b1fbfbe8a6d324096"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01591.npz",
+        "bytes": 317337,
+        "sha256": "e48a425984fe07d6c96bf68c2459cb0c3e0f8b625e8430cd4dba2ddcc11cacf3"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01594.npz",
+        "bytes": 595889,
+        "sha256": "280581d4118cc2c23ee04a5f02ffbd3c6491978b3151cb7229b62e34d4c9103d"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01597.npz",
+        "bytes": 477030,
+        "sha256": "a3d991f099a5bd08ffd6c32955e89511ec6190173e0f8bebfc940cc7b7082676"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01615.npz",
+        "bytes": 344800,
+        "sha256": "878f84ffb394a35784753d08d697b9f72c615ce1014f98e942c17480d3131c68"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01620.npz",
+        "bytes": 528287,
+        "sha256": "25e1c87b08e58793502a4006ad5a0c365419c44959366077c6893bab09a73cd7"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01631.npz",
+        "bytes": 248816,
+        "sha256": "cea663cf7e516704b2ee12f0e032bc816c4dafdfc22d20656955ac7d96b5f030"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01635.npz",
+        "bytes": 369107,
+        "sha256": "8091b452d149f64120dd0201ebe97155aa8f21bdb260bc9ca1bcf36973741729"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01636.npz",
+        "bytes": 521262,
+        "sha256": "c0ad7b8e0dc84b560f54da11d1291e507af6f65287b20bf2c29ca3d9ee82b42f"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01644.npz",
+        "bytes": 1108045,
+        "sha256": "b6ea2d2e5efe902332fd5fa03ef9c6bd828f6650b8a5276a3f20badd9829e385"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01655.npz",
+        "bytes": 1019949,
+        "sha256": "4b34ab65da20e7e895701373a9e4d38290b44c6bb594dccae094ac34c94d4aeb"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01664.npz",
+        "bytes": 1118146,
+        "sha256": "e9cf68ef155099aa77ee8d4e3fb1199902ece329dbcf57b41f892c37e7c8dc03"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01670.npz",
+        "bytes": 711331,
+        "sha256": "17ef8048e7bd00445fb199a6fd744927d1fb11f71ad04c012517d17ddfee6ea1"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01673.npz",
+        "bytes": 949254,
+        "sha256": "1e0cb53f30df8605c18f6e72a438b2664b7b919279777f44debcd9ec5e8e5fd0"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01674.npz",
+        "bytes": 1098155,
+        "sha256": "e2aa870340a0892d16d1dabaaaaf20d8ec14f268e6190728611155ada90b158e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01679.npz",
+        "bytes": 548724,
+        "sha256": "e9dc97b9c20628af1766347e471e0bca744568061f010f9060fad0a02585fd6f"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01680.npz",
+        "bytes": 492596,
+        "sha256": "532f49d13427988b742203bbcf3e1b078cb66b46e566557331c37efa7fbb579e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01682.npz",
+        "bytes": 259396,
+        "sha256": "fc52751d76e33da3704e05d7809957f17cf41f75b03c98578f64f075677aedd4"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01684.npz",
+        "bytes": 201530,
+        "sha256": "ab023cec1ca6ba77752eea6563a7c599f1099d79526484ae29bcf219fdd74561"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01708.npz",
+        "bytes": 337434,
+        "sha256": "884a9d7ff775332e00ae71833fd44acb40bc49dfb5ca2a122125492753c43a0e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01721.npz",
+        "bytes": 875676,
+        "sha256": "4c46d36404949924aa001d428ec6cf87ffbf8b20fa85897f539898b06f5a2f87"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01726.npz",
+        "bytes": 580804,
+        "sha256": "083f534054143a7ccd89f52f40d2963771b05982383049679c3658cb5820aace"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01733.npz",
+        "bytes": 1026322,
+        "sha256": "ae172f99bdf3bd0221e2496eacb7418f8213e836b30f45ff7cc8d8ba7ef8026e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01734.npz",
+        "bytes": 1032601,
+        "sha256": "a60a7bfbfd42a0316c03e1eba5e3044ba0f653a14699bca2d015fdcd12b55e03"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01736.npz",
+        "bytes": 826067,
+        "sha256": "c96774173b981a3f7d94728edce8a3c9700a206edb5d8691e7fcb41befe28d5b"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01748.npz",
+        "bytes": 574879,
+        "sha256": "944b1ea01baf2c53472c14f2a14d76eae36c9bba1f7a42f67d464092d6c2f138"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01750.npz",
+        "bytes": 277981,
+        "sha256": "53b61ee8eb6139db95cdc16f727a54001fcdbc7a8c5aa0a549eb1a2d43994a47"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01752.npz",
+        "bytes": 506349,
+        "sha256": "e53e97e4dab8e98ad758f7efcf101d386bc744b671e6841be2be3953bd009d07"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01787.npz",
+        "bytes": 419831,
+        "sha256": "357b1d2831d9b241358cd0a863933a29e396c478c68823de8d71f10eafc031c4"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01792.npz",
+        "bytes": 257688,
+        "sha256": "5315422475e54dabebf9ff9e586301ffb20155988686d60ed789df0487282f54"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01803.npz",
+        "bytes": 482714,
+        "sha256": "776e4e950b17325407f9bfa5387763b949745680c2a8a84d9170a4bafd1457f0"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01814.npz",
+        "bytes": 560538,
+        "sha256": "42017398db39ce2d02eeaecfce4064613179562653b0c35ad65533075c670049"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01817.npz",
+        "bytes": 725485,
+        "sha256": "be7df694cf7160ad2af4ba89b165984b9fb2a47368cfbcd0ab050fb8b11fd615"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01826.npz",
+        "bytes": 381302,
+        "sha256": "b097f97dae0e60e8511d598533914351398aa6be584f35c9ccb73a2015870dc2"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01857.npz",
+        "bytes": 327622,
+        "sha256": "fbc6d6825c341dc2d3ad870e3dce870286cb0e012a4ddc46356da2010dac3716"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01860.npz",
+        "bytes": 182302,
+        "sha256": "691e6cc09f2d76c691fc8757d4743f601ff5b886447ad0e09dd343bd34d4c268"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01867.npz",
+        "bytes": 126454,
+        "sha256": "2aaa822368cbed1efff8697622ade26b4afe06f6d4c028f084dca72d5057df9e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01886.npz",
+        "bytes": 158223,
+        "sha256": "e9594800468dd1614129d5d79328498e79695083efd3ddf84cde540ff8af6e62"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01898.npz",
+        "bytes": 218912,
+        "sha256": "9b2de6cfd69e7619f80e3a2bfb3fd02feae6c67c321d8ec9632f91bb6ffd0573"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01941.npz",
+        "bytes": 912300,
+        "sha256": "033ecda6d4b7549f5c1e0c9aefdda85046f51acee828e2a006f6a6a066db1a66"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01947.npz",
+        "bytes": 731254,
+        "sha256": "7fd066c70bc7ac3a08093d687a69e0fa6d4a69946b4d8cdbcff8d7076c4995ad"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01948.npz",
+        "bytes": 525590,
+        "sha256": "bcdabd7b14858701aa65481ad4678560cce0a945df8ff306d2b090d48d37a686"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01961.npz",
+        "bytes": 437161,
+        "sha256": "1ca49c0168e51c70b7452352649ea7ac0ec03a2b99223ee1f18d054ad3032e26"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01970.npz",
+        "bytes": 422375,
+        "sha256": "62ab335d0c70818c9d2f9f53f5b4ff5d7f66654cde3c860ee49a822371c6d7a4"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01981.npz",
+        "bytes": 480334,
+        "sha256": "db0806deb1ce8151d3c989ef368bde6ddf4bf6cca0f26c951857d4c6cd0e3470"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01986.npz",
+        "bytes": 217666,
+        "sha256": "9fee504b3a8bef5d0c73fe264d1eea000b5dcc8f362be9fea2fba6cc0c5991e0"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_01989.npz",
+        "bytes": 211578,
+        "sha256": "68149d42c2a1077a4a76b2142ab90ee2f40489c6256e6d22cb16989f4d34f8c6"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02030.npz",
+        "bytes": 539891,
+        "sha256": "937ba88f02745085916e0648684c242bc95f647536865b5e80fcf8f34cc135f6"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02074.npz",
+        "bytes": 348340,
+        "sha256": "321ea437ae37be189b78216eba5202707ede610ddd93b6deae98293d50f749b8"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02088.npz",
+        "bytes": 582672,
+        "sha256": "a6714ff81ab3f7901beec7651fcdeeec736f80c093cb96ba82aac0e5b80df2dd"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02091.npz",
+        "bytes": 708551,
+        "sha256": "05b3c63aefc102e0adc8651fb70a6406341dc7278c9caf7efeef31b7b018d208"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02100.npz",
+        "bytes": 372491,
+        "sha256": "d402fe98cd5139c647e9ca5f741424bbe43257f35ec99ea338b0f57d68448d90"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02106.npz",
+        "bytes": 562017,
+        "sha256": "4d6fa86b2f950f525128e0b2aac390a5633fad6f445bfbe7286e7af142e7f5e8"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02113.npz",
+        "bytes": 354042,
+        "sha256": "e644c100131ca49fc78095237aa8a716addef22e4d22781942a31b87ffbade95"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02120.npz",
+        "bytes": 668350,
+        "sha256": "523410519790be051f84e1feedc69d81e7cfbb8357aa82bab34ca90ba70e8586"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02124.npz",
+        "bytes": 956910,
+        "sha256": "8a6f52ec91ec200bc33807c5295c4f67a0906502a2843bf84250e10991bcb98e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02131.npz",
+        "bytes": 1022349,
+        "sha256": "e72984a4dfac4a7c01aff28a1e6b6763812a7c7531ad2edd3baac71c2385891d"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02136.npz",
+        "bytes": 605877,
+        "sha256": "280ff0911f78cc7785e04e99b756c9e7556e2959137da73a607f0c4f655aaf4a"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02147.npz",
+        "bytes": 181754,
+        "sha256": "3ae89b77adcd4c2bef8b0723ee07cbe31fe76a66097fd6b6f307629897f2ca80"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02156.npz",
+        "bytes": 465249,
+        "sha256": "6d86113778698f29a56b54c7d3d78d883d038cbd4bd14789bde48b6f7836d247"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02179.npz",
+        "bytes": 378407,
+        "sha256": "fa140a78c07a986cbb312072d729cddce38e9e4219bbfaeafb537e0516977626"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02186.npz",
+        "bytes": 1061645,
+        "sha256": "ceb5c890791b6458d328c69a1176f1d140ad2e33f692932f6e7207ce5e812935"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02193.npz",
+        "bytes": 1190382,
+        "sha256": "3996d062ad21276a2f1cb83869b05aaa12c78623d824edefa218baafb457e840"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02214.npz",
+        "bytes": 238414,
+        "sha256": "3a5e285cad72cea1c3ecb7800d3996097b1a3c5efb2bf223d25410b86132c4a3"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/amostragem_val2024_5f137bdbd4_9a0d75b9/janela_02217.npz",
+        "bytes": 283693,
+        "sha256": "2b075a285d8c215750565bd34106d9c4ff6d8a684cdab9d99651e3788ded4f9b"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/arquitetura_parametros_gptcast8_G4_RTX6000_Blackwell_95GB_Cronus.csv",
+        "bytes": 899,
+        "sha256": "bb24a041197da14767f263f0722975bfd8a3ead18f977463d56b5ff02cfefca6"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/benchmark_agregado_teste2025_imerg_fr_2km_G4_RTX6000_Blackwell_95GB_Cronus_N1729_amostragem2024.csv",
+        "bytes": 7093,
+        "sha256": "c5ae4e23b93217f1ca9fd14aac1eeb1d73285dfe47556621c044151d08eac4c3"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/benchmark_completo_pysteps_2km_G4_RTX6000_Blackwell_95GB_Cronus.csv",
+        "bytes": 6011,
+        "sha256": "89d4bdfd76bf33273a891bcb9134574679e7d44152aa4eafbe4ca3ea4b5d1c04"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/bootstrap_diario_teste2025_G4_RTX6000_Blackwell_95GB_Cronus_N1729_amostragem2024.csv",
+        "bytes": 616,
+        "sha256": "63e9c1059d728726621a1c46c8c1b5c3d66878714dd691cd741e5cb0fa9ac8c4"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00000.npz",
+        "bytes": 7795101,
+        "sha256": "085cead624177b0922af9ddb1dc4e2ede6c0b44ee56e1fabb4043fcb8a01b4e5"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00050.npz",
+        "bytes": 13289087,
+        "sha256": "5632b732d9e716c6adc82d308e39d3c3bd66d1e4a10b069e7d37c485cae53f0c"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00100.npz",
+        "bytes": 7032749,
+        "sha256": "e870dc9edf9fa0e5b387d56e6dbc4af176b8e65a212d78e95cce3802fa14abbe"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00150.npz",
+        "bytes": 8145143,
+        "sha256": "7df28a7a35caff4f4ffc5b4a82077ac7d46992de1d9d74027477d73cc9224449"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00200.npz",
+        "bytes": 7352068,
+        "sha256": "31c8ef86143715619ea26479a269650aa2facfe6373b1db99d9104a9f35f0418"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00250.npz",
+        "bytes": 8736694,
+        "sha256": "0c9168afcd2f237b467b490ebbd0d718c102fee687f821d56a1af813f2224469"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00300.npz",
+        "bytes": 13522909,
+        "sha256": "9960450a601cc5b78ebec8734cd70decc2ae24eae7dbc6b254fbe12a663861b2"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00350.npz",
+        "bytes": 9179259,
+        "sha256": "c9b8f48c80e75fc32d8435a677d167cf6c57ef825d4ad67c7c92f0710f1bbbf3"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00400.npz",
+        "bytes": 9552425,
+        "sha256": "e67c68de5ea79d93185eac13d1effc07a63cc6469941d6d804d988a6983a9c6e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00450.npz",
+        "bytes": 17931955,
+        "sha256": "95346c26f3dff3fbc295cb3134d433a80746e85782258c6eb2e88a7dafadcffa"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00500.npz",
+        "bytes": 10732981,
+        "sha256": "02e71821ecf7e04eb854b3ced693e6761857a57542445765f9275bf00ba429f0"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00550.npz",
+        "bytes": 9002892,
+        "sha256": "7bb140c5d2b38712c57753b64f106a44630c2440c67f0d6f697b67e37dd1d8a6"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00600.npz",
+        "bytes": 11195756,
+        "sha256": "38c0323954f3f1690678ed193177f14139f430ef762a82f8c18d0be17c90c4d6"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00650.npz",
+        "bytes": 17958542,
+        "sha256": "cd1f1d5e8bc318120ea278039b84e7a9ea752b53ecff2ae580165dc86a10e0b2"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00700.npz",
+        "bytes": 10159715,
+        "sha256": "d1d30531b0fad0463cd901d4648c1b592e6d7e4b787d274ace9d60d96954d2e8"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00750.npz",
+        "bytes": 12320390,
+        "sha256": "5ded67ab4bceab1536f95c6bd30d341d27ad5d1170ab6b880d49e42758817d61"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00800.npz",
+        "bytes": 14467334,
+        "sha256": "5cea16fca2e02e460e2f5bd6ff592bbac1754e5b7c884c07488ffcaecf4ace3d"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00850.npz",
+        "bytes": 8083741,
+        "sha256": "fcc03050879114ef8d549f3d7c267c7c20320b5d550a5b70b8e94d1c8ded285e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00900.npz",
+        "bytes": 7959174,
+        "sha256": "336241b7fb62bb911d5abc2349a894172562a61ad3a56243e2088514e562a705"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_00950.npz",
+        "bytes": 5686414,
+        "sha256": "7a65038a4a075742d49fa0899646727ed1633ac22612289dcb447b0f0f5baf14"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_01000.npz",
+        "bytes": 9951969,
+        "sha256": "9753441c488dfac4b7e6e1d9005f7913c73772cce843a9f3323f78267860ad82"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_01050.npz",
+        "bytes": 13244574,
+        "sha256": "e50e3940ad79d03edf916c8e8ef0666a92df355218bbed95c50684f104b09448"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_01100.npz",
+        "bytes": 9033892,
+        "sha256": "541d3c6db6c981a3bd58838b2238c955b737383e5af4a691c25bfc991462cd70"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_01150.npz",
+        "bytes": 8890976,
+        "sha256": "c9532f96f9cf83623e7bb4ffe6381067e6ab97104e60276f5e81bab2c4c640f1"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_01200.npz",
+        "bytes": 6038711,
+        "sha256": "d6dfc784276045fddb36f1ee218a13dca03042e6898f87f12e34d2a2afe0232c"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_01250.npz",
+        "bytes": 7683410,
+        "sha256": "3ccf419ce589b5b53901834c6e9567aa6ac934212e56c97000fedf12cf2eb5b1"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_01300.npz",
+        "bytes": 8132626,
+        "sha256": "a03051bf0ad2e7cebba39d1652643af43908163a4bc0fcb3e614036ee33e3163"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_01350.npz",
+        "bytes": 11342355,
+        "sha256": "a7d73e55e0e5144f4e94835a09348ebf67078219e1dca448bd1747446125034c"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_01400.npz",
+        "bytes": 12169706,
+        "sha256": "38d56046ccc12a52c79c74222c58d93d0810d70338ab40764aced2dbb7858914"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_01450.npz",
+        "bytes": 5608068,
+        "sha256": "52eaa17d645537beb9080c751864928a093de27162748f6875a749539abf07fd"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_01500.npz",
+        "bytes": 14479190,
+        "sha256": "3c03b114b3f1915da64b7e26f774cc730907cc7598f791787f229655a82efc1c"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_01550.npz",
+        "bytes": 10380663,
+        "sha256": "51ac2e0171fcf9816cf6f106da4a4ee4472387420e1490056ecfef84f0aaa9b4"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_01600.npz",
+        "bytes": 8112366,
+        "sha256": "0d22c3798fdb6a33ef898eab071b6e49acab0ab210316793d99377796f6be551"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_01650.npz",
+        "bytes": 5176396,
+        "sha256": "b9ce505ad5c5f1fa7dc34d5511209a221bb3927a4a9993c2151dcc1cc32d9a19"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/bloco_01700.npz",
+        "bytes": 3248643,
+        "sha256": "5f5eb3842b4803f45d3d9ae02bd2257777a69daddfc783d21d4c35c13fa0a467"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cell12_previsoes_5f137bdbd463_n1729_s42_amostragem2024/config.json",
+        "bytes": 885,
+        "sha256": "6e50dd7187c01846b6f1dcef272103584ffbd1501497d4a500bc0ac5cab29cbf"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cronus_previsao_v1_vs_vq_validacao2024_G4_RTX6000_Blackwell_95GB_Cronus.csv",
+        "bytes": 950,
+        "sha256": "083cbe5eec94120e7f1ed2051e82a46d0b1ebaea1b8a947c21a36bf23bf11ee4"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cronus_previsao_v1_vs_vq_validacao2024_G4_RTX6000_Blackwell_95GB_Cronus.json",
+        "bytes": 588,
+        "sha256": "f5ac8141f2e009a9784736a8dadab787b556523bda177c1d1bf1257a6cf6a3f9"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/cronus_teto_reconstrucao_v1_vs_vq_validacao2024_G4_RTX6000_Blackwell_95GB_Cronus.csv",
+        "bytes": 613,
+        "sha256": "0e381b057e896b908c49dd42d239a31ca9fde069ffd808fcf0f1e3a5f60bddbd"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/curva_ajuste_vqgan_G4_RTX6000_Blackwell_95GB_Cronus.csv",
+        "bytes": 1536,
+        "sha256": "aba9dd238aeb5b7bd549a7b14a4e342acb2b56a3cc9abbe3d158599704d75300"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/curva_finetuning_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 209254,
+        "sha256": "b83b774ede638c3079c54c453e6298260dbca5c5e4d4487c5785bb44d878e4f8"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/curva_treino_G4_RTX6000_Blackwell_95GB_Cronus/20261123T0028Z/metrics.csv",
+        "bytes": 37001,
+        "sha256": "1b6956d5352aedc00044caa84f8f65537b9436266714a9d7cff8bac80808e2ce"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/curva_treino_alternativo_G4_RTX6000_Blackwell_95GB_Cronus/20261123T0049Z_lr1e-5_val0.25/metrics.csv",
+        "bytes": 43059,
+        "sha256": "70eb039d51c4feb91b94cc379b7bd702bf79075d8e4efa36a3d2527ff2a97092"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/curva_treino_fpluvia_vq_G4_RTX6000_Blackwell_95GB_Cronus/20261123T0717Z/metrics.csv",
+        "bytes": 36997,
+        "sha256": "5ee424b635c99999064e92dd11550a9ade7a2e9b6bd1294312ff83a26c725f34"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/diagrama_sal_2km_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 445612,
+        "sha256": "9cf9b80d9c01d0ab4c8bd6b4f87441f61f07e112e62b60e13392e4cedfc6c050"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/estagio1_01_observado_vqgan_2km_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 480738,
+        "sha256": "ce5f4e52f8cdeb861f80b14bf7abc2b4424c8538fa5420f6147af6d75bc72b90"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/estagio1_02_reconstruido_vqgan_2km_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 489948,
+        "sha256": "9311e51e3d67ee0c0cf92e6780a533694eb935460542659e800720a912f7da13"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/estagio1_03_residuo_absoluto_vqgan_2km_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 473295,
+        "sha256": "75ccbf51543788d07fd252a2ed75c2597aaf6f3ac1066d6e44b3b3c0163a4ce0"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/fpluvia_metricas_classificacao_teste2025_G4_RTX6000_Blackwell_95GB_Cronus_N1729_amostragem2024.csv",
+        "bytes": 24390,
+        "sha256": "d5be70e36d772803a73adc5f7c13ed141e2b86e069cf928c4c5424fbfd813f6f"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/fss_conjunto_teste2025_G4_RTX6000_Blackwell_95GB_Cronus_N1729_amostragem2024.csv",
+        "bytes": 2515,
+        "sha256": "18953c116b42814085c0c0cba5d472da97b9068e4c5541baa37aa44aac20b3df"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/log_tempos_etl_sessao_G4_RTX6000_Blackwell_95GB_Cronus_2019_2025.csv",
+        "bytes": 11992,
+        "sha256": "602a6decba4bd8adb150e0e61ca9160918596b8de4955e7be008890fbaf73816"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/log_tempos_treino_e_inferencia_G4_RTX6000_Blackwell_95GB_Cronus_2019_2025.csv",
+        "bytes": 1680,
+        "sha256": "371b947ed3b6779ce6ff1dcea014d1c8b21b3664c5260fbf0da1f8e8f456d7ec"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/log_tempos_treino_e_inferencia_G4_RTX6000_Blackwell_95GB_Cronus_2019_2025.json",
+        "bytes": 1958,
+        "sha256": "573153b6ad420b990e9a354758aaa490a6349d52ce4dfdeedecac12596538872"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/mapa_00_comparativo_rmf_2km_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 1527497,
+        "sha256": "3a706054d1a53e63d0092e1589cfb0bc71bb5a2e44b5f0469ee869d4d4e4bf01"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/mapa_01_ground_truth_rmf_2km_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 494638,
+        "sha256": "d5849d4369a2db9dcac92d055b1fb0bc30f6b61b1865fb3c8fa42deb162f86c0"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/mapa_02_gptcast8_finetuned_rmf_2km_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 501299,
+        "sha256": "ec14a0dc0c596a7f90b84c05f889e610a9a705a2592d2971b7aa3adeac50d981"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/mapa_03_gptcast8_zeroshot_rmf_2km_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 491231,
+        "sha256": "cd30e26fbb7ca0f3696d3379378e55271f84d13ab08664ab5dd09f1872b7e611"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/mapa_04_linda_pysteps_2km_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 463361,
+        "sha256": "57d6f01513b8f878559d76b68aab863f05adbc978ce5a7a5885d8440c2f999de"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/mapa_05_fluxo_optico_lk_2km_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 476006,
+        "sha256": "bf18ef55e8cfeb84c74512dbe4bdefa33153c7548faa800dcaee011068225a83"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/metricas_classificacao_particao_completa_1729_teste_2025_G4_RTX6000_Blackwell_95GB_Cronus_amostragem2024.png",
+        "bytes": 736194,
+        "sha256": "8727d8336806dbd34dd33dc5c10f93b243d4fd392016db2a4df39ec2e831e065"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/painel_benchmark_5modelos_2km_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 615150,
+        "sha256": "d0de84befb1844f3c7a821841fef48ca870b9b025125ab12a0d768298eb1b9e1"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/painel_estagio2_leadtime_2km_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 730920,
+        "sha256": "bb49c695063d246188439c927f1551e9596547ae2af8c347ebd2635f188694fb"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/painel_fss_multiescala_2km_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 617036,
+        "sha256": "285a7789390a20a11172bd83298bb1bb9f4fcccaf58792d1015b0732b595a8d9"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/painel_rapsd_espectral_2km_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 911539,
+        "sha256": "07eb6db6cca0dd9eff96e9e5abf570d745f83afed1c9d2570e9ce1a33b06fcaa"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/resumo_dataset_e_tempos_G4_RTX6000_Blackwell_95GB_Cronus_2019_2025.csv",
+        "bytes": 1251,
+        "sha256": "e16136434b5173b2463250557329c0e8b72ac4d2ced07aa593ee345f5211e37e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/resumo_particoes_G4_RTX6000_Blackwell_95GB_Cronus_2019_2025.csv",
+        "bytes": 291,
+        "sha256": "60274703b3970a831adde1cfec9df857ca1ebe161ef63a426ec7e55c9dc23b4a"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/sal_conjunto_teste2025_G4_RTX6000_Blackwell_95GB_Cronus_N1729_amostragem2024.csv",
+        "bytes": 3240,
+        "sha256": "4c6eba416e0bfb7f0f6576dc31be9d2c9dcf5007743a34d38c4c9a6f6924f13b"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/sensibilidade_amostragem_por_horizonte_validacao2024_G4_RTX6000_Blackwell_95GB_Cronus.csv",
+        "bytes": 2635,
+        "sha256": "c416a0bce1aeedb876389d9c9da36cc07f9c58d717a32916024a1f4f6c3f1890"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/sensibilidade_amostragem_validacao2024_G4_RTX6000_Blackwell_95GB_Cronus.csv",
+        "bytes": 1560,
+        "sha256": "779fd5d70870ce5d87913ffa10e35bd30968ef82ca382f9e4f7225986a485fe9"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/sensibilidade_amostragem_validacao2024_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 356369,
+        "sha256": "1b01fd2a5b91ca18eb3eefc1f4425d11adbd2b8f3d834e81bc222ee753d14365"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/tabela3_estagio1_vqgan_2km_G4_RTX6000_Blackwell_95GB_Cronus_2019_2025.csv",
+        "bytes": 1212,
+        "sha256": "3879a3ce35e8fd8fce3b7b6db1df2a4292097d07ef49ff4e09849d0ba1b5eb5e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/tabela_avaliacao_integral_1729_seq_teste_2025_G4_RTX6000_Blackwell_95GB_Cronus_amostragem2024.csv",
+        "bytes": 2207,
+        "sha256": "c4ebf582b6a525b4ada9d9b71fc0c4bf86542c5a57c1dc36a8ea90754b25878d"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/tabela_estagio2_dispersao_sorteios_G4_RTX6000_Blackwell_95GB_Cronus.csv",
+        "bytes": 1141,
+        "sha256": "7c8d9b472c025eca5ffe9fd47e59ff3b43072e87b6fa01b7e2d77014bd19f6b8"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/tabela_estagio2_melhor_pior_semente_G4_RTX6000_Blackwell_95GB_Cronus.csv",
+        "bytes": 3210,
+        "sha256": "d22215de7038c3914a42c63774651397d61668ddd124241056d2cea2bed36b97"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/tabela_fss_multiescala_2km_G4_RTX6000_Blackwell_95GB_Cronus.csv",
+        "bytes": 8724,
+        "sha256": "ef03e33bb2d684d71dc7b7b8acd3d709da1c7a03c3a33ea7856464e015cd5f32"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/tabela_rapsd_bandas_espectrais_2km_G4_RTX6000_Blackwell_95GB_Cronus.csv",
+        "bytes": 4484,
+        "sha256": "22cd9302fb7f4bbc0136866f84b5b9e7dfa55f483a4f2b16bada2c7aa80f6ec8"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/tabela_sal_objetos_2km_G4_RTX6000_Blackwell_95GB_Cronus.csv",
+        "bytes": 2376,
+        "sha256": "cef98ef5e2fb3246cbbdfe01843ba3b9b1406c8b75a338a480c725137c42d4b9"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/tabelas4e5_estagio2_leadtime_2km_G4_RTX6000_Blackwell_95GB_Cronus_2019_2025.csv",
+        "bytes": 5985,
+        "sha256": "3901715d8b926ce5f78f4094bb1bb071ee051482e201ab044c4095e58c937cc0"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/teste_cego_2026/caso_Convectivo10092026_G4_RTX6000_Blackwell_95GB_Cronus_amostragem2024.png",
+        "bytes": 2803118,
+        "sha256": "64e4331b6f54eb50af3d1e1f3f5356d3499fd4b3e5de4ef79f14ce258d00619e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/teste_cego_2026/caso_Estratiformelongo1617052026_G4_RTX6000_Blackwell_95GB_Cronus_amostragem2024.png",
+        "bytes": 2996883,
+        "sha256": "cb8b80214990ac4373bc8472949e31c771c2a1e6100bedf0473e9f1c152bb79e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/teste_cego_2026/f1_alertas_2025_vs_2026_G4_RTX6000_Blackwell_95GB_Cronus_amostragem2024.png",
+        "bytes": 329279,
+        "sha256": "98ed04db9b331a67cdd1ea2802123b0b2502f2ce7408b73db261fd60d72d0c6e"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/teste_cego_2026/fpluvia_f1_municipio_bootstrap_dias_2025_2026_G4_RTX6000_Blackwell_95GB_Cronus_amostragem2024.csv",
+        "bytes": 3943,
+        "sha256": "c88c19d14af1d7909c8ef3f1a43b3556fac1bd760701d1267b403eb53f2aed50"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/teste_cego_2026/fpluvia_metricas_classificacao_teste_cego_2026_G4_RTX6000_Blackwell_95GB_Cronus_N2108_amostragem2024.csv",
+        "bytes": 45527,
+        "sha256": "c56d8f683f0d07e5a6c135d50ed80b960f6002e65dcc76ae40bc12e904915ee2"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/teste_cego_2026/metricas_classificacao_teste_cego_2026_por_horizonte_G4_RTX6000_Blackwell_95GB_Cronus_amostragem2024.png",
+        "bytes": 791116,
+        "sha256": "7d0bde9074d147fc8f936fabfa35e5a2281441fd5c6e42d5ee9444319541afc1"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/teste_cego_2026/painel_teste_cego_2026_vs_2025_G4_RTX6000_Blackwell_95GB_Cronus_amostragem2024.png",
+        "bytes": 741583,
+        "sha256": "0a5cecd828ffa10a71b2112272006e15f46163f2a1bdf6dee2e1fb998d843cf0"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/teste_cego_2026/teste_cego_2026_bootstrap_dias_G4_RTX6000_Blackwell_95GB_Cronus_amostragem2024.csv",
+        "bytes": 626,
+        "sha256": "8f635a42c14e3031bad2fef8909434e46ccc25e5101b46bee5959bda3d4a41d8"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/teste_cego_2026/teste_cego_2026_estudos_de_caso_G4_RTX6000_Blackwell_95GB_Cronus_amostragem2024.csv",
+        "bytes": 14350,
+        "sha256": "fa367c53ced46939a4114e59e1395eb18baaede7b0837888f03467678470f01c"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/teste_cego_2026/teste_cego_2026_meses_e_produtos_G4_RTX6000_Blackwell_95GB_Cronus_amostragem2024.csv",
+        "bytes": 189,
+        "sha256": "3fc0a533dbde15747af5bb38474a74f73e093929464ad08b0f92c4a19cfa375c"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/teste_cego_2026/teste_cego_2026_metricas_por_lead_G4_RTX6000_Blackwell_95GB_Cronus_amostragem2024.csv",
+        "bytes": 17339,
+        "sha256": "ab23b75b90cfa8a22ec8c56258ad8028287da12d68ce797c38f81750ed87a311"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/teto_reconstrucao_vqgan_validacao2024_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 292781,
+        "sha256": "a769b71282b615751b81686022caf84a7188bb843230641c901bad20f7ba684c"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/teto_vqgan_metricas_validacao2024_G4_RTX6000_Blackwell_95GB_Cronus.csv",
+        "bytes": 833,
+        "sha256": "d435ffb160e2d65a3ef3d88fca9e95d58ea4e561ab7fc650e85229e0887a4049"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/validacao_finetuned_vs_zeroshot_G4_RTX6000_Blackwell_95GB_Cronus.png",
+        "bytes": 220589,
+        "sha256": "cf87fb1131f4ad4868abb830785fba5fedfbfa46da6f88f5d40632d6d39291a9"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/validacao_por_janela_finetuned_vs_zeroshot_G4_RTX6000_Blackwell_95GB_Cronus.csv",
+        "bytes": 112546,
+        "sha256": "2c6c2cc656348ca98533afa6f058a0530ac8343bf62d2d7dd6dc72f0487a809b"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/validacao_resumo_finetuned_vs_zeroshot_G4_RTX6000_Blackwell_95GB_Cronus.csv",
+        "bytes": 304,
+        "sha256": "00b3ad56dce00a791bc1846b5fec653b7ecc56d251998e19c0d6129c3b9640d4"
+      },
+      {
+        "arquivo": "resultados_G4_RTX6000_Blackwell_95GB_Cronus/velocidade_inferencia_teste2025_G4_RTX6000_Blackwell_95GB_Cronus_N1729_amostragem2024.csv",
+        "bytes": 1041,
+        "sha256": "d73cdf257007c3cdb45b9b569b826f9b61232cf373c989b0d7ef5e5086f51224"
+      },
+      {
+        "arquivo": "series_2km/RMF_2019_02_2km_128x128_seq11.npz",
+        "bytes": 52702194,
+        "sha256": "f47dbf2d88b175131ace775735fdccafc319df541d0774de8256231fd5b13bbc"
+      },
+      {
+        "arquivo": "series_2km/RMF_2019_03_2km_128x128_seq11.npz",
+        "bytes": 81506661,
+        "sha256": "bd04bab74386938ce9b966f3bbfde794dfe823a00e8628223942526f90ec09d9"
+      },
+      {
+        "arquivo": "series_2km/RMF_2019_04_2km_128x128_seq11.npz",
+        "bytes": 76726421,
+        "sha256": "7fa8a07b890c3da2bec6c6c4f81ac276bc4142a8d84f2011b907fdc5990f1a8e"
+      },
+      {
+        "arquivo": "series_2km/RMF_2019_05_2km_128x128_seq11.npz",
+        "bytes": 38276701,
+        "sha256": "91fcce150f1ca80708290c222385609948e1e199b4d3f0c1c2c20ee4f7668050"
+      },
+      {
+        "arquivo": "series_2km/RMF_2020_02_2km_128x128_seq11.npz",
+        "bytes": 53228425,
+        "sha256": "a3020ededf49a39419a4a820f8c73b1d4bd36e7dcb9cc52e661bb0524ca3f85a"
+      },
+      {
+        "arquivo": "series_2km/RMF_2020_03_2km_128x128_seq11.npz",
+        "bytes": 58449193,
+        "sha256": "f3d6b60e36e28f2df221d0f0a5f28192929de7b3736a4fcf55b09e3f7e00e07a"
+      },
+      {
+        "arquivo": "series_2km/RMF_2020_04_2km_128x128_seq11.npz",
+        "bytes": 64713685,
+        "sha256": "f3f58f9ae3434487872f1259d3b332a3dfcba208b75ac4077c6afc0513e27631"
+      },
+      {
+        "arquivo": "series_2km/RMF_2020_05_2km_128x128_seq11.npz",
+        "bytes": 43091195,
+        "sha256": "170dfb00e6a46867ec72d8826b664e41f141d307d9a926d4438b82a35dfdb9ae"
+      },
+      {
+        "arquivo": "series_2km/RMF_2021_02_2km_128x128_seq11.npz",
+        "bytes": 18637286,
+        "sha256": "34f9a3e803a907451526cb62f304a8e6144ad05ff1bef748392285466ef635ad"
+      },
+      {
+        "arquivo": "series_2km/RMF_2021_03_2km_128x128_seq11.npz",
+        "bytes": 42355173,
+        "sha256": "2789a94e30fdb232c24afc61f3c5f706dc1b4bbd95f5685f020c360d5e3407d3"
+      },
+      {
+        "arquivo": "series_2km/RMF_2021_04_2km_128x128_seq11.npz",
+        "bytes": 24875254,
+        "sha256": "fbdca9e6eaf9fde5ad7bc2ad71e12103ee473dcfdb52134535651ef5689874f1"
+      },
+      {
+        "arquivo": "series_2km/RMF_2021_05_2km_128x128_seq11.npz",
+        "bytes": 32326056,
+        "sha256": "bee7e9ca1a3e5b2e9b218bed936e5a1c2e2e5d997ebf53b7e64584a6f7fe4829"
+      },
+      {
+        "arquivo": "series_2km/RMF_2022_02_2km_128x128_seq11.npz",
+        "bytes": 11448816,
+        "sha256": "236a41ccc918c0e1fd7978d5679aed8f285f8db0d7d682457c430f39c8731c4b"
+      },
+      {
+        "arquivo": "series_2km/RMF_2022_03_2km_128x128_seq11.npz",
+        "bytes": 67252447,
+        "sha256": "68a36706ae15780a545cc7077d1a4e85d63a21161c223fea3de6c362cfcc8e7c"
+      },
+      {
+        "arquivo": "series_2km/RMF_2022_04_2km_128x128_seq11.npz",
+        "bytes": 57599503,
+        "sha256": "4da61bb5c293d26855c66fb8fec8e8d690610ce89a6bc7bc60c8c95d69688ba7"
+      },
+      {
+        "arquivo": "series_2km/RMF_2022_05_2km_128x128_seq11.npz",
+        "bytes": 56411236,
+        "sha256": "7a19ba9b41951d1848b5436f0149db52f666b9b2a2abd78ec95d23d26e3091a8"
+      },
+      {
+        "arquivo": "series_2km/RMF_2023_02_2km_128x128_seq11.npz",
+        "bytes": 34523416,
+        "sha256": "89d9b9a065959f1692dc6358c9be697706090a95af8ebfbc70140da2ebd6f7a2"
+      },
+      {
+        "arquivo": "series_2km/RMF_2023_03_2km_128x128_seq11.npz",
+        "bytes": 59964491,
+        "sha256": "74e2c7a5df11e5c2e97f75ca66c50e85805d577bf72a6395c4b5fbc96244773d"
+      },
+      {
+        "arquivo": "series_2km/RMF_2023_04_2km_128x128_seq11.npz",
+        "bytes": 56579214,
+        "sha256": "f24f6c37b0969dde75274d2f03c5e67e53c3a258b5eb9e9933d002bc5996fece"
+      },
+      {
+        "arquivo": "series_2km/RMF_2023_05_2km_128x128_seq11.npz",
+        "bytes": 25199477,
+        "sha256": "7e86b51458b26a08dedeb25f7d672880f53577b0f77a7d674afa86b87930320e"
+      },
+      {
+        "arquivo": "series_2km/RMF_2024_02_2km_128x128_seq11.npz",
+        "bytes": 55765308,
+        "sha256": "d8b97d0c23ead84296a3e798a50b47a01afdf5174c8242047ab13d9a8e82a14f"
+      },
+      {
+        "arquivo": "series_2km/RMF_2024_03_2km_128x128_seq11.npz",
+        "bytes": 68594530,
+        "sha256": "a743965ddb1d4b9ba607fdeeb7bfe564aa84c4f6dc3dab3e18974b843ecede81"
+      },
+      {
+        "arquivo": "series_2km/RMF_2024_04_2km_128x128_seq11.npz",
+        "bytes": 71665414,
+        "sha256": "cda2d442b13b1504fa8b144c2e51bf05148aae5836218bb9c69255e6c5422f90"
+      },
+      {
+        "arquivo": "series_2km/RMF_2024_05_2km_128x128_seq11.npz",
+        "bytes": 47732366,
+        "sha256": "4f7e94006d3d3c691d574d1b607e1a9ffb108a62af1db27745e71d5ea9f15fce"
+      },
+      {
+        "arquivo": "series_2km/RMF_2025_02_2km_128x128_seq11.npz",
+        "bytes": 44552350,
+        "sha256": "3c0cfbc41f0947e9e0c4480ceaa14c6fad2c3ec4383aecb2f122cd3c2da5fa91"
+      },
+      {
+        "arquivo": "series_2km/RMF_2025_03_2km_128x128_seq11.npz",
+        "bytes": 55854674,
+        "sha256": "7d2493956cd4c0e7c1c6d3f922fe66e7d2ebea60a8ab053b3839cb3966aebce9"
+      },
+      {
+        "arquivo": "series_2km/RMF_2025_04_2km_128x128_seq11.npz",
+        "bytes": 44346597,
+        "sha256": "b9f5e2774948e00a877f92d9d3813d9db2c224c2d4f993686c4c327e94eb8749"
+      },
+      {
+        "arquivo": "series_2km/RMF_2025_05_2km_128x128_seq11.npz",
+        "bytes": 21196583,
+        "sha256": "bc23ca7ac68668f516705a2a10759db7a859dcbafab893d758d1aad2b92e0073"
+      },
+      {
+        "arquivo": "series_2km/imerg_2025_test_30win_2km_real.npz",
+        "bytes": 28401718,
+        "sha256": "764dd84fe6216a0a096111527a6cf13727bdb6dcd1853df3f204b6c5637fc444"
+      },
+      {
+        "arquivo": "series_2km/log_tempos_etl_imerg_2019_2025.csv",
+        "bytes": 5662,
+        "sha256": "441166d8192cb87d54a93ad98322cbc24f4a72dffe6ca7659c60688e10c58ec2"
+      },
+      {
+        "arquivo": "series_2km/rmf_imerg_rt_2026_2km_operational_cases_INVALIDO_versao_anterior.npz",
+        "bytes": 721456,
+        "sha256": "8596557f33e771fe7370c8e118a74e4408496e55dc3eb54c8abb84cf82c874a2"
+      }
+    ],
+    "falhas_de_leitura": []
+  }
+}

@@ -1,0 +1,21 @@
+Ambiente_Execucao,Modelo,Janela,Tokens,Max |Δ logit|,Tokens divergentes,Empates numéricos
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-G (V1),1518,64,8.58306884765625e-06,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-G (V1),563,64,1.1205673217773438e-05,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-G (V1),501,64,7.62939453125e-06,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-G (V1),457,64,7.62939453125e-06,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-G (V1),285,64,8.821487426757812e-06,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-G (V1),1508,64,6.67572021484375e-06,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-G (V1),209,64,9.5367431640625e-06,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-G (V1),1385,64,8.821487426757812e-06,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-G (V1),1516,64,1.1920928955078125e-05,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-G (V1),1116,64,7.152557373046875e-06,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-VQ,1518,64,7.62939453125e-06,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-VQ,563,64,8.106231689453125e-06,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-VQ,501,64,8.106231689453125e-06,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-VQ,457,64,7.62939453125e-06,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-VQ,285,64,1.0192394256591797e-05,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-VQ,1508,64,8.58306884765625e-06,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-VQ,209,64,7.152557373046875e-06,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-VQ,1385,64,7.331371307373047e-06,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-VQ,1516,64,7.62939453125e-06,0,0
+NVIDIA RTX PRO 6000 Blackwell Server Edition (95.0 GB) · Cronus,F-PluvIA-VQ,1116,64,7.748603820800781e-06,0,0

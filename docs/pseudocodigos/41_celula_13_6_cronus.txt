@@ -1,0 +1,57 @@
+// ===== Célula 13.6 (Cronus) — pseudo-código =====
+// Célula 13.6 (Cronus): Troca do modelo ativo — F-PluvIA-G (V1) → F-PluvIA-VQ, para rodar de novo as Células 4.4,
+// 12, 12.1, 13.1 e 13.2 com a VQGAN ajustada. Guarda onde ficaram os resultados da V1, aponta as saídas para uma pasta
+// própria (sufixo _VQ, nada da V1 é sobrescrito) e reaproveita o que não depende da VQGAN nova (Zero-Shot, LINDA,
+// Lucas-Kanade e persistência), que é idêntico nas duas execuções.
+IMPORTAR os
+faltam ← [n PARA CADA n EM ("gpt8", "gpt8_vq", "best_ckpt_path_vq", "ENV_TAG", "RESULTS_ENV_DIR", "SERIES_CACHE_DIR") SE n NÃO EM globals()]
+SE faltam ENTÃO
+    LANÇAR ERRO RuntimeError(f"Rode antes as Células 4.6 a 4.8. Faltam: {', '.join(faltam)}")
+FIM SE
+SE globals().get("CRONUS", {}).get("ativo") = "vq" ENTÃO
+    EXIBIR "[Célula 13.6] O F-PluvIA-VQ já é o modelo ativo nesta sessão…"
+SENÃO
+    PARA CADA n EM ("CKPT_DIR", "PASTA_PREV") FAÇA
+        SE n NÃO EM globals() ENTÃO
+            LANÇAR ERRO RuntimeError(f'"{n}" não existe: rode antes o caminho da V1 até a Célula 13.2…)
+        FIM SE
+    FIM PARA
+    CRONUS ← {"ativo": "vq", "v1": {"env_tag": ENV_TAG, "results_dir": RESULTS_ENV_DIR, "cell12_dir": CKPT_DIR, "pasta_2026": PASTA_PREV, "checkpoint…
+    gpt8_v1 ← gpt8   // o F-PluvIA-G (V1) continua na sessão com este nome
+    best_ckpt_path_v1 ← globals().get("best_ckpt_path")
+    ENV_TAG ← f"{CRONUS['v1']['env_tag']}_VQ"
+    RESULTS_ENV_DIR ← os.path.join(SERIES_CACHE_DIR, f'resultados_{ENV_TAG}')
+    EXECUTAR os.makedirs(RESULTS_ENV_DIR, exist_ok=VERDADEIRO)
+    gpt8 ← gpt8_vq
+    best_ckpt_path ← best_ckpt_path_vq
+    EXECUTAR globals().pop("CELL12_FULL_2025_RESULTS", NULO)   // a 13.1 deve seguir a Célula 12 da execução VQ, não a da V1
+    // Overrides lidos pelas Células 12 e 13.1 (versão Cronus)
+    CRONUS_INCLUIR_MEDIA ← bool(globals().get("INCLUIR_C8_VQ", FALSO))
+    CRONUS_REUSO_12 ← [(CRONUS["v1"]["cell12_dir"], ("zs", "linda", "lk", "pers"))]
+    CRONUS_REUSO_13_1 ← [(CRONUS["v1"]["pasta_2026"], ("zs", "linda", "lk", "pers"))]
+    CRONUS["vq"] ← {"env_tag": ENV_TAG, "results_dir": RESULTS_ENV_DIR, "checkpoint": os.path.basename(best_ckpt_path_vq), "incluir_c8": CRONUS_INCLU…
+    EXIBIR "=== Célula 13.6: modelo ativo agora é o F-PluvIA-VQ ==="
+    EXIBIR f"V1 (guardada): {CRONUS['v1']['results_dir']}"
+    EXIBIR f'VQ (nova):     {RESULTS_ENV_DIR}'
+    EXIBIR f"F-PluvIA-C8 com a VQGAN nova: {('sim' if CRONUS_INCLUIR_MEDIA …
+    EXIBIR "Zero-Shot, LINDA, Lucas-Kanade e persistência serão reaprove…"
+    EXIBIR " Agora rode, nesta ordem: Célula 4.4 (opcional), 12, 12.1, 1…"
+FIM SE
+FUNÇÃO cronus_voltar_para_v1()
+    // Desfaz a troca (para rodar de novo alguma célula com a V1).
+    USAR VARIÁVEIS GLOBAIS gpt8, best_ckpt_path, ENV_TAG, RESULTS_ENV_DIR
+    SE globals().get("CRONUS", {}).get("ativo") ≠ "vq" ENTÃO
+        EXIBIR "A V1 já é o modelo ativo."
+        RETORNAR
+    FIM SE
+    (gpt8, best_ckpt_path) ← (gpt8_v1, best_ckpt_path_v1)
+    (ENV_TAG, RESULTS_ENV_DIR) ← (CRONUS["v1"]["env_tag"], CRONUS["v1"]["results_dir"])
+    PARA CADA n EM ("CRONUS_INCLUIR_MEDIA", "CRONUS_REUSO_12", "CRONUS_REUSO_13_1") FAÇA
+        EXECUTAR globals().pop(n, NULO)
+    FIM PARA
+    SE CRONUS["v1"].get("cell12") NÃO É NULO ENTÃO
+        globals()["CELL12_FULL_2025_RESULTS"] ← CRONUS["v1"]["cell12"]
+    FIM SE
+    CRONUS["ativo"] ← "v1"
+    EXIBIR "Modelo ativo voltou a ser o F-PluvIA-G (V1)."
+FIM FUNÇÃO

@@ -1,0 +1,281 @@
+// ===== Célula 13.7 (Cronus) — pseudo-código =====
+// Célula 13.7 (Cronus): Duelo final — F-PluvIA-G (V1, VQGAN original) × F-PluvIA-VQ (VQGAN ajustada à RMF), ambos com
+// decodificação gulosa, no teste de 2025 (1.729 janelas) e no teste cego de 2026 (janelas regulares de fev–mai), com
+// IC 95 % da diferença por bootstrap pareado em blocos diários. O vencedor é decidido em 2025; 2026 é relatado com a
+// ressalva de que a VQGAN foi ajustada depois de conhecido o resultado cego da V1. Em seguida, a variante com KV cache
+// (memoização das chaves e valores da atenção, Célula 13.4) de CADA modelo (V1 e VQ) roda em todas as janelas dos dois anos:
+// mede o ganho de tempo e confere se as previsões e as métricas ficam iguais às do gerador original.
+IMPORTAR contextlib
+IMPORTAR glob
+IMPORTAR io
+IMPORTAR json
+IMPORTAR math
+IMPORTAR os
+IMPORTAR re
+IMPORTAR time
+IMPORTAR warnings
+IMPORTAR einops
+IMPORTAR numpy (como np)
+IMPORTAR pandas (como pd)
+IMPORTAR torch
+IMPORTAR torch.nn.functional (como F)
+IMPORTAR dbz_to_rainfall DE gptcast.utils.converters
+N_BOOT ← 1000
+SEED_DUELO ← 42
+NIVEIS_ALERTA ← {"Atenção": 0.5, "Alerta": 1.0, "Severo": 5.0}
+LIMIARES_PIXEL ← (0.5, 1.0, 5.0)
+STEP_MIN ← 30
+RODAR_KV ← VERDADEIRO   // False = só o duelo, sem a variante com KV cache
+KV_MODELOS ← ("v1", "vq")   // KV cache nos dois modelos (equivalência e aceleração de cada um)
+TOL_IGUAL_MMH ← 0.01   // diferença máxima (mm/h) para considerar duas previsões iguais
+faltam ← [n PARA CADA n EM ("CRONUS", "gpt8_v1", "gpt8_vq", "md_rmf", "SERIES_CACHE_DIR", "CONTEXT_STEPS", "FORECAST_STEPS") SE n NÃO EM globals()]
+SE faltam OU "vq" NÃO EM globals().get("CRONUS", {}) ENTÃO
+    LANÇAR ERRO RuntimeError(f"Rode antes a Célula 13.6 e, com o F-PluvIA-VQ ativo, as Célula…)
+FIM SE
+PARA CADA n EM ("CKPT_DIR", "PASTA_PREV") FAÇA
+    SE n NÃO EM globals() ENTÃO
+        LANÇAR ERRO RuntimeError(f'"{n}" não existe: rode as Células 12 e 13.1 com o F-PluvIA-VQ …)
+    FIM SE
+FIM PARA
+EXECUTAR CRONUS["vq"].update(cell12_dir=CKPT_DIR, pasta_2026=PASTA_PREV)
+DEVICE ← "cuda"
+SAIDA ← CRONUS["vq"]["results_dir"]
+TAG ← CRONUS["vq"]["env_tag"]
+_cron ← globals().get("etapa")
+FUNÇÃO _rain(dbz)
+    RETORNAR np.clip(dbz_to_rainfall(np.clip(np.asarray(dbz, dtype=np.float64), 0.0, 60.0)), 0.0, 205.0).astype(np.float32)
+FIM FUNÇÃO
+// ------------------------------------------------------------------ 1. máscaras dos municípios
+SE "mascaras_municipais_rmf" NÃO EM globals() ENTÃO
+    LANÇAR ERRO RuntimeError("Rode a Célula 4.8 nesta sessão (ela define as máscaras munic…")
+FIM SE
+M_STACK ← np.stack(list(mascaras_municipais_rmf().values()))
+FUNÇÃO medias_municipais(r)
+    RETORNAR np.stack([r[(Ellipsis, m)].mean(axis=−1) PARA CADA m EM M_STACK], axis=−1)
+FIM FUNÇÃO
+// ------------------------------------------------------------------ 2. previsões salvas (somente leitura)
+FUNÇÃO _carregar_2025(pasta)
+    // {idx_janela: (pred_ft, tempo_ft)} a partir dos blocos da Célula 12.
+    out ← {}
+    PARA CADA f EM sorted(glob.glob(os.path.join(pasta, "bloco_*.npz"))) FAÇA
+        SE f.endswith(".tmp.npz") ENTÃO
+            PASSAR À PRÓXIMA ITERAÇÃO
+        FIM SE
+        USANDO np.load(f) COMO z
+            PARA CADA (j, i) EM enumerate(z["idx"]) FAÇA
+                out[int(i)] ← (z["pred_ft"][j].astype(np.float32), float(abs(z["tempo_ft"][j])))
+            FIM PARA
+        FIM USANDO
+    FIM PARA
+    RETORNAR out
+FIM FUNÇÃO
+FUNÇÃO _carregar_2026(pasta)
+    // {(produto, ts_fim): (pred_ft, tempo_ft)} a partir dos arquivos por janela da Célula 13.1.
+    out ← {}
+    pad ← re.compile("^(?P<prod>.+)_(?P<ts>\d{8}T\d{4})\.npz$")
+    PARA CADA f EM glob.glob(os.path.join(pasta, "*.npz")) FAÇA
+        m ← pad.match(os.path.basename(f))
+        SE NÃO m OU f.endswith(".tmp.npz") ENTÃO
+            PASSAR À PRÓXIMA ITERAÇÃO
+        FIM SE
+        ts ← np.datetime64(pd.Timestamp(m["ts"]).to_datetime64(), "m")
+        USANDO np.load(f) COMO z
+            out[(m["prod"], ts)] ← (z["pred_ft"].astype(np.float32), float(z["tempo_ft"]))
+        FIM USANDO
+    FIM PARA
+    RETORNAR out
+FIM FUNÇÃO
+// 2025: observação da partição de teste
+te ← md_rmf.splits["test"]
+P25 ← [k: _carregar_2025(CRONUS[k]["cell12_dir"]) PARA CADA k EM ("v1", "vq")]
+I25 ← sorted(set(P25["v1"]) & set(P25["vq"]))
+OBS25 ← _rain(np.asarray(te.sequences_dbz)[I25][(:, CONTEXT_STEPS:CONTEXT_STEPS + FORECAST_STEPS)])
+DIAS25 ← np.asarray(te.timestamps)[I25].astype("datetime64[D]")
+CTX25 ← np.asarray(te.sequences_dbz)[I25][(:, :CONTEXT_STEPS)]
+// 2026: só as janelas regulares de fev–mai (os caches RMF_2026_*); estudos de caso fora, como na Célula 13.2
+DIR_2026 ← os.path.join(SERIES_CACHE_DIR, "teste_cego_2026")
+SEQ26 ← {}
+PARA CADA f EM sorted(glob.glob(os.path.join(DIR_2026, "RMF_2026_*.npz"))) FAÇA
+    USANDO np.load(f) COMO z
+        PARA CADA (s, t) EM zip(z["seqs_dbz"], z["ts_fim"].astype("datetime64[m]")) FAÇA
+            EXECUTAR SEQ26.setdefault(np.datetime64(t, "m"), s)
+        FIM PARA
+    FIM USANDO
+FIM PARA
+P26 ← [k: _carregar_2026(CRONUS[k]["pasta_2026"]) PARA CADA k EM ("v1", "vq")]
+T26 ← sorted([k PARA CADA k EM set(P26["v1"]) & set(P26["vq"]) SE k[1] EM SEQ26])   // (produto, ts_fim)
+OBS26 ← _rain(np.stack([SEQ26[t][CONTEXT_STEPS:CONTEXT_STEPS + FORECAST_STEPS] PARA CADA (_, t) EM T26]))
+DIAS26 ← np.array([t PARA CADA (_, t) EM T26], dtype="datetime64[m]").astype("datetime64[D]")
+CTX26 ← np.stack([SEQ26[t][:CONTEXT_STEPS] PARA CADA (_, t) EM T26])
+EXIBIR f'[Célula 13.7] 2025: {len(I25)} janelas | 2026: {len(T26)} jane…
+CONJ ← {"2025": {"obs": OBS25, "dias": DIAS25, "ctx": CTX25, "pred": [k: np.stack([P25[k][i][0] PARA CADA i EM I25]) PARA CADA k EM ("v1", "vq")], "t…
+NOME ← {"v1": "F-PluvIA-G (V1)", "vq": "F-PluvIA-VQ", "kv_v1": "F-PluvIA-G (V1) com KV cache", "kv_vq": "F-PluvIA-VQ com KV cache"}
+// ------------------------------------------------------------------ 3. métricas com bootstrap pareado por dia
+FUNÇÃO _contagens(o, p, thr)
+    (ob, pb) ← (o ≥ thr, p ≥ thr)
+    eixo ← tuple(range(1, o.ndim))
+    RETORNAR np.stack([np.sum(ob & pb, axis=eixo), np.sum(~ob & pb, axis=eixo), np.sum(ob & ~pb, axis=eixo)], −1).astype(float)
+FIM FUNÇÃO
+FUNÇÃO _f1(c)
+    (tp, fp, fn) ← (c[(Ellipsis, 0)], c[(Ellipsis, 1)], c[(Ellipsis, 2)])
+    USANDO np.errstate(invalid="ignore", divide="ignore")
+        RETORNAR 100 × 2 × tp / 2 × tp + fp + fn
+    FIM USANDO
+FIM FUNÇÃO
+FUNÇÃO _csi(c)
+    (tp, fp, fn) ← (c[(Ellipsis, 0)], c[(Ellipsis, 1)], c[(Ellipsis, 2)])
+    USANDO np.errstate(invalid="ignore", divide="ignore")
+        RETORNAR 100 × tp / tp + fp + fn
+    FIM USANDO
+FIM FUNÇÃO
+FUNÇÃO comparar(conj, a, b, preds)
+    // Tabela de métricas de a e b e da diferença b − a, com IC 95 % por bootstrap em blocos diários.
+    P ← preds OU conj["pred"]
+    (o, dias) ← (conj["obs"], conj["dias"])
+    (du, inv) ← np.unique(dias, return_inverse=VERDADEIRO)
+    amostras ← np.random.default_rng(SEED_DUELO).integers(0, len(du), size=(N_BOOT, len(du)))
+    o_mun ← medias_municipais(o)
+    linhas ← []
+    FUNÇÃO _linha(nome_m, fn_cont, fn_met)
+        cd ← {}
+        PARA CADA k EM (a, b) FAÇA
+            c ← fn_cont(k)   // (N, 3) por janela
+            d ← np.zeros((len(du), 3))
+            EXECUTAR np.add.at(d, inv, c)
+            cd[k] ← d
+        FIM PARA
+        (pa, pb) ← (fn_met(cd[a].sum(0)), fn_met(cd[b].sum(0)))
+        dif ← fn_met(cd[b][amostras].sum(1)) − fn_met(cd[a][amostras].sum(1))
+        (lo, hi) ← np.nanpercentile(dif, [2.5, 97.5])
+        EXECUTAR linhas.append({"Métrica": nome_m, NOME[a]: pa, NOME[b]: pb, "Δ": pb − pa, "IC 95% Δ inf": lo, "IC 95% Δ sup": hi})
+    FIM FUNÇÃO
+    PARA CADA (nivel, thr) EM NIVEIS_ALERTA.items() FAÇA
+        EXECUTAR _linha(f'F1 municipal {nivel} (%)', FUNÇÃO(k) ↦ _contagens(o_mun, medias_municipais(P[k]), thr), _f1)
+    FIM PARA
+    PARA CADA h EM range(FORECAST_STEPS) FAÇA
+        EXECUTAR _linha(f'F1 municipal Atenção +{(h + 1) * STEP_MIN} min (%)', FUNÇÃO(k) ↦ _contagens(o_mun[(:, h)], medias_municipais(P[k][(:, h)]),…
+    FIM PARA
+    PARA CADA thr EM LIMIARES_PIXEL FAÇA
+        EXECUTAR _linha(f'CSI pixel ≥ {thr:g} mm/h (%)', FUNÇÃO(k) ↦ _contagens(o, P[k], thr), _csi)
+    FIM PARA
+    EXECUTAR linhas.append({"Métrica": "MAE pixel (mm/h)", NOME[a]: float(np.mean(np.abs(P[a] − o))), NOME[b]: float(np.mean(np.abs(P[b] − o)))})
+    EXECUTAR linhas.append({"Métrica": "Razão de volume (prev./obs.)", NOME[a]: float(P[a].sum() / max(o.sum(), 1e-09)), NOME[b]: float(P[b].sum() / …
+    PARA CADA r EM linhas[−2:] FAÇA
+        r["Δ"] ← r[NOME[b]] − r[NOME[a]]
+    FIM PARA
+    RETORNAR pd.DataFrame(linhas)
+FIM FUNÇÃO
+DUELO ← [ano: comparar(CONJ[ano], "v1", "vq") PARA CADA ano EM ("2025", "2026")]
+FUNÇÃO _veredito(df)
+    r ← df.iloc[0]
+    SE r["IC 95% Δ inf"] > 0 ENTÃO
+        RETORNAR ("vq", "F-PluvIA-VQ melhor (IC 95% do ganho no F1 de Atenção todo ac…")
+    FIM SE
+    SE r["IC 95% Δ sup"] < 0 ENTÃO
+        RETORNAR ("v1", "F-PluvIA-G (V1) melhor (IC 95% da diferença todo abaixo de z…")
+    FIM SE
+    RETORNAR ("v1", "empate técnico (o IC 95% contém o zero); fica a V1, que tem …")
+FIM FUNÇÃO
+(VENCEDOR, TEXTO_2025) ← _veredito(DUELO["2025"])
+(_, TEXTO_2026) ← _veredito(DUELO["2026"])
+PARA CADA (ano, df) EM DUELO.items() FAÇA
+    EXECUTAR df.to_csv(os.path.join(SAIDA, f'cronus_duelo_v1_vs_vq_{ano}_{TAG}.csv'), index=FALSO)
+    EXIBIR f"\n=== Célula 13.7: {NOME['v1']} × {NOME['vq']} — {('teste 2025…
+    EXIBIR df
+FIM PARA
+EXIBIR f'\nVeredito em 2025 (decide): {TEXTO_2025}.'
+EXIBIR f'Em 2026 (só relatado): {TEXTO_2026}.'
+EXIBIR f"Modelo vencedor em 2025: {NOME[VENCEDOR]}. KV cache medido em:…
+// ------------------------------------------------------------------ 4. variante com KV cache do vencedor
+(RES_KV, TAB_KV) ← (NULO, NULO)
+SE RODAR_KV ENTÃO
+    (RES_KV, TAB_KV) ← ({}, [])
+    PARA CADA MOD EM KV_MODELOS FAÇA
+        M ← (gpt8_v1 SE MOD = "v1" SENÃO gpt8_vq)
+        EXECUTAR M.eval()
+        TR ← M.transformer
+        WS ← int(math.sqrt(int(TR.config.block_size) DIV 8))
+        FUNÇÃO _proximo_token(logits, M)
+            lg ← M.top_k_logits(logits[(:, −1, :)], 1)
+            RETORNAR torch.topk(F.softmax(lg, dim=−1), k=1, dim=−1)[1]
+        FIM FUNÇÃO
+        FUNÇÃO _quadro_kv(ind_ctx, c_idx, TR, _proximo_token)
+            (b, _, h, w) ← ind_ctx.shape
+            prefixo ← torch.cat((c_idx.reshape(b, −1), ind_ctx.reshape(b, −1)), dim=1)
+            (logits, _, cache) ← TR.forward_with_past(prefixo)
+            n ← prefixo.shape[1]
+            tok ← _proximo_token(logits)
+            toks ← [tok]
+            PARA CADA _ EM range(h × w − 1) FAÇA
+                (logits, _, novo) ← TR.forward_with_past(tok, past=[cache], past_length=n)
+                cache ← torch.cat((cache, novo), dim=−2)
+                n ← n + 1
+                tok ← _proximo_token(logits)
+                EXECUTAR toks.append(tok)
+            FIM PARA
+            RETORNAR torch.cat(toks, dim=1).reshape(b, h, w)
+        FIM FUNÇÃO
+        // decorador: torch.inference_mode()
+        FUNÇÃO prever_kv(ctx_dbz, M, _quadro_kv)
+            x ← torch.tensor(np.clip(np.nan_to_num(ctx_dbz, nan=0.0), 0, 60) / 30.0 − 1.0, dtype=torch.float32, device=DEVICE)
+            s ← x.shape[0]
+            xs ← einops.rearrange(x, "s h w -> (s h) w")[(NULO, NULO)].contiguous()
+            (quant, idx) ← M.encode_to_z(xs)
+            (_, c_idx) ← M.encode_to_c(xs)
+            qs ← quant.shape
+            ind ← idx.reshape(qs[0], s, qs[2] DIV s, qs[3])
+            (ih, iw) ← (ind.shape[2], ind.shape[3])
+            quadros ← []
+            PARA CADA _ EM range(FORECAST_STEPS) FAÇA
+                USANDO torch.autocast("cuda", dtype=torch.bfloat16)
+                    p ← _quadro_kv(ind[(:, −s:)], c_idx)
+                FIM USANDO
+                EXECUTAR quadros.append(M.decode_to_img(p.reshape(1, −1), torch.Size([1, qs[1], ih, iw])))
+                ind ← torch.cat((ind, p[(:, NULO)]), dim=1)
+            FIM PARA
+            y ← torch.cat(quadros, dim=1).float().cpu().numpy().clip(−1, 1)
+            RETORNAR _rain(y + 1.0 × 30.0)[0]
+        FIM FUNÇÃO
+        _ ← prever_kv(CONJ["2025"]["ctx"][0])   // aquecimento
+        chave ← f'kv_{MOD}'
+        PARA CADA ano EM ("2025", "2026") FAÇA
+            ctx ← CONJ[ano]["ctx"]
+            (P_kv, T_kv) ← (np.empty_like(CONJ[ano]["obs"]), np.empty(len(ctx)))
+            USANDO warnings.catch_warnings(), contextlib.redirect_stdout(io.StringIO())
+                EXECUTAR warnings.simplefilter("ignore")
+                PARA CADA j EM range(len(ctx)) FAÇA
+                    EXECUTAR torch.cuda.synchronize()
+                    t0 ← time.perf_counter()
+                    P_kv[j] ← prever_kv(ctx[j])
+                    EXECUTAR torch.cuda.synchronize()
+                    T_kv[j] ← time.perf_counter() − t0
+                    SE j + 1 MOD 250 = 0 ENTÃO
+                        EXIBIR f'  KV cache {NOME[MOD]} {ano}: {j + 1}/{len(ctx)} janelas'
+                    FIM SE
+                FIM PARA
+            FIM USANDO
+            P_rc ← CONJ[ano]["pred"][MOD]
+            dif ← np.abs(P_kv − P_rc).reshape(len(ctx), −1).max(axis=1)
+            CONJ[ano]["pred"][chave] ← P_kv
+            cmp ← comparar(CONJ[ano], MOD, chave)
+            EXECUTAR cmp.to_csv(os.path.join(SAIDA, f'cronus_kvcache_{MOD}_{ano}_{TAG}.csv'), index=FALSO)
+            t_rc ← CONJ[ano]["tempo"][MOD]
+            RES_KV[(MOD, ano)] ← cmp
+            EXECUTAR TAB_KV.append({"Modelo": NOME[MOD], "Conjunto": ano, "Janelas": len(ctx), "Tempo médio sem cache (s)": float(np.mean(t_rc)), "Te…
+            EXECUTAR CONJ[ano]["pred"].pop(chave)   // libera memória
+        FIM PARA
+    FIM PARA
+    TAB_KV ← pd.DataFrame(TAB_KV)
+    EXECUTAR TAB_KV.to_csv(os.path.join(SAIDA, f'cronus_kvcache_resumo_{TAG}.csv'), index=FALSO)
+    EXIBIR " === Célula 13.7: sem cache × com KV cache, nos dois modelos…"
+    EXIBIR TAB_KV
+    EXIBIR "Esperado: Δ F1 ≈ 0 com o IC contendo o zero (o KV cache é a …"
+FIM SE
+CELL13_7_DUELO ← {"vencedor_2025": NOME[VENCEDOR], "veredito_2025": TEXTO_2025, "veredito_2026": TEXTO_2026, "janelas_2025": len(I25), "janelas_2026"…
+USANDO open(os.path.join(SAIDA, f'cronus_duelo_resumo_{TAG}.json'), "w") COMO f
+    EXECUTAR json.dump(CELL13_7_DUELO, f, indent=2, ensure_ascii=FALSO, default=str)
+FIM USANDO
+EXIBIR f'\nResumo salvo em {SAIDA}. Próximo passo: Células Extra, Deplo…
+// Para o Deploy e o Backup levarem também a pasta da V1 (o modelo ativo agora é o VQ)
+CRONUS_PASTAS_RESULTADOS ← {CRONUS["v1"]["env_tag"]: CRONUS["v1"]["results_dir"]}
+CRONUS_PASTAS_EXTRAS ← {f"resultados_{CRONUS['v1']['env_tag']}": CRONUS["v1"]["results_dir"]}

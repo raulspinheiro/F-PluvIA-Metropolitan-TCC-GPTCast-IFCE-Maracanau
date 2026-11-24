@@ -1,0 +1,2 @@
+// ===== Célula de código nº 3 — pseudo-código =====
+EXECUTAR registrar_saldo_uc(557.09, "reinício do cronômetro, antes da Célula 2")

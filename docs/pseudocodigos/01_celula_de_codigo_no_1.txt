@@ -1,0 +1,3 @@
+// ===== Célula de código nº 1 — pseudo-código =====
+IMPORTAR os
+EXECUTAR os.environ.pop("FPLUVIA_TAXA_UC_H", NULO)

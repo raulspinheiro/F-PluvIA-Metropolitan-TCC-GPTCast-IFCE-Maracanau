@@ -1,0 +1,11 @@
+digraph "auxiliar_cronus_somente_leitura_copia_do" {
+  graph [fontname="Helvetica", rankdir=LR, nodesep=0.35, ranksep=0.6, labelloc=t, fontsize=14];
+  node  [fontname="Helvetica", fontsize=10, shape=plain];
+  edge  [fontname="Helvetica", fontsize=8, color="#555555"];
+  label=<<B>Célula auxiliar (Cronus - Somente Leitura) — Cópia dos caches .npz da V1</B> — 48 linhas>;
+  celula [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF8E1"><TR><TD><FONT POINT-SIZE="9">«célula»</FONT><BR/><B>Célula auxiliar (Cronus - Somente Leitura) — Cópia dos caches .npz da V1</B></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT">+ DESTINO</TD></TR><TR><TD ALIGN="LEFT">+ ORIGEM_V1</TD></TR><TR><TD ALIGN="LEFT">+ SO_LISTAR</TD></TR><TR><TD ALIGN="LEFT">+ SUBPASTAS</TD></TR><TR><TD ALIGN="LEFT">+ alvo</TD></TR><TR><TD ALIGN="LEFT">+ arquivos</TD></TR><TR><TD ALIGN="LEFT">+ copiados</TD></TR><TR><TD ALIGN="LEFT">+ dst_dir</TD></TR><TR><TD ALIGN="LEFT">+ n</TD></TR><TR><TD ALIGN="LEFT">+ n_dst</TD></TR><TR><TD ALIGN="LEFT">+ pulados</TD></TR><TR><TD ALIGN="LEFT">+ src_dir</TD></TR><TR><TD ALIGN="LEFT">+ t0</TD></TR><TR><TD ALIGN="LEFT">+ tam_gb</TD></TR></TABLE></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT"><FONT COLOR="#888888">—</FONT></TD></TR></TABLE></TD></TR></TABLE>>];
+  libs [shape=tab, style=filled, fillcolor="#F1F8E9", fontsize=9, label=<<B>bibliotecas</B><BR/>glob<BR/>os<BR/>shutil<BR/>time>];
+  celula -> libs [style=dashed, arrowhead=open, label="«import»"];
+  entradas [shape=note, style=filled, fillcolor="#FCE4EC", fontsize=9, label=<<B>usa de outras células</B><BR/>BASE_WORK_DIR>];
+  entradas -> celula [style=dashed, arrowhead=open, label="«use»"];
+}

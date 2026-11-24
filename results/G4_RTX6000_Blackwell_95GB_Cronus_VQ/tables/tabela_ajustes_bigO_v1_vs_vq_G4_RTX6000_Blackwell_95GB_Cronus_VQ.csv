@@ -1,0 +1,5 @@
+Modelo,Versão,a [s],b [s por passo],R²,Termo quadrático
+F-PluvIA-G (V1),Recálculo (sem cache),0.0086,0.4056,1.0,-0.0
+F-PluvIA-G (V1),KV cache (memoização),0.0107,0.3584,1.0,-0.0001
+F-PluvIA-VQ,Recálculo (sem cache),0.0084,0.4055,1.0,1e-05
+F-PluvIA-VQ,KV cache (memoização),0.0113,0.3584,0.99999,-0.0001

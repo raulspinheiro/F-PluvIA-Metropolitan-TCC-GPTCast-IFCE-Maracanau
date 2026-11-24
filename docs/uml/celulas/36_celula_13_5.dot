@@ -1,0 +1,13 @@
+digraph "13_5" {
+  graph [fontname="Helvetica", rankdir=LR, nodesep=0.35, ranksep=0.6, labelloc=t, fontsize=14];
+  node  [fontname="Helvetica", fontsize=10, shape=plain];
+  edge  [fontname="Helvetica", fontsize=8, color="#555555"];
+  label=<<B>Célula 13.5</B> — 142 linhas>;
+  celula [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#FFF8E1"><TR><TD><FONT POINT-SIZE="9">«célula»</FONT><BR/><B>Célula 13.5</B></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT">+ CASOS</TD></TR><TR><TD ALIGN="LEFT">+ CONTEXT_STEPS</TD></TR><TR><TD ALIGN="LEFT">+ DIR_2026</TD></TR><TR><TD ALIGN="LEFT">+ FORECAST_STEPS</TD></TR><TR><TD ALIGN="LEFT">+ MASKS</TD></TR><TR><TD ALIGN="LEFT">+ N_DESTAQUE</TD></TR><TR><TD ALIGN="LEFT">+ NOMES_MUN</TD></TR><TR><TD ALIGN="LEFT">+ OBS</TD></TR><TR><TD ALIGN="LEFT">+ OUT</TD></TR><TR><TD ALIGN="LEFT">+ PASTA</TD></TR><TR><TD ALIGN="LEFT">+ SERIES_CACHE_DIR</TD></TR><TR><TD ALIGN="LEFT">+ SIGLA</TD></TR><TR><TD ALIGN="LEFT">+ STEP_MIN</TD></TR><TR><TD ALIGN="LEFT">+ base</TD></TR><TR><TD ALIGN="LEFT"><I>+ 25 mais</I></TD></TR></TABLE></TD></TR><HR/><TR><TD><TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1"><TR><TD ALIGN="LEFT">- _rain(dbz)</TD></TR><TR><TD ALIGN="LEFT">+ medias_municipais(campo_4xHxW)</TD></TR></TABLE></TD></TR></TABLE>>];
+  libs [shape=tab, style=filled, fillcolor="#F1F8E9", fontsize=9, label=<<B>bibliotecas</B><BR/>glob<BR/>gptcast<BR/>matplotlib<BR/>numpy<BR/>os<BR/>pandas<BR/>re>];
+  celula -> libs [style=dashed, arrowhead=open, label="«import»"];
+  entradas [shape=note, style=filled, fillcolor="#FCE4EC", fontsize=9, label=<<B>usa de outras células</B><BR/>ENV_TAG<BR/>RESULTS_ENV_DIR<BR/>gdf_rmf<BR/>md_rmf<BR/>mun_masks>];
+  entradas -> celula [style=dashed, arrowhead=open, label="«use»"];
+  arquivos [shape=folder, style=filled, fillcolor="#EDE7F6", fontsize=9, label=<<B>arquivos citados</B><BR/>.tmp.npz>];
+  celula -> arquivos [style=dotted, arrowhead=open, label="lê/grava"];
+}

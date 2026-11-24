@@ -1,0 +1,57 @@
+{
+  "vencedor_2025": "F-PluvIA-VQ",
+  "veredito_2025": "F-PluvIA-VQ melhor (IC 95% do ganho no F1 de Atenção todo acima de zero)",
+  "veredito_2026": "F-PluvIA-VQ melhor (IC 95% do ganho no F1 de Atenção todo acima de zero)",
+  "janelas_2025": 1729,
+  "janelas_2026": 2108,
+  "kv_cache": [
+    {
+      "Modelo": "F-PluvIA-G (V1)",
+      "Conjunto": "2025",
+      "Janelas": 1729,
+      "Tempo médio sem cache (s)": 1.6310370848901241,
+      "Tempo médio com KV cache (s)": 1.451740781275315,
+      "Aceleração (×)": 1.1235043514154794,
+      "Janelas idênticas (%)": 3.1810294968189705,
+      "Maior diferença (mm/h)": 205.0,
+      "Δ F1 Atenção (KV − sem cache)": 0.07044412877399964,
+      "IC 95% Δ": "-0.25 a 0.40"
+    },
+    {
+      "Modelo": "F-PluvIA-G (V1)",
+      "Conjunto": "2026",
+      "Janelas": 2108,
+      "Tempo médio sem cache (s)": 1.6312903557025966,
+      "Tempo médio com KV cache (s)": 1.4491842646764252,
+      "Aceleração (×)": 1.1256611015348226,
+      "Janelas idênticas (%)": 2.988614800759013,
+      "Maior diferença (mm/h)": 205.0,
+      "Δ F1 Atenção (KV − sem cache)": -0.0542389844884994,
+      "IC 95% Δ": "-0.45 a 0.34"
+    },
+    {
+      "Modelo": "F-PluvIA-VQ",
+      "Conjunto": "2025",
+      "Janelas": 1729,
+      "Tempo médio sem cache (s)": 1.6306270493591277,
+      "Tempo médio com KV cache (s)": 1.4439849038982144,
+      "Aceleração (×)": 1.129254914616524,
+      "Janelas idênticas (%)": 7.981492192018508,
+      "Maior diferença (mm/h)": 46.053794860839844,
+      "Δ F1 Atenção (KV − sem cache)": 0.07692567616776103,
+      "IC 95% Δ": "-0.17 a 0.32"
+    },
+    {
+      "Modelo": "F-PluvIA-VQ",
+      "Conjunto": "2026",
+      "Janelas": 2108,
+      "Tempo médio sem cache (s)": 1.6304108299933067,
+      "Tempo médio com KV cache (s)": 1.4503653166323394,
+      "Aceleração (×)": 1.1241380439095319,
+      "Janelas idênticas (%)": 9.62998102466793,
+      "Maior diferença (mm/h)": 42.53125,
+      "Δ F1 Atenção (KV − sem cache)": 0.2766927444963727,
+      "IC 95% Δ": "0.03 a 0.58"
+    }
+  ]
+}

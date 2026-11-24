@@ -1,0 +1,247 @@
+// ===== Célula 0 — pseudo-código =====
+// Célula 0: Cronômetro de Ponta a Ponta (F-PluvIA Metropolitan) — tempo de máquina e unidades de computação
+// Cole no início do notebook e execute antes de qualquer outra célula.
+// Registra, em CSV no Drive, gravado a cada etapa (nada se perde se a sessão cair):
+// (1) toda célula executada, automaticamente (início, fim, duração);
+// (2) etapas nomeadas, com o bloco  `with etapa("nome", categoria="..."):`
+// (3) o saldo de unidades de computação (UC) lido por você no painel do Colab.
+// Sem credenciais: nada aqui lê Secrets, tokens ou senhas.
+IMPORTAR csv
+IMPORTAR os
+IMPORTAR socket
+IMPORTAR time
+IMPORTAR uuid
+IMPORTAR contextmanager DE contextlib
+// Apelidos privados: outras células fazem `import datetime` e `import time`, que trocariam os nomes globais
+// usados pelos registros automáticos desta célula (o erro "module 'datetime' has no attribute 'now'").
+IMPORTAR datetime (como _dt_cron), timezone (como _tz_cron) DE datetime
+IMPORTAR time (como _time_cron)
+// ---- Configuração -----------------------------------------------------------
+PASTA_CRONOMETRO ← os.environ.get("FPLUVIA_CRONOMETRO_DIR", "/content/drive/MyDrive/GPTCast_RMF_Cronus/cronometro")
+TAXA_UC_PADRAO ← 10.05   // painel "Recursos" do Colab (G4, 22/11/2026)
+_taxa_txt ← os.environ.get("FPLUVIA_TAXA_UC_H", "").strip().replace(",", ".")
+TENTAR
+    TAXA_UC_POR_HORA ← (float(_taxa_txt) SE _taxa_txt SENÃO TAXA_UC_PADRAO)
+SE OCORRER ERRO ValueError
+    EXIBIR f'[cronômetro] FPLUVIA_TAXA_UC_H inválida ({_taxa_txt!r}); usand…
+    EXECUTAR os.environ.pop("FPLUVIA_TAXA_UC_H", NULO)
+    TAXA_UC_POR_HORA ← TAXA_UC_PADRAO
+FIM TENTAR
+SESSAO_ID ← _dt_cron.now(_tz_cron.utc).strftime("%Y%m%dT%H%MZ") + "_" + uuid.uuid4().hex[:6]
+// MODO AMOSTRA: "1" = cada etapa roda só uma amostra (para medir a CPU e extrapolar).
+// "0" = execução completa (use na GPU).
+MODO_AMOSTRA ← os.environ.get("FPLUVIA_MODO_AMOSTRA", "0") = "1"
+// Tamanho da amostra por categoria, na unidade da etapa (passos, janelas...).
+AMOSTRA_N ← {"3_treino": 20, "4_validacao": 5, "5_teste_FR": 5, "6_teste_LR": 5}
+// Monta o Drive AQUI, antes de criar a pasta: criar /content/drive/... sem o Drive montado
+// impediria a montagem da Célula 1 ("Mountpoint must not already contain files").
+// A Célula 1 usa drive.mount('/content/drive') sem force_remount, então vira só um aviso.
+SE PASTA_CRONOMETRO.startswith("/content/drive") E NÃO os.path.ismount("/content/drive") ENTÃO
+    TENTAR
+        IMPORTAR drive DE google.colab
+        EXECUTAR drive.mount("/content/drive")   // escolha aqui a conta do Drive desta execução
+    SE OCORRER ERRO ImportError
+        LANÇAR ERRO RuntimeError("Fora do Colab: defina FPLUVIA_CRONOMETRO_DIR para uma pasta …")
+    FIM TENTAR
+FIM SE
+EXECUTAR os.makedirs(PASTA_CRONOMETRO, exist_ok=VERDADEIRO)
+ARQ_ETAPAS ← os.path.join(PASTA_CRONOMETRO, "cronometro_etapas.csv")
+ARQ_CELULAS ← os.path.join(PASTA_CRONOMETRO, "cronometro_celulas.csv")
+ARQ_SALDO ← os.path.join(PASTA_CRONOMETRO, "cronometro_saldo_uc.csv")
+TENTAR
+    IMPORTAR torch
+    _CUDA ← torch.cuda.is_available()
+SE OCORRER ERRO Exception
+    (torch, _CUDA) ← (NULO, FALSO)
+FIM TENTAR
+GPU_NOME ← (torch.cuda.get_device_name(0) SE _CUDA SENÃO f'CPU ({os.cpu_count()} núcleos lógicos)')
+MODO ← ("amostra" SE MODO_AMOSTRA SENÃO "completo")
+FUNÇÃO limitar(seq, categoria)
+    // No modo amostra, devolve só os primeiros AMOSTRA_N[categoria] itens de `seq`.
+    // Uso:  for janela in limitar(janelas_teste, "5_teste_FR"): ...
+    // Fora do modo amostra (ou categoria sem limite), devolve `seq` inteira.
+    n ← (AMOSTRA_N.get(categoria) SE MODO_AMOSTRA SENÃO NULO)
+    SE n É NULO ENTÃO
+        RETORNAR seq
+    FIM SE
+    TENTAR
+        RETORNAR seq[:n]
+    SE OCORRER ERRO TypeError
+        IMPORTAR itertools
+        RETORNAR list(itertools.islice(seq, n))
+    FIM TENTAR
+FIM FUNÇÃO
+FUNÇÃO _agora()
+    RETORNAR _dt_cron.now(_tz_cron.utc).isoformat(timespec="seconds")
+FIM FUNÇÃO
+FUNÇÃO _gravar(arquivo, linha)
+    novo ← NÃO os.path.exists(arquivo)
+    USANDO open(arquivo, "a", newline="", encoding="utf-8") COMO f
+        w ← csv.DictWriter(f, fieldnames=list(linha.keys()))
+        SE novo ENTÃO
+            EXECUTAR w.writeheader()
+        FIM SE
+        EXECUTAR w.writerow(linha)
+    FIM USANDO
+FIM FUNÇÃO
+// ---- (2) Etapas nomeadas ----------------------------------------------------
+// decorador: contextmanager
+FUNÇÃO etapa(nome, categoria, quantidade, unidade)
+    // Uso:
+    // with etapa("ETL Final Run 2019-2025", categoria="1_extracao", quantidade=28, unidade="meses"):
+    // ...código da etapa...
+    SE _CUDA ENTÃO
+        EXECUTAR torch.cuda.synchronize()
+        EXECUTAR torch.cuda.reset_peak_memory_stats()
+    FIM SE
+    (inicio_iso, t0) ← (_agora(), _time_cron.perf_counter())
+    status ← "ok"
+    TENTAR
+        EXECUTAR (yield)
+    SE OCORRER ERRO BaseException (chamado e)
+        status ← f'erro: {type(e).__name__}'
+        LANÇAR ERRO
+    AO FINAL, SEMPRE
+        SE _CUDA ENTÃO
+            EXECUTAR torch.cuda.synchronize()
+        FIM SE
+        dur ← _time_cron.perf_counter() − t0
+        pico_gb ← (torch.cuda.max_memory_allocated() / 1000000000.0 SE _CUDA SENÃO 0.0)
+        linha ← {"sessao": SESSAO_ID, "maquina": socket.gethostname(), "gpu": GPU_NOME, "modo": MODO, "taxa_uc_h": TAXA_UC_POR_HORA, "categoria": cat…
+        EXECUTAR _gravar(ARQ_ETAPAS, linha)
+        EXIBIR f"[cronômetro] {nome}: {dur / 60:.1f} min | {linha['uc_estimadas…
+    FIM TENTAR
+FIM FUNÇÃO
+// ---- (1) Toda célula, automaticamente ----------------------------------------
+_estado_celula ← {}
+FUNÇÃO _antes_celula(info)
+    _estado_celula["t0"] ← _time_cron.perf_counter()
+    _estado_celula["inicio"] ← _agora()
+    src ← getattr(info, "raw_cell", "") OU ""
+    // Primeira linha útil: pula o "# @title" que abre quase todas as células deste notebook
+    _estado_celula["titulo"] ← next([l.strip()[:90] PARA CADA l EM src.splitlines() SE l.strip() E NÃO l.strip().lower().startswith(("# @title", "#@t…
+FIM FUNÇÃO
+// Categoria de cada célula do notebook, pelo título (as etapas do pipeline sem precisar de `with etapa(...)`)
+CATEGORIAS_POR_TITULO ← [("Célula 2:", "1_extracao"), ("Célula 13.1", "6_teste_LR"), ("Célula 3:", "2_dataset"), ("Célula 4.6", "3_treino"), ("Célula…
+FUNÇÃO _categoria(titulo)
+    PARA CADA (chave, cat) EM CATEGORIAS_POR_TITULO FAÇA
+        SE chave EM titulo ENTÃO
+            RETORNAR cat
+        FIM SE
+    FIM PARA
+    RETORNAR "outros"
+FIM FUNÇÃO
+FUNÇÃO _depois_celula(result)
+    SE "t0" NÃO EM _estado_celula ENTÃO
+        RETORNAR
+    FIM SE
+    dur ← _time_cron.perf_counter() − _estado_celula.pop("t0")
+    erro ← getattr(result, "error_in_exec", NULO) OU getattr(result, "error_before_exec", NULO)
+    EXECUTAR _gravar(ARQ_CELULAS, {"sessao": SESSAO_ID, "gpu": GPU_NOME, "categoria": _categoria(_estado_celula.get("titulo", "")), "inicio_utc": _es…
+FIM FUNÇÃO
+TENTAR
+    _ip ← get_ipython()   // noqa: F821 (existe no Colab/Jupyter)
+    PARA CADA (ev, fn) EM (("pre_run_cell", _antes_celula), ("post_run_cell", _depois_celula)) FAÇA
+        TENTAR
+            EXECUTAR _ip.events.unregister(ev, fn)
+        SE OCORRER ERRO ValueError
+            (nada a fazer)
+        FIM TENTAR
+        EXECUTAR _ip.events.register(ev, fn)
+    FIM PARA
+SE OCORRER ERRO NameError
+    (nada a fazer)
+FIM TENTAR
+// ---- (3) Saldo real de UC, lido no painel do Colab --------------------------
+FUNÇÃO registrar_saldo_uc(saldo, observacao)
+    // Leia o saldo em 'Recursos' no Colab e registre: registrar_saldo_uc(487.3, "antes do ETL").
+    EXECUTAR _gravar(ARQ_SALDO, {"sessao": SESSAO_ID, "momento_utc": _agora(), "saldo_uc": saldo, "observacao": observacao})
+    EXIBIR f'[cronômetro] saldo registrado: {saldo} UC ({observacao})'
+FIM FUNÇÃO
+// ---- Resumo -------------------------------------------------------------------
+FUNÇÃO resumo_cronometro()
+    IMPORTAR pandas (como pd)
+    SE os.path.exists(ARQ_ETAPAS) ENTÃO
+        d ← pd.read_csv(ARQ_ETAPAS)
+    SENÃO SE os.path.exists(ARQ_CELULAS) ENTÃO
+        d ← pd.read_csv(ARQ_CELULAS)
+        d ← d.assign(etapa=d["primeira_linha"], pico_vram_gb=0.0)
+        SE "categoria" NÃO EM d ENTÃO
+            d["categoria"] ← d["primeira_linha"].fillna("").map(_categoria)
+        FIM SE
+        EXIBIR "(resumo pelo registro automático das células)"
+    SENÃO
+        EXIBIR "Nenhuma etapa registrada ainda."
+        RETORNAR NULO
+    FIM SE
+    tab ← d.groupby("categoria").agg(etapas=("etapa", "count"), horas=("duracao_s", FUNÇÃO(s) ↦ s.sum() / 3600), uc_estimadas=("uc_estimadas", "sum")…
+    tab.loc["TOTAL"] ← [tab.etapas.sum(), tab.horas.sum(), tab.uc_estimadas.sum(), tab.pico_vram_gb.max()]
+    EXIBIR tab.to_string()
+    SE os.path.exists(ARQ_SALDO) ENTÃO
+        s ← pd.read_csv(ARQ_SALDO)
+        SE len(s) ≥ 2 ENTÃO
+            EXIBIR f'\nUC realmente debitadas (saldo inicial − atual): {s.saldo_uc.…
+        FIM SE
+    FIM SE
+    RETORNAR tab
+FIM FUNÇÃO
+FUNÇÃO tabela_extrapolacao(csv_gpu, csv_cpu, taxa_uc_cpu)
+    // Compara a execução completa na GPU com a amostra na CPU, etapa a etapa (pelo nome).
+    // Tempo extrapolado na CPU = (s por unidade na CPU) × (unidades totais da execução na GPU).
+    // Etapas sem `quantidade` não são extrapoladas (ficam com o tempo medido na GPU).
+    IMPORTAR pandas (como pd)
+    g ← pd.read_csv(csv_gpu)
+    c ← pd.read_csv(csv_cpu)
+    g ← g[g.status = "ok"].groupby("etapa", sort=FALSO).last()
+    c ← c[c.status = "ok"].groupby("etapa", sort=FALSO).last()
+    taxa_cpu ← (taxa_uc_cpu SE taxa_uc_cpu NÃO É NULO SENÃO float(c["taxa_uc_h"].iloc[0]))
+    linhas ← []
+    PARA CADA (etapa_nome, rg) EM g.iterrows() FAÇA
+        q ← pd.to_numeric(rg.get("quantidade"), errors="coerce")
+        s_gpu ← rg["duracao_s"]
+        SE etapa_nome EM c.index E pd.notna(q) E q > 0 ENTÃO
+            rc ← c.loc[etapa_nome]
+            spu_cpu ← pd.to_numeric(rc.get("s_por_unidade"), errors="coerce")
+            s_cpu ← (spu_cpu × q SE pd.notna(spu_cpu) SENÃO float("nan"))
+            origem ← "extrapolado da amostra na CPU"
+        SENÃO
+            (s_cpu, origem) ← (s_gpu, "sem amostra: tempo da GPU repetido")
+        FIM SE
+        EXECUTAR linhas.append({"categoria": rg["categoria"], "etapa": etapa_nome, "unidades": q, "h_gpu": s_gpu / 3600, "h_cpu_est": s_cpu / 3600, "…
+    FIM PARA
+    t ← pd.DataFrame(linhas)
+    tot ← t[["h_gpu", "h_cpu_est", "uc_gpu", "uc_cpu_est"]].sum()
+    EXIBIR t.round(3).to_string(index=FALSO)
+    EXIBIR f'\nTOTAL  GPU: {tot.h_gpu:.1f} h, {tot.uc_gpu:.1f} UC  |  CPU (…
+    RETORNAR t
+FIM FUNÇÃO
+EXIBIR f'[cronômetro] ativo | sessão {SESSAO_ID} | {GPU_NOME} | taxa {T…
+EXIBIR f'[cronômetro] registros em {PASTA_CRONOMETRO}'
+// =============================================================================
+// CATEGORIAS SUGERIDAS (use estes nomes para o resumo sair na ordem do pipeline)
+// 1_extracao      ETL IMERG Final Run 2019-2025 e Late Run 2026 (download + 2 km)
+// 2_dataset       montagem das janelas de 11 quadros e partições
+// 3_treino        ajuste fino (e o ajuste alternativo, se rodar)
+// 4_validacao     perdas Fine-Tuned × Zero-Shot e cada regra de decodificação
+// 5_teste_FR      teste 2025 (Final Run): F-PluvIA-G, C8, Zero-Shot
+// 6_teste_LR      teste cego 2026 (Late Run): F-PluvIA-G, C8, Zero-Shot
+// 7_baselines     persistência, Lucas-Kanade, LINDA (CPU)
+// 8_metricas      bootstrap, F1 municipal, figuras e tabelas
+// EXEMPLOS
+// registrar_saldo_uc(500.0, "início, Drive vazio")
+// with etapa("ETL Final Run 2019-2025", "1_extracao", quantidade=28, unidade="meses"): ...
+// for regra in regras:
+// with etapa(f"Validação 2024 – {regra}", "4_validacao", quantidade=240, unidade="janelas"): ...
+// with etapa("Teste cego 2026 – F-PluvIA-C8", "6_teste_LR", quantidade=2110, unidade="janelas"): ...
+// resumo_cronometro()
+// MODO AMOSTRA (ambiente só com CPU)
+// import os; os.environ["FPLUVIA_MODO_AMOSTRA"] = "1"; os.environ["FPLUVIA_TAXA_UC_H"] = "<taxa da CPU>"
+// os.environ["FPLUVIA_CRONOMETRO_DIR"] = "/content/drive/MyDrive/FPluvIA_cronometro_CPU"
+// (defina ANTES de executar esta célula; use os MESMOS nomes de etapa da execução na GPU)
+// with etapa("Teste 2025 – F-PluvIA-G", "5_teste_FR", quantidade=len(limitar(janelas, "5_teste_FR")), unidade="janelas"):
+// for j in limitar(janelas, "5_teste_FR"): ...
+// Na CPU, rode em fp32 (sem autocast bf16).
+// EXTRAPOLAÇÃO (depois das duas execuções)
+// tabela_extrapolacao("/content/drive/MyDrive/FPluvIA_cronometro/cronometro_etapas.csv",
+// "/content/drive/MyDrive/FPluvIA_cronometro_CPU/cronometro_etapas.csv")
+// =============================================================================

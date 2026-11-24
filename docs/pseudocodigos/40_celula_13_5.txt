@@ -1,0 +1,135 @@
+// ===== Célula 13.5 — pseudo-código =====
+// Célula 13.5: Exportação SOMENTE LEITURA das previsões por município para a interface web (APS 2026.2)
+// O que faz: lê as previsões JÁ SALVAS no Drive pela Célula 13.1 (um .npz por janela do teste cego de 2026 e dos
+// estudos de caso) e as janelas observadas (caches mensais e de caso), calcula a chuva MÉDIA de cada município da
+// RMF em cada horizonte (+30, +60, +90, +120 min) e grava dois CSV para a interface web.
+// O que NÃO faz: não treina, não carrega o modelo, não roda inferência, não usa GPU e não altera nenhum arquivo
+// existente. Só escreve na pasta nova  <RESULTS_ENV_DIR>/interface_web/.
+// Pré-requisitos nesta sessão: Célula 1 (Drive e caminhos) e Célula 5 (limites dos 19 municípios: gdf_rmf, md_rmf).
+// Se a Célula 12.1 ou 13.2 já rodou, as máscaras municipais (mun_masks) são reaproveitadas; senão, são refeitas
+// com a MESMA regra (contorno externo do polígono, mínimo de 4 pixels de 2 km).
+IMPORTAR glob
+IMPORTAR os
+IMPORTAR re
+IMPORTAR numpy (como np)
+IMPORTAR pandas (como pd)
+SERIES_CACHE_DIR ← globals()["SERIES_CACHE_DIR"]
+ENV_TAG ← globals().get("ENV_TAG", "Ambiente_Ativo")
+RESULTS_ENV_DIR ← globals().get("RESULTS_ENV_DIR", os.path.join(SERIES_CACHE_DIR, f'resultados_{ENV_TAG}'))
+DIR_2026 ← os.path.join(SERIES_CACHE_DIR, "teste_cego_2026")
+OUT ← os.path.join(RESULTS_ENV_DIR, "interface_web")
+EXECUTAR os.makedirs(OUT, exist_ok=VERDADEIRO)
+(CONTEXT_STEPS, FORECAST_STEPS, STEP_MIN) ← (7, 4, 30)
+N_DESTAQUE ← 30   // janelas de 2026 de maior chuva observada levadas ao banco da interface
+SIGLA ← {"ft": "F-PluvIA-G", "ft_media": "F-PluvIA-C8", "zs": "Zero-Shot", "linda": "LINDA", "lk": "Lucas-Kanade", "pers": "Persistência"}
+CASOS ← {"20260516_20260517": "Estratiforme longo (16–17/05/2026)", "20260910_20260910": "Convectivo (10/09/2026)"}
+TENTAR   // mesma conversão dBZ -> mm/h da Célula 13.1
+    IMPORTAR dbz_to_rainfall DE gptcast.utils.converters
+SE OCORRER ERRO Exception
+    FUNÇÃO dbz_to_rainfall(dbz)
+        RETORNAR 10 ^ np.asarray(dbz) / 10.0 / 200.0 ^ 1 / 1.6
+    FIM FUNÇÃO
+FIM TENTAR
+FUNÇÃO _rain(dbz)
+    RETORNAR np.clip(dbz_to_rainfall(np.clip(np.asarray(dbz, dtype=np.float64), 0.0, 60.0)), 0.0, 205.0).astype(np.float32)
+FIM FUNÇÃO
+// ----------------------------------------------------------- 1. máscaras municipais (mesma regra da Célula 12.1)
+mun_masks ← globals().get("mun_masks") OU {}
+SE NÃO mun_masks ENTÃO
+    IMPORTAR Path (como MplPath) DE matplotlib.path
+    (gdf_rmf, md_rmf) ← (globals().get("gdf_rmf"), globals().get("md_rmf"))
+    SE gdf_rmf É NULO OU md_rmf É NULO ENTÃO
+        LANÇAR ERRO RuntimeError("Rode a Célula 5 (limites municipais) antes desta célula.")
+    FIM SE
+    (lon_g, lat_g) ← np.meshgrid(md_rmf.target_lons, md_rmf.target_lats)
+    pts ← np.column_stack([lon_g.ravel(), lat_g.ravel()])
+    PARA CADA (_, r) EM gdf_rmf.iterrows() FAÇA
+        polys ← (list(r.geometry.geoms) SE r.geometry.geom_type = "MultiPolygon" SENÃO [r.geometry])
+        m ← np.zeros(pts.shape[0], bool)
+        PARA CADA pg EM polys FAÇA
+            m ← m | MplPath(np.asarray(pg.exterior.coords)).contains_points(pts)
+        FIM PARA
+        SE m.sum() ≥ 4 ENTÃO
+            mun_masks[r["name"]] ← m.reshape(lon_g.shape)
+        FIM SE
+    FIM PARA
+FIM SE
+NOMES_MUN ← list(mun_masks)
+MASKS ← np.stack([mun_masks[n] PARA CADA n EM NOMES_MUN])   // (M, H, W)
+EXIBIR f"[Célula 13.5] {len(NOMES_MUN)} municípios com máscara: {', '.j…
+FUNÇÃO medias_municipais(campo_4xHxW)
+    // (4, H, W) mm/h -> (4, M) chuva média na área de cada município.
+    c ← np.asarray(campo_4xHxW, dtype=np.float32)
+    RETORNAR np.stack([c[(:, m)].mean(axis=1) PARA CADA m EM MASKS], axis=1)
+FIM FUNÇÃO
+// ----------------------------------------------------------- 2. janelas observadas (somente leitura)
+OBS ← {}   // (produto não importa) ts_fim -> (seq_dbz, caso)
+PARA CADA f EM sorted(glob.glob(os.path.join(DIR_2026, "*.npz"))) FAÇA
+    base ← os.path.basename(f)
+    SE NÃO base.startswith("RMF_2026_") OU base.startswith("caso_") ENTÃO
+        PASSAR À PRÓXIMA ITERAÇÃO
+    FIM SE
+    caso ← next([v PARA CADA (k, v) EM CASOS.items() SE k EM base], NULO)
+    USANDO np.load(f) COMO z
+        PARA CADA (s, t) EM zip(z["seqs_dbz"], z["ts_fim"].astype("datetime64[m]")) FAÇA
+            EXECUTAR OBS.setdefault(np.datetime64(t, "m"), (s, caso))
+        FIM PARA
+    FIM USANDO
+FIM PARA
+EXIBIR f'[Célula 13.5] {len(OBS)} janelas observadas lidas dos caches d…
+// ----------------------------------------------------------- 3. previsões salvas pela Célula 13.1 (somente leitura)
+pastas ← sorted(glob.glob(os.path.join(DIR_2026, "previsoes", "janelas_*_amostragem2024_media8")), key=os.path.getmtime)
+SE NÃO pastas ENTÃO
+    LANÇAR ERRO RuntimeError("Pasta de previsões da Célula 13.1 (…_amostragem2024_media8) …")
+FIM SE
+PASTA ← pastas[−1]
+EXIBIR f'[Célula 13.5] Previsões: {PASTA}'
+(linhas, sem_obs) ← ([], 0)
+padrao ← re.compile("^(?P<prod>.+)_(?P<ts>\d{8}T\d{4})\.npz$")
+PARA CADA f EM sorted(glob.glob(os.path.join(PASTA, "*.npz"))) FAÇA
+    m ← padrao.match(os.path.basename(f))
+    SE NÃO m OU f.endswith(".tmp.npz") ENTÃO
+        PASSAR À PRÓXIMA ITERAÇÃO
+    FIM SE
+    ts_fim ← np.datetime64(pd.Timestamp(m["ts"]).to_datetime64(), "m")
+    t0 ← ts_fim − np.timedelta64(STEP_MIN × FORECAST_STEPS, "m")
+    SE ts_fim NÃO EM OBS ENTÃO
+        sem_obs ← sem_obs + 1
+        PASSAR À PRÓXIMA ITERAÇÃO
+    FIM SE
+    (seq, caso) ← OBS[ts_fim]
+    obs_mun ← medias_municipais(_rain(seq[CONTEXT_STEPS:CONTEXT_STEPS + FORECAST_STEPS]))
+    USANDO np.load(f) COMO z
+        PARA CADA (k, sigla) EM SIGLA.items() FAÇA
+            SE f'pred_{k}' NÃO EM z.files ENTÃO
+                PASSAR À PRÓXIMA ITERAÇÃO
+            FIM SE
+            prev_mun ← medias_municipais(z[f'pred_{k}'].astype(np.float32))
+            PARA CADA h EM range(FORECAST_STEPS) FAÇA
+                PARA CADA (j, nome) EM enumerate(NOMES_MUN) FAÇA
+                    EXECUTAR linhas.append((str(t0), m["prod"], caso OU "", sigla, nome, h + 1 × STEP_MIN, round(float(prev_mun[(h, j)]), 3), round(f…
+                FIM PARA
+            FIM PARA
+        FIM PARA
+    FIM USANDO
+FIM PARA
+df ← pd.DataFrame(linhas, columns=["t0_utc", "produto", "caso", "metodo", "municipio", "horizonte_min", "chuva_prevista_mm_h", "chuva_observada_mm_h"…
+SE df.empty ENTÃO
+    LANÇAR ERRO RuntimeError("Nenhuma previsão com observação correspondente foi encontrad…")
+FIM SE
+SE sem_obs ENTÃO
+    EXIBIR f'[Aviso Célula 13.5] {sem_obs} arquivo(s) de previsão sem janel…
+FIM SE
+// ----------------------------------------------------------- 4. arquivos para a interface web
+completo ← os.path.join(OUT, f'previsoes_municipio_teste_cego_2026_completo_{ENV_TAG}.csv.gz')
+EXECUTAR df.to_csv(completo, index=FALSO, compression="gzip")
+serie ← df[df["caso"] = ""]
+chuva_janela ← serie[serie["metodo"] = "F-PluvIA-G"].groupby("t0_utc")["chuva_observada_mm_h"].mean().sort_values(ascending=FALSO)
+destaque_t0 ← set(chuva_janela.head(N_DESTAQUE).index) | set(df.loc[(df["caso"] ≠ "", "t0_utc")])
+dest ← df[df["t0_utc"].isin(destaque_t0)].copy()
+dest.loc[(dest["caso"] = "", "caso")] ← "Destaque: maior chuva observada no teste cego de 2026"
+destaque ← os.path.join(OUT, f'previsoes_municipio_destaques_interface_web_{ENV_TAG}.csv')
+EXECUTAR dest.to_csv(destaque, index=FALSO)
+EXIBIR f"[Célula 13.5] Completo: {df['t0_utc'].nunique()} janelas × {df…
+EXIBIR f"[Célula 13.5] Para a interface web: {dest['t0_utc'].nunique()}…
+EXIBIR "[Célula 13.5] Nenhum arquivo existente foi alterado. Envie o…"
