@@ -1,0 +1,42 @@
+Pseudo-códigos do notebook F-PluvIA Metropolitan
+Notebook: Model_Annual_Full_Training_Series_TCC2_-_2026_2_-_RAUL_SANTIAGO_PINHEIRO.ipynb (salvo em 20/11/2026 00:21)
+Gerado em: 20/11/2026 00:22 | Ambiente: G4_RTX6000_Blackwell_95GB
+Tradução automática por regras (árvore sintática do Python): é fiel à estrutura do código, não um resumo.
+
+// Convenções: ← atribuição | FUNÇÃO/CLASSE/SE/PARA CADA/ENQUANTO/TENTAR … FIM | EXIBIR = mostra na saída
+// EXECUTAR = chama uma função | // = comentário do código original | e-mails e senhas ocultados.
+
+01. Célula (Machine id) -> 01_celula_machine_id.txt
+02. Célula (Security info) -> 02_celula_security_info.txt
+03. Célula 1 -> 03_celula_1.txt
+04. Célula (Limpeza de Saídas Obsoletas) -> 04_celula_limpeza_de_saidas_obsoletas.txt
+05. Célula 2 -> 05_celula_2.txt
+06. Célula 3 -> 06_celula_3.txt
+07. Célula 4 -> 07_celula_4.txt
+08. Célula 4 (conferência rápida) -> 08_celula_4_conferencia_rapida.txt
+09. Célula 4.1 -> 09_celula_4_1.txt
+10. Célula 4.2 -> 10_celula_4_2.txt
+11. Célula 4.3 (Opcional - Fine-Tuning Suave - Adds Another Dimension of Search) -> 11_celula_4_3_opcional_fine_tuning_suave_adds_another_dimension_of_search.txt
+12. Célula 4.4 -> 12_celula_4_4.txt
+13. Célula 4.5 -> 13_celula_4_5.txt
+14. Célula (Activates Checkpoint) -> 14_celula_activates_checkpoint.txt
+15. Célula 5 -> 15_celula_5.txt
+16. Célula 6 -> 16_celula_6.txt
+17. Célula 7 -> 17_celula_7.txt
+18. Célula 8 -> 18_celula_8.txt
+19. Célula 9 -> 19_celula_9.txt
+20. Célula 10 -> 20_celula_10.txt
+21. Célula 11 -> 21_celula_11.txt
+22. Célula 12 -> 22_celula_12.txt
+23. Célula 12.1 -> 23_celula_12_1.txt
+24. Célula 13 -> 24_celula_13.txt
+25. Célula 13.1 -> 25_celula_13_1.txt
+26. Célula 13.2 -> 26_celula_13_2.txt
+27. Célula 13.3 -> 27_celula_13_3.txt
+28. Célula 13.4 -> 28_celula_13_4.txt
+29. Célula Extra 1 -> 29_celula_extra_1.txt
+30. Célula Full UMLs -> 30_celula_full_umls.txt
+31. Célula Extra 2 -> 31_celula_extra_2.txt
+32. Célula Base (Pseudo-vista) -> 32_celula_base_pseudo_vista.txt
+33. Célula (Deploy Automatizado) -> 33_celula_deploy_automatizado.txt
+34. Célula Backup -> 34_celula_backup.txt
